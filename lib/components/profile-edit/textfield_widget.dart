@@ -52,11 +52,6 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
           const SizedBox(height: 8),
           TextField(
             controller: controller,
-            decoration: InputDecoration(
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-            ),
             maxLines: widget.maxLines,
             onChanged: widget.onChanged,
           ),
