@@ -8,7 +8,9 @@ class ProfileWidget extends StatelessWidget {
   final VoidCallback onClicked;
   final bool isEdit;
 
-  const ProfileWidget({
+  int hasImage = 0;
+
+  ProfileWidget({
     Key? key,
     required this.imagePath,
     this.isEdit = false,
@@ -34,22 +36,37 @@ class ProfileWidget extends StatelessWidget {
   }
 
   Widget buildImage() {
+    imagePath.isEmpty ? hasImage = 0 : hasImage = 1;
     final image = imagePath.contains('https://')
         ? NetworkImage(imagePath)
         : FileImage(File(imagePath));
+    final img = Image.asset('assets/images/standardProfilePic.png');
 
-    return ClipOval(
-      child: Material(
-        color: Colors.transparent,
-        child: Ink.image(
-          image: image as ImageProvider,
-          fit: BoxFit.cover,
-          width: 128,
-          height: 128,
-          child: InkWell(onTap: onClicked),
-        ),
-      ),
-    );
+    return hasImage == 0
+        ? ClipOval(
+            child: Material(
+              color: Colors.transparent,
+              child: Ink.image(
+                image: img.image,
+                fit: BoxFit.cover,
+                width: 128,
+                height: 128,
+                child: InkWell(onTap: onClicked),
+              ),
+            ),
+          )
+        : ClipOval(
+            child: Material(
+              color: Colors.transparent,
+              child: Ink.image(
+                image: image as ImageProvider,
+                fit: BoxFit.cover,
+                width: 128,
+                height: 128,
+                child: InkWell(onTap: onClicked),
+              ),
+            ),
+          );
   }
 
   buildEditIcon(Color color) => buildCircle(

@@ -32,14 +32,35 @@ class _NavigationBarScreenState extends State<NavigationBarScreen> {
   @override
   Widget build(BuildContext context) {
     final items = <Widget>[
-      const Icon(Icons.home, size: 30),
-      const Icon(Icons.chat, size: 30),
-      const Icon(Icons.search, size: 30),
-      const Icon(Icons.archive, size: 30),
-      const Icon(Icons.account_circle, size: 30),
+      const Icon(
+        Icons.home,
+        size: 30,
+        color: Color.fromARGB(255, 250, 253, 255),
+      ),
+      const Icon(
+        Icons.chat,
+        size: 30,
+        color: Color.fromARGB(255, 250, 253, 255),
+      ),
+      const Icon(
+        Icons.search,
+        size: 30,
+        color: Color.fromARGB(255, 250, 253, 255),
+      ),
+      const Icon(
+        Icons.archive,
+        size: 30,
+        color: Color.fromARGB(255, 250, 253, 255),
+      ),
+      const Icon(
+        Icons.account_circle,
+        size: 30,
+        color: Color.fromARGB(255, 250, 253, 255),
+      ),
     ];
 
     return Scaffold(
+      extendBody: true,
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: Colors.transparent,
@@ -51,6 +72,8 @@ class _NavigationBarScreenState extends State<NavigationBarScreen> {
         elevation: 0,
       ),
       bottomNavigationBar: CurvedNavigationBar(
+        color: Colors.blue,
+        backgroundColor: Colors.transparent,
         height: 57,
         index: index,
         items: items,
