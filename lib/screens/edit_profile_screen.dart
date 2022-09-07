@@ -4,7 +4,6 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:bicos_app/utils/user_preferences.dart';
-import 'package:bicos_app/components/profile-edit/appbar_widget.dart';
 import 'package:bicos_app/components/profile-edit/button_widget.dart';
 import 'dart:io';
 import '../components/profile-edit/editprofile_widget.dart';

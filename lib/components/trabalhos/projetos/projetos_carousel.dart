@@ -1,25 +1,18 @@
-import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:bicos_app/model/user.dart';
-import 'package:bicos_app/screens/edit_profile_screen.dart';
-import 'package:bicos_app/utils/user_preferences.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import '../components/profile-edit/button_widget.dart';
-import '../components/profile-edit/profile_widget.dart';
-import '../utils/app_routes.dart';
+import 'package:flutter/material.dart';
 
-class ProfilePage extends StatefulWidget {
-  const ProfilePage({Key? key}) : super(key: key);
+class ProjetosCarousel extends StatefulWidget {
+  const ProjetosCarousel({Key? key}) : super(key: key);
 
   @override
-  State<ProfilePage> createState() => _ProfilePageState();
+  State<ProjetosCarousel> createState() => _ProjetosCarouselState();
 }
 
-class _ProfilePageState extends State<ProfilePage> {
+class _ProjetosCarouselState extends State<ProjetosCarousel> {
   @override
   Widget build(BuildContext context) {
-    final user = UserPreferences.getUser();
     final List<String> imgList = [
       'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80',
       'https://images.unsplash.com/photo-1522205408450-add114ad53fe?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=368f45b0888aeb0b7b08e3a1084d3ede&auto=format&fit=crop&w=1950&q=80',
@@ -28,6 +21,7 @@ class _ProfilePageState extends State<ProfilePage> {
       'https://images.unsplash.com/photo-1508704019882-f9cf40e475b4?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=8c6e5e3aba713b17aa1fe71ab4f0ae5b&auto=format&fit=crop&w=1352&q=80',
       'https://images.unsplash.com/photo-1519985176271-adb1088fa94c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=a0c8d632e977f94e5d312d9893258f59&auto=format&fit=crop&w=1355&q=80'
     ];
+
     final List<Widget> imageSliders = imgList
         .map((item) => Container(
               margin: const EdgeInsets.all(5.0),
@@ -67,79 +61,41 @@ class _ProfilePageState extends State<ProfilePage> {
                   )),
             ))
         .toList();
-
-    return Scaffold(
-      body: ListView(
-        physics: const BouncingScrollPhysics(),
-        children: [
-          Container(
-            margin: const EdgeInsets.only(top: 20),
-            child: ProfileWidget(
-              imagePath: user.imagePath,
-              onClicked: () async {
-                await Navigator.of(context).pushNamed(AppRoutes.editProfile);
-                setState(() {});
-              },
-            ),
-          ),
-          const SizedBox(height: 24),
-          buildName(user),
-          const SizedBox(height: 24),
-          Center(child: buildMessageButton()),
-          const SizedBox(height: 48),
-          buildAbout(user),
-          const SizedBox(height: 48),
-          Container(
-            margin: const EdgeInsets.only(bottom: 20),
-            child: CarouselSlider(
-              options: CarouselOptions(
-                aspectRatio: 2.0,
-                enlargeCenterPage: true,
-                enableInfiniteScroll: false,
-                initialPage: 0,
-                autoPlay: true,
-              ),
-              items: imageSliders,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget buildName(User user) => Column(
-        children: [
-          Text(
-            user.name,
-            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            user.profissao,
-            style: const TextStyle(color: Colors.blue),
-          )
-        ],
-      );
-
-  Widget buildMessageButton() =>
-      ButtonWidget(text: 'Enviar Mensagem', onClicked: () {});
-
-  Widget buildAbout(User user) => Container(
-        padding: const EdgeInsets.symmetric(horizontal: 48),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'Sobre:',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 16),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: const [
             Text(
-              maxLines: 7,
-              user.about,
-              style: const TextStyle(fontSize: 16, height: 1.4),
-            )
+              'Projetos',
+              textAlign: TextAlign.left,
+              style: TextStyle(
+                fontSize: 20,
+                fontFamily: 'Inter',
+                fontWeight: FontWeight.w800,
+                color: Color.fromARGB(255, 0, 38, 92),
+              ),
+            ),
           ],
         ),
-      );
+        SizedBox(
+          height: MediaQuery.of(context).size.height * 0.01,
+        ),
+        Container(
+          margin: const EdgeInsets.only(bottom: 20),
+          child: CarouselSlider(
+            options: CarouselOptions(
+              aspectRatio: 2.0,
+              enlargeCenterPage: true,
+              enableInfiniteScroll: false,
+              initialPage: 0,
+              autoPlay: true,
+            ),
+            items: imageSliders,
+          ),
+        ),
+      ],
+    );
+  }
 }

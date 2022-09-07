@@ -18,7 +18,6 @@ class NavigationBarScreen extends StatefulWidget {
 
 class _NavigationBarScreenState extends State<NavigationBarScreen> {
   int index = 0;
-  int home = 0, chat = 0, search = 0, project = 0, profile = 0;
 
   final screens = [
     const HomePage(),
