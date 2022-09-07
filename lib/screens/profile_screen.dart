@@ -8,6 +8,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import '../components/profile-edit/appbar_widget.dart';
 import '../components/profile-edit/button_widget.dart';
 import '../components/profile-edit/profile_widget.dart';
+import '../utils/app_routes.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -77,9 +78,7 @@ class _ProfilePageState extends State<ProfilePage> {
           child: ProfileWidget(
             imagePath: user.imagePath,
             onClicked: () async {
-              await Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => EditProfilePage()),
-              );
+              await Navigator.of(context).pushNamed(AppRoutes.editProfile);
               setState(() {});
             },
           ),

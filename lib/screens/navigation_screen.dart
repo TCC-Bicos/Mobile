@@ -18,6 +18,7 @@ class NavigationBarScreen extends StatefulWidget {
 
 class _NavigationBarScreenState extends State<NavigationBarScreen> {
   int index = 0;
+  int home = 0, chat = 0, search = 0, project = 0, profile = 0;
 
   final screens = [
     const HomePage(),
@@ -26,8 +27,6 @@ class _NavigationBarScreenState extends State<NavigationBarScreen> {
     const ProjectPage(),
     const ProfilePage(),
   ];
-
-  var myindex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -60,20 +59,19 @@ class _NavigationBarScreenState extends State<NavigationBarScreen> {
     ];
 
     return Scaffold(
-      extendBody: true,
       appBar: AppBar(
         centerTitle: true,
-        backgroundColor: Colors.transparent,
+        backgroundColor: const Color.fromARGB(255, 250, 253, 255),
         title: Image.asset(
           'assets/images/bicoslogo_azul.png',
           fit: BoxFit.contain,
           height: 22,
         ),
-        elevation: 0,
+        elevation: 1,
       ),
       bottomNavigationBar: CurvedNavigationBar(
         color: Colors.blue,
-        backgroundColor: Colors.transparent,
+        backgroundColor: (Colors.blue[800])!,
         height: 57,
         index: index,
         items: items,

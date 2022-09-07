@@ -16,13 +16,13 @@ class SignUpScreen extends StatelessWidget {
           onPressed: () => Navigator.of(context).pop(),
         ),
         centerTitle: true,
-        backgroundColor: Colors.transparent,
+        backgroundColor: const Color.fromARGB(255, 250, 253, 255),
         title: Image.asset(
           'assets/images/bicoslogo_azul.png',
           fit: BoxFit.contain,
           height: 22,
         ),
-        elevation: 0,
+        elevation: 1,
       ),
       body: SingleChildScrollView(
         child: Padding(

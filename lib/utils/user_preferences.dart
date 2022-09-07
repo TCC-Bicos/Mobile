@@ -13,8 +13,7 @@ class UserPreferences {
     imagePath: '',
     name: 'Usuario',
     profissao: 'Garoto de Programa',
-    about:
-        'AWDWDIJAWIODWADJAWIDJAWIUDJAWUIODJAWUIDHJAWUDHJAWUIDHJAWUIODHAWUIDHJAWPIODWAUIPDHAWDUIJAWHPDUIAWHPDHUAWPAWUDHAUWDWAUPD',
+    about: 'Eu amo viver!!',
   );
 
   static Future init() async =>
