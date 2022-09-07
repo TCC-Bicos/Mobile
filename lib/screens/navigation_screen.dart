@@ -27,8 +27,6 @@ class _NavigationBarScreenState extends State<NavigationBarScreen> {
     const ProfilePage(),
   ];
 
-  var myindex = 0;
-
   @override
   Widget build(BuildContext context) {
     final items = <Widget>[
@@ -60,20 +58,19 @@ class _NavigationBarScreenState extends State<NavigationBarScreen> {
     ];
 
     return Scaffold(
-      extendBody: true,
       appBar: AppBar(
         centerTitle: true,
-        backgroundColor: Colors.transparent,
+        backgroundColor: const Color.fromARGB(255, 250, 253, 255),
         title: Image.asset(
           'assets/images/bicoslogo_azul.png',
           fit: BoxFit.contain,
           height: 22,
         ),
-        elevation: 0,
+        elevation: 1,
       ),
       bottomNavigationBar: CurvedNavigationBar(
         color: Colors.blue,
-        backgroundColor: Colors.transparent,
+        backgroundColor: (Colors.blue[800])!,
         height: 57,
         index: index,
         items: items,

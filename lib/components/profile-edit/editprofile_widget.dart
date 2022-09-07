@@ -3,18 +3,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
-class ProfileWidget extends StatelessWidget {
+class EditProfileWidget extends StatelessWidget {
   final String imagePath;
   final VoidCallback onClicked;
+  final VoidCallback onDeleted;
   final bool isEdit;
 
   int hasImage = 0;
 
-  ProfileWidget({
+  EditProfileWidget({
     Key? key,
     required this.imagePath,
     this.isEdit = false,
     required this.onClicked,
+    required this.onDeleted,
   }) : super(key: key);
 
   @override
@@ -29,6 +31,11 @@ class ProfileWidget extends StatelessWidget {
             bottom: 0,
             right: 4,
             child: buildEditIcon(color),
+          ),
+          Positioned(
+            bottom: 0,
+            left: 4,
+            child: buildDeleteIcon(Colors.red),
           ),
         ],
       ),
@@ -82,6 +89,22 @@ class ProfileWidget extends StatelessWidget {
             ),
             iconSize: 17,
             onPressed: onClicked,
+          ),
+        ),
+      );
+  buildDeleteIcon(Color color) => buildCircle(
+        color: Colors.white,
+        all: 1,
+        child: buildCircle(
+          color: color,
+          all: 0,
+          child: IconButton(
+            icon: Icon(
+              Icons.delete,
+              color: hasImage == 0 ? Colors.white24 : Colors.white,
+            ),
+            iconSize: 17,
+            onPressed: hasImage == 0 ? null : onDeleted,
           ),
         ),
       );
