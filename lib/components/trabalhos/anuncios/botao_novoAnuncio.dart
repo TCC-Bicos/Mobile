@@ -12,8 +12,8 @@ class NovoAnuncioBotao extends StatelessWidget {
     return Column(
       children: [
         SizedBox(
-          width: 100,
-          height: 30,
+          width: 120,
+          height: 33,
           child: TextButton(
             onPressed: () {},
             style: ButtonStyle(
@@ -31,7 +31,7 @@ class NovoAnuncioBotao extends StatelessWidget {
             child: const Text(
               'Novo anúncio',
               style: TextStyle(
-                fontSize: 12,
+                fontSize: 13,
                 fontWeight: FontWeight.w700,
               ),
             ),

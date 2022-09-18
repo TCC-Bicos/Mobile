@@ -31,9 +31,12 @@ class ProjectPage extends StatelessWidget {
           ),
           const AnunciosCarousel(),
           SizedBox(
-            height: MediaQuery.of(context).size.height * 0.02,
+            height: MediaQuery.of(context).size.height * 0.05,
           ),
           const ProjetosCarousel(),
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.05,
+          ),
         ],
       ),
     );

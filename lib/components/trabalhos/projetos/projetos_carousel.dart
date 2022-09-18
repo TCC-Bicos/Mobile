@@ -1,3 +1,4 @@
+import 'package:bicos_app/components/trabalhos/projetos/botao_ver_mais.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -95,6 +96,7 @@ class _ProjetosCarouselState extends State<ProjetosCarousel> {
             items: imageSliders,
           ),
         ),
+        const BotaoVerMaisMeusProjetos(),
       ],
     );
   }

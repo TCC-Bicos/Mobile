@@ -1,4 +1,5 @@
 import 'package:bicos_app/components/trabalhos/anuncios/botao_novoAnuncio.dart';
+import 'package:bicos_app/components/trabalhos/anuncios/botao_ver_mais.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -97,6 +98,7 @@ class _AnunciosCarouselState extends State<AnunciosCarousel> {
             items: imageSliders,
           ),
         ),
+        const BotaoVerMaisMeusAnuncios(),
       ],
     );
   }

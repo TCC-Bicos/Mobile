@@ -60,7 +60,7 @@ class _NavigationBarScreenState extends State<NavigationBarScreen> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        backgroundColor: const Color.fromARGB(255, 250, 253, 255),
+        backgroundColor: const Color.fromARGB(255, 255, 255, 255),
         title: Image.asset(
           'assets/images/bicoslogo_azul.png',
           fit: BoxFit.contain,
