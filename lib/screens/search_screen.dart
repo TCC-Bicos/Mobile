@@ -9,8 +9,39 @@ class SearchPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.amber,
+    return Padding(
+      padding: const EdgeInsets.only(top: 20),
+      child: Column(
+        children: [
+          SizedBox(
+            height: 40,
+            child: Padding(
+              padding: const EdgeInsets.only(
+                right: 20,
+                left: 20,
+              ),
+              child: TextFormField(
+                decoration: InputDecoration(
+                  prefixIcon: const Icon(Icons.search),
+                  border: OutlineInputBorder(
+                    borderSide: const BorderSide(width: 3, color: Colors.blue),
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  hintText: 'Pesquisar',
+                  hintStyle: const TextStyle(fontSize: 16),
+                  contentPadding: const EdgeInsets.only(
+                    top: 2,
+                    bottom: 2,
+                    left: 15,
+                    right: 15,
+                  ),
+                ),
+                style: const TextStyle(fontSize: 16),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
