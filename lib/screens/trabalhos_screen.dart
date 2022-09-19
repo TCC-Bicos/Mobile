@@ -1,11 +1,12 @@
-import 'package:bicos_app/components/trabalhos/anuncios/anuncios_carousel.dart';
+import 'package:bicos_app/components/trabalhos/servicos/servicos_carousel.dart';
 import 'package:bicos_app/components/trabalhos/projetos/projetos_carousel.dart';
+import 'package:bicos_app/components/trabalhos/solicitacoes/solicitacoes_carousel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
-class ProjectPage extends StatelessWidget {
-  const ProjectPage({Key? key}) : super(key: key);
+class TrabalhosScreen extends StatelessWidget {
+  const TrabalhosScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +30,11 @@ class ProjectPage extends StatelessWidget {
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.05,
           ),
-          const AnunciosCarousel(),
+          const ServicosCarousel(),
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.05,
+          ),
+          const SolicitacaoCarousel(),
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.05,
           ),

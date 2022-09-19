@@ -5,6 +5,8 @@ import 'package:bicos_app/screens/edit_profile_screen.dart';
 import 'package:bicos_app/screens/home_screen.dart';
 import 'package:bicos_app/screens/login_screen.dart';
 import 'package:bicos_app/screens/navigation_screen.dart';
+import 'package:bicos_app/screens/novaSolicitacao_screen.dart';
+import 'package:bicos_app/screens/novoServico_screen.dart';
 import 'package:bicos_app/screens/profile_screen.dart';
 import 'package:bicos_app/screens/signup_screen.dart';
 import 'package:bicos_app/screens/welcome_screen.dart';
@@ -27,7 +29,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.blue)
-            .copyWith(secondary: Colors.amber),
+            .copyWith(secondary: const Color.fromARGB(255, 0, 38, 92)),
         fontFamily: 'Inter',
         canvasColor: const Color.fromARGB(255, 250, 253, 255),
         textTheme: ThemeData.light().textTheme.copyWith(
@@ -46,8 +48,9 @@ class MyApp extends StatelessWidget {
         AppRoutes.login: (ctx) => const LoginScreen(),
         AppRoutes.signup: (ctx) => const SignUpScreen(),
         AppRoutes.navigationbar: (ctx) => NavigationBarScreen(),
-        AppRoutes.profile: (ctx) => const ProfilePage(),
         AppRoutes.editProfile: (ctx) => EditProfilePage(),
+        AppRoutes.novoServico: (ctx) => const NovoServico(),
+        AppRoutes.novaSolicitacao: (ctx) => const NovaSolicitacao(),
       },
     );
   }

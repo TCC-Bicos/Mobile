@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:bicos_app/screens/chat_screen.dart';
 import 'package:bicos_app/screens/profile_screen.dart';
-import 'package:bicos_app/screens/project_screen.dart';
+import 'package:bicos_app/screens/trabalhos_screen.dart';
 import 'package:bicos_app/screens/search_screen.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +23,7 @@ class _NavigationBarScreenState extends State<NavigationBarScreen> {
     const HomePage(),
     const ChatPage(),
     const SearchPage(),
-    const ProjectPage(),
+    const TrabalhosScreen(),
     const ProfilePage(),
   ];
 
