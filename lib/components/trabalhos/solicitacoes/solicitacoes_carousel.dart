@@ -1,18 +1,16 @@
-import 'package:bicos_app/components/trabalhos/anuncios/botao_novoAnuncio.dart';
-import 'package:bicos_app/components/trabalhos/anuncios/botao_ver_mais.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:bicos_app/components/trabalhos/solicitacoes/botao_novaSolicitacao.dart';
+import 'package:bicos_app/components/trabalhos/solicitacoes/botao_ver_mais_MinhasSolicitacoes.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
-class AnunciosCarousel extends StatefulWidget {
-  const AnunciosCarousel({Key? key}) : super(key: key);
+class SolicitacaoCarousel extends StatefulWidget {
+  const SolicitacaoCarousel({Key? key}) : super(key: key);
 
   @override
-  State<AnunciosCarousel> createState() => _AnunciosCarouselState();
+  State<SolicitacaoCarousel> createState() => _SolicitacaoCarouselState();
 }
 
-class _AnunciosCarouselState extends State<AnunciosCarousel> {
+class _SolicitacaoCarouselState extends State<SolicitacaoCarousel> {
   @override
   Widget build(BuildContext context) {
     final List<String> imgList = [
@@ -70,7 +68,7 @@ class _AnunciosCarouselState extends State<AnunciosCarousel> {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: const [
             Text(
-              'Anúncios',
+              'Solicitações',
               textAlign: TextAlign.left,
               style: TextStyle(
                 fontSize: 20,
@@ -79,7 +77,7 @@ class _AnunciosCarouselState extends State<AnunciosCarousel> {
                 color: Color.fromARGB(255, 0, 38, 92),
               ),
             ),
-            NovoAnuncioBotao(),
+            NovaSolicitacaoBotao(),
           ],
         ),
         SizedBox(
@@ -93,12 +91,12 @@ class _AnunciosCarouselState extends State<AnunciosCarousel> {
               enlargeCenterPage: true,
               enableInfiniteScroll: false,
               initialPage: 0,
-              autoPlay: true,
+              autoPlay: false,
             ),
             items: imageSliders,
           ),
         ),
-        const BotaoVerMaisMeusAnuncios(),
+        const BotaoVerMaisMinhasSolicitacoes(),
       ],
     );
   }
