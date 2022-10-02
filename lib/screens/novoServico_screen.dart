@@ -16,11 +16,18 @@ class NovoServico extends StatefulWidget {
 }
 
 class CurrencyInputFormatter extends TextInputFormatter {
+  CurrencyInputFormatter({required this.maxDigits});
+  final int maxDigits;
+
   @override
   TextEditingValue formatEditUpdate(
       TextEditingValue oldValue, TextEditingValue newValue) {
     if (newValue.selection.baseOffset == 0) {
       return newValue;
+    }
+
+    if (newValue.selection.baseOffset > maxDigits) {
+      return oldValue;
     }
 
     double value = double.parse(newValue.text);
@@ -139,7 +146,7 @@ class _NovoServicoState extends State<NovoServico> {
                     TextFormField(
                       inputFormatters: [
                         FilteringTextInputFormatter.digitsOnly,
-                        CurrencyInputFormatter()
+                        CurrencyInputFormatter(maxDigits: 8)
                       ],
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
