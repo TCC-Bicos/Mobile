@@ -1,8 +1,12 @@
+import 'dart:io';
+
+import 'package:bicos_app/components/trabalhos/servicos/botao_criarNovoServico.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
-
-import '../utils/user_preferences.dart';
+import 'package:image_picker/image_picker.dart';
 
 class NovoServico extends StatefulWidget {
   const NovoServico({Key? key}) : super(key: key);
@@ -11,7 +15,29 @@ class NovoServico extends StatefulWidget {
   State<NovoServico> createState() => _NovoServicoState();
 }
 
+class CurrencyInputFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(
+      TextEditingValue oldValue, TextEditingValue newValue) {
+    if (newValue.selection.baseOffset == 0) {
+      return newValue;
+    }
+
+    double value = double.parse(newValue.text);
+
+    final formatter = NumberFormat.simpleCurrency(locale: "pt_Br");
+
+    String newText = formatter.format(value / 100);
+
+    return newValue.copyWith(
+        text: newText,
+        selection: TextSelection.collapsed(offset: newText.length));
+  }
+}
+
 class _NovoServicoState extends State<NovoServico> {
+  XFile? imagemServico;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,6 +84,7 @@ class _NovoServicoState extends State<NovoServico> {
                 padding: const EdgeInsets.only(
                   right: 10,
                   left: 10,
+                  bottom: 40,
                 ),
                 child: Column(
                   children: [
@@ -81,7 +108,7 @@ class _NovoServicoState extends State<NovoServico> {
                       style: const TextStyle(fontSize: 16),
                     ),
                     const SizedBox(
-                      height: 20,
+                      height: 15,
                     ),
                     ConstrainedBox(
                       constraints: const BoxConstraints(maxHeight: 150),
@@ -107,9 +134,13 @@ class _NovoServicoState extends State<NovoServico> {
                       ),
                     ),
                     const SizedBox(
-                      height: 20,
+                      height: 15,
                     ),
                     TextFormField(
+                      inputFormatters: [
+                        FilteringTextInputFormatter.digitsOnly,
+                        CurrencyInputFormatter()
+                      ],
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
@@ -128,6 +159,49 @@ class _NovoServicoState extends State<NovoServico> {
                       ),
                       style: const TextStyle(fontSize: 16),
                     ),
+                    const SizedBox(
+                      height: 25,
+                    ),
+                    InkWell(
+                      onTap: selecionarImagem,
+                      child: Center(
+                        child: Container(
+                          width: MediaQuery.of(context).size.width - 40,
+                          height: MediaQuery.of(context).size.height * 0.3,
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: const Color.fromARGB(255, 141, 141, 141),
+                            ),
+                          ),
+                          child: imagemServico == null
+                              ? Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: const [
+                                    Icon(
+                                      Icons.add_a_photo,
+                                      color: Color.fromARGB(255, 136, 136, 136),
+                                      size: 60,
+                                    ),
+                                    Text(
+                                      'Carregar imagem',
+                                      style: TextStyle(
+                                        color:
+                                            Color.fromARGB(255, 141, 141, 141),
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              : Image.file(
+                                  File(imagemServico!.path),
+                                  fit: BoxFit.fill,
+                                ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 25,
+                    ),
+                    const CriarNovoServicoBotao(),
                   ],
                 ),
               ),
@@ -136,5 +210,20 @@ class _NovoServicoState extends State<NovoServico> {
         ],
       ),
     );
+  }
+
+  selecionarImagem() async {
+    final ImagePicker picker = ImagePicker();
+
+    try {
+      XFile? file = await picker.pickImage(source: ImageSource.gallery);
+      if (file != null) {
+        setState(() {
+          imagemServico = file;
+        });
+      }
+    } catch (e) {
+      print(e);
+    }
   }
 }

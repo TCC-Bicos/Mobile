@@ -42,6 +42,7 @@ dependencies:
   shared_preferences: ^2.0.5
   cpf_cnpj_validator: ^2.0.0
   brasil_fields: ^1.4.5
+  intl: ^0.17.0
 
 dev_dependencies:
   flutter_test:
