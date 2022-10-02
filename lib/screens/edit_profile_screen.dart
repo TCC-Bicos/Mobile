@@ -42,7 +42,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
           elevation: 1,
         ),
         body: ListView(
-          padding: const EdgeInsets.symmetric(horizontal: 32),
+          padding: const EdgeInsets.symmetric(horizontal: 20),
           physics: const BouncingScrollPhysics(),
           children: [
             Container(
@@ -87,12 +87,15 @@ class _EditProfilePageState extends State<EditProfilePage> {
             const SizedBox(height: 24),
             Container(
               margin: const EdgeInsets.only(bottom: 40),
-              child: ButtonWidget(
-                text: 'Salvar',
-                onClicked: () {
-                  UserPreferences.setUser(user);
-                  Navigator.of(context).pop();
-                },
+              child: Padding(
+                padding: const EdgeInsets.only(left: 40, right: 40),
+                child: ButtonWidget(
+                  text: 'Salvar',
+                  onClicked: () {
+                    UserPreferences.setUser(user);
+                    Navigator.of(context).pop();
+                  },
+                ),
               ),
             )
           ],

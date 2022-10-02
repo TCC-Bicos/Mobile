@@ -59,24 +59,76 @@ class _NovoServicoState extends State<NovoServico> {
                   right: 10,
                   left: 10,
                 ),
-                child: TextFormField(
-                  keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderSide:
-                          const BorderSide(width: 3, color: Colors.blue),
-                      borderRadius: BorderRadius.circular(5),
+                child: Column(
+                  children: [
+                    TextFormField(
+                      maxLength: 50,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderSide:
+                              const BorderSide(width: 3, color: Colors.blue),
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        hintText: 'Título do serviço',
+                        hintStyle: const TextStyle(fontSize: 16),
+                        contentPadding: const EdgeInsets.only(
+                          top: 2,
+                          bottom: 2,
+                          left: 15,
+                          right: 15,
+                        ),
+                      ),
+                      style: const TextStyle(fontSize: 16),
                     ),
-                    hintText: 'Valor do serviço',
-                    hintStyle: const TextStyle(fontSize: 16),
-                    contentPadding: const EdgeInsets.only(
-                      top: 2,
-                      bottom: 2,
-                      left: 15,
-                      right: 15,
+                    const SizedBox(
+                      height: 20,
                     ),
-                  ),
-                  style: const TextStyle(fontSize: 16),
+                    ConstrainedBox(
+                      constraints: const BoxConstraints(maxHeight: 150),
+                      child: TextFormField(
+                        maxLength: 500,
+                        maxLines: null,
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderSide:
+                                const BorderSide(width: 3, color: Colors.blue),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          hintText: 'Descrição do serviço',
+                          hintStyle: const TextStyle(fontSize: 16),
+                          contentPadding: const EdgeInsets.only(
+                            top: 2,
+                            bottom: 2,
+                            left: 15,
+                            right: 15,
+                          ),
+                        ),
+                        style: const TextStyle(fontSize: 16),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    TextFormField(
+                      keyboardType: TextInputType.number,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderSide:
+                              const BorderSide(width: 3, color: Colors.blue),
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        hintText: 'Valor do serviço',
+                        hintStyle: const TextStyle(fontSize: 16),
+                        contentPadding: const EdgeInsets.only(
+                          top: 2,
+                          bottom: 2,
+                          left: 15,
+                          right: 15,
+                        ),
+                      ),
+                      style: const TextStyle(fontSize: 16),
+                    ),
+                  ],
                 ),
               ),
             ],
