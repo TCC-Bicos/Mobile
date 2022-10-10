@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
-class NovaSolicitacao extends StatefulWidget {
-  const NovaSolicitacao({Key? key}) : super(key: key);
+class NovoAnuncioUsuario extends StatefulWidget {
+  const NovoAnuncioUsuario({Key? key}) : super(key: key);
 
   @override
-  State<NovaSolicitacao> createState() => _NovaSolicitacaoState();
+  State<NovoAnuncioUsuario> createState() => _NovoAnuncioUsuarioState();
 }
 
-class _NovaSolicitacaoState extends State<NovaSolicitacao> {
+class _NovoAnuncioUsuarioState extends State<NovoAnuncioUsuario> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
