@@ -7,8 +7,8 @@ import 'package:bicos_app/screens/search_screen.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
+import '../components/menu/modalMenu.dart';
 import '../screens/home_screen.dart';
 
 class NavigationBarScreen extends StatefulWidget {
@@ -17,6 +17,16 @@ class NavigationBarScreen extends StatefulWidget {
 }
 
 class _NavigationBarScreenState extends State<NavigationBarScreen> {
+  _openMenuModal(BuildContext context) {
+    showModalBottomSheet(
+      backgroundColor: Colors.transparent,
+      context: context,
+      builder: (_) {
+        return ModalMenu();
+      },
+    );
+  }
+
   int index = 0;
 
   final screens = [
@@ -59,6 +69,14 @@ class _NavigationBarScreenState extends State<NavigationBarScreen> {
 
     return Scaffold(
       appBar: AppBar(
+        actions: index == 4
+            ? [
+                IconButton(
+                  onPressed: () => _openMenuModal(context),
+                  icon: Icon(Icons.menu, color: Theme.of(context).primaryColor),
+                )
+              ]
+            : null,
         centerTitle: true,
         backgroundColor: const Color.fromARGB(255, 255, 255, 255),
         title: Image.asset(
