@@ -2,18 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
-class CriarNovoServicoBotao extends StatelessWidget {
-  const CriarNovoServicoBotao({Key? key}) : super(key: key);
+import '../../../utils/app_routes.dart';
+
+class NovoAnuncioFreelancerBotao extends StatelessWidget {
+  const NovoAnuncioFreelancerBotao({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         SizedBox(
-          width: 220,
+          width: 120,
+          height: 33,
           child: TextButton(
             onPressed: () {
-              Navigator.of(context).pop();
+              Navigator.of(context).pushNamed(AppRoutes.novoAnuncioFreelancer);
             },
             style: ButtonStyle(
               foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
@@ -28,9 +31,9 @@ class CriarNovoServicoBotao extends StatelessWidget {
               ),
             ),
             child: const Text(
-              'Criar novo serviço',
+              'Novo anúncio',
               style: TextStyle(
-                fontSize: 16,
+                fontSize: 13,
                 fontWeight: FontWeight.w700,
               ),
             ),

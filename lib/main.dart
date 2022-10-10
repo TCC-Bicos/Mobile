@@ -6,7 +6,7 @@ import 'package:bicos_app/screens/home_screen.dart';
 import 'package:bicos_app/screens/login_screen.dart';
 import 'package:bicos_app/screens/navigation_screen.dart';
 import 'package:bicos_app/screens/novaSolicitacao_screen.dart';
-import 'package:bicos_app/screens/novoServico_screen.dart';
+import 'package:bicos_app/screens/novoAnuncio_Freelancer_screen.dart';
 import 'package:bicos_app/screens/profile_screen.dart';
 import 'package:bicos_app/screens/signup_screen.dart';
 import 'package:bicos_app/screens/welcome_screen.dart';
@@ -49,8 +49,8 @@ class MyApp extends StatelessWidget {
         AppRoutes.signup: (ctx) => const SignUpScreen(),
         AppRoutes.navigationbar: (ctx) => NavigationBarScreen(),
         AppRoutes.editProfile: (ctx) => EditProfilePage(),
-        AppRoutes.novoServico: (ctx) => const NovoServico(),
-        AppRoutes.novaSolicitacao: (ctx) => const NovaSolicitacao(),
+        AppRoutes.novoAnuncioFreelancer: (ctx) => const NovoAnuncioFreelancer(),
+        AppRoutes.novoAnuncioUsuario: (ctx) => const NovoAnuncioUsuario(),
       },
     );
   }

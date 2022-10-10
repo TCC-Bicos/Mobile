@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:bicos_app/components/trabalhos/servicos/botao_criarNovoServico.dart';
+import 'package:bicos_app/components/trabalhos/anuncio_Freelancer/botao_criarNovoAnuncio_Freelancer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
@@ -8,11 +8,11 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:image_picker/image_picker.dart';
 
-class NovoServico extends StatefulWidget {
-  const NovoServico({Key? key}) : super(key: key);
+class NovoAnuncioFreelancer extends StatefulWidget {
+  const NovoAnuncioFreelancer({Key? key}) : super(key: key);
 
   @override
-  State<NovoServico> createState() => _NovoServicoState();
+  State<NovoAnuncioFreelancer> createState() => _NovoAnuncioFreelancerState();
 }
 
 class CurrencyInputFormatter extends TextInputFormatter {
@@ -42,8 +42,8 @@ class CurrencyInputFormatter extends TextInputFormatter {
   }
 }
 
-class _NovoServicoState extends State<NovoServico> {
-  XFile? imagemServico;
+class _NovoAnuncioFreelancerState extends State<NovoAnuncioFreelancer> {
+  XFile? imagemAnuncioFreelancer;
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +75,7 @@ class _NovoServicoState extends State<NovoServico> {
                 height: 35,
               ),
               const Text(
-                'Novo serviço',
+                'Novo anúncio',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontFamily: 'Inter',
@@ -103,7 +103,7 @@ class _NovoServicoState extends State<NovoServico> {
                               const BorderSide(width: 3, color: Colors.blue),
                           borderRadius: BorderRadius.circular(5),
                         ),
-                        hintText: 'Título do serviço',
+                        hintText: 'Título',
                         hintStyle: const TextStyle(fontSize: 16),
                         contentPadding: const EdgeInsets.only(
                           top: 2,
@@ -128,7 +128,7 @@ class _NovoServicoState extends State<NovoServico> {
                                 const BorderSide(width: 3, color: Colors.blue),
                             borderRadius: BorderRadius.circular(5),
                           ),
-                          hintText: 'Descrição do serviço',
+                          hintText: 'Descrição',
                           hintStyle: const TextStyle(fontSize: 16),
                           contentPadding: const EdgeInsets.only(
                             top: 2,
@@ -155,7 +155,7 @@ class _NovoServicoState extends State<NovoServico> {
                               const BorderSide(width: 3, color: Colors.blue),
                           borderRadius: BorderRadius.circular(5),
                         ),
-                        hintText: 'Valor do serviço',
+                        hintText: 'Valor',
                         hintStyle: const TextStyle(fontSize: 16),
                         contentPadding: const EdgeInsets.only(
                           top: 2,
@@ -180,7 +180,7 @@ class _NovoServicoState extends State<NovoServico> {
                               color: const Color.fromARGB(255, 141, 141, 141),
                             ),
                           ),
-                          child: imagemServico == null
+                          child: imagemAnuncioFreelancer == null
                               ? Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: const [
@@ -199,7 +199,7 @@ class _NovoServicoState extends State<NovoServico> {
                                   ],
                                 )
                               : Image.file(
-                                  File(imagemServico!.path),
+                                  File(imagemAnuncioFreelancer!.path),
                                   fit: BoxFit.fill,
                                 ),
                         ),
@@ -208,7 +208,7 @@ class _NovoServicoState extends State<NovoServico> {
                     const SizedBox(
                       height: 25,
                     ),
-                    const CriarNovoServicoBotao(),
+                    const CriarNovoAnuncioFreelancerBotao(),
                   ],
                 ),
               ),
@@ -226,7 +226,7 @@ class _NovoServicoState extends State<NovoServico> {
       XFile? file = await picker.pickImage(source: ImageSource.gallery);
       if (file != null) {
         setState(() {
-          imagemServico = file;
+          imagemAnuncioFreelancer = file;
         });
       }
     } catch (e) {

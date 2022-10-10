@@ -1,18 +1,20 @@
-import 'package:bicos_app/components/trabalhos/servicos/botao_novoServico.dart';
-import 'package:bicos_app/components/trabalhos/servicos/botao_ver_mais_MeusServicos.dart';
+import 'package:bicos_app/components/trabalhos/anuncio_Freelancer/botao_novoAnuncio_Freelancer.dart';
+import 'package:bicos_app/components/trabalhos/anuncio_Freelancer/botao_ver_mais_MeusAnuncios_Freelancer.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
-class ServicosCarousel extends StatefulWidget {
-  const ServicosCarousel({Key? key}) : super(key: key);
+class AnunciosFreelancerCarousel extends StatefulWidget {
+  const AnunciosFreelancerCarousel({Key? key}) : super(key: key);
 
   @override
-  State<ServicosCarousel> createState() => _ServicosCarouselState();
+  State<AnunciosFreelancerCarousel> createState() =>
+      _AnunciosFreelancerCarouselState();
 }
 
-class _ServicosCarouselState extends State<ServicosCarousel> {
+class _AnunciosFreelancerCarouselState
+    extends State<AnunciosFreelancerCarousel> {
   @override
   Widget build(BuildContext context) {
     final List<String> imgList = [
@@ -70,7 +72,7 @@ class _ServicosCarouselState extends State<ServicosCarousel> {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: const [
             Text(
-              'Meus serviços',
+              'Meus anúncios',
               textAlign: TextAlign.left,
               style: TextStyle(
                 fontSize: 20,
@@ -79,7 +81,7 @@ class _ServicosCarouselState extends State<ServicosCarousel> {
                 color: Color.fromARGB(255, 0, 38, 92),
               ),
             ),
-            NovoServicoBotao(),
+            NovoAnuncioFreelancerBotao(),
           ],
         ),
         SizedBox(
@@ -98,7 +100,7 @@ class _ServicosCarouselState extends State<ServicosCarousel> {
             items: imageSliders,
           ),
         ),
-        const BotaoVerMaisMeusServicos(),
+        const BotaoVerMaisMeusAnunciosFreelancer(),
       ],
     );
   }

@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:brasil_fields/brasil_fields.dart' as brasilFields;
+import 'package:brasil_fields/brasil_fields.dart' as brasil_fields;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/src/foundation/key.dart';
@@ -206,7 +206,7 @@ class _SignupStepperState extends State<SignupStepper> {
                     keyboardType: TextInputType.number,
                     inputFormatters: [
                       FilteringTextInputFormatter.digitsOnly,
-                      brasilFields.CpfInputFormatter(),
+                      brasil_fields.CpfInputFormatter(),
                     ],
                     decoration: const InputDecoration(
                       hintText: 'CPF',

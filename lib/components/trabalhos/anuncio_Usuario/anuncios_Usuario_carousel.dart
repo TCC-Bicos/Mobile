@@ -1,16 +1,16 @@
-import 'package:bicos_app/components/trabalhos/solicitacoes/botao_novaSolicitacao.dart';
-import 'package:bicos_app/components/trabalhos/solicitacoes/botao_ver_mais_MinhasSolicitacoes.dart';
+import 'package:bicos_app/components/trabalhos/anuncio_Usuario/botao_novoAnuncioUsuario.dart';
+import 'package:bicos_app/components/trabalhos/anuncio_Usuario/botao_ver_mais_MeusAnunciosUsuario.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
-class SolicitacaoCarousel extends StatefulWidget {
-  const SolicitacaoCarousel({Key? key}) : super(key: key);
+class AnuncioUsuarioCarousel extends StatefulWidget {
+  const AnuncioUsuarioCarousel({Key? key}) : super(key: key);
 
   @override
-  State<SolicitacaoCarousel> createState() => _SolicitacaoCarouselState();
+  State<AnuncioUsuarioCarousel> createState() => _AnuncioUsuarioCarouselState();
 }
 
-class _SolicitacaoCarouselState extends State<SolicitacaoCarousel> {
+class _AnuncioUsuarioCarouselState extends State<AnuncioUsuarioCarousel> {
   @override
   Widget build(BuildContext context) {
     final List<String> imgList = [
@@ -68,7 +68,7 @@ class _SolicitacaoCarouselState extends State<SolicitacaoCarousel> {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: const [
             Text(
-              'Solicitações',
+              'Meus anúncios',
               textAlign: TextAlign.left,
               style: TextStyle(
                 fontSize: 20,
@@ -77,7 +77,7 @@ class _SolicitacaoCarouselState extends State<SolicitacaoCarousel> {
                 color: Color.fromARGB(255, 0, 38, 92),
               ),
             ),
-            NovaSolicitacaoBotao(),
+            NovoAnuncioUsuarioBotao(),
           ],
         ),
         SizedBox(
@@ -96,7 +96,7 @@ class _SolicitacaoCarouselState extends State<SolicitacaoCarousel> {
             items: imageSliders,
           ),
         ),
-        const BotaoVerMaisMinhasSolicitacoes(),
+        const BotaoVerMaisMeusAnunciosUsuario(),
       ],
     );
   }

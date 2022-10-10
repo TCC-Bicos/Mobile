@@ -1,10 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
-class BotaoVerMaisMeusServicos extends StatelessWidget {
-  const BotaoVerMaisMeusServicos({Key? key}) : super(key: key);
+class BotaoVerMaisMeusAnunciosUsuario extends StatelessWidget {
+  const BotaoVerMaisMeusAnunciosUsuario({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +21,7 @@ class BotaoVerMaisMeusServicos extends StatelessWidget {
           ),
         ),
         child: const Text(
-          'Ver todos',
+          'Ver todas',
           style: TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.w700,
