@@ -103,7 +103,7 @@ class _NovoAnuncioFreelancerState extends State<NovoAnuncioFreelancer> {
                               const BorderSide(width: 3, color: Colors.blue),
                           borderRadius: BorderRadius.circular(5),
                         ),
-                        hintText: 'Título',
+                        hintText: 'Título do anúncio',
                         hintStyle: const TextStyle(fontSize: 16),
                         contentPadding: const EdgeInsets.only(
                           top: 2,
@@ -155,7 +155,7 @@ class _NovoAnuncioFreelancerState extends State<NovoAnuncioFreelancer> {
                               const BorderSide(width: 3, color: Colors.blue),
                           borderRadius: BorderRadius.circular(5),
                         ),
-                        hintText: 'Valor',
+                        hintText: 'Valor do serviço',
                         hintStyle: const TextStyle(fontSize: 16),
                         contentPadding: const EdgeInsets.only(
                           top: 2,
