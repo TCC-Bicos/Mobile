@@ -5,7 +5,7 @@ import 'package:bicos_app/screens/edit_profile_screen.dart';
 import 'package:bicos_app/screens/home_screen.dart';
 import 'package:bicos_app/screens/login_screen.dart';
 import 'package:bicos_app/screens/navigation_screen.dart';
-import 'package:bicos_app/screens/novaSolicitacao_screen.dart';
+import 'package:bicos_app/screens/novoAnuncio_Usuario_screen.dart';
 import 'package:bicos_app/screens/novoAnuncio_Freelancer_screen.dart';
 import 'package:bicos_app/screens/profile_screen.dart';
 import 'package:bicos_app/screens/signup_screen.dart';
