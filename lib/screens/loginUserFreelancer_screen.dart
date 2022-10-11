@@ -61,7 +61,7 @@ class LoginFreeUserScreen extends StatelessWidget {
                 child: Row(
                   children: const [
                     Text(
-                      'Usuário: ',
+                      'Cliente: ',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontFamily: 'Inter',

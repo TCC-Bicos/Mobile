@@ -30,7 +30,7 @@ class LoginFreeUserButtons extends StatelessWidget {
               ),
             ),
             child: const Text(
-              'Entrar como Usuário',
+              'Entrar como Cliente',
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w700,
