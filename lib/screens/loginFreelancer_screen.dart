@@ -1,4 +1,4 @@
-import 'package:bicos_app/components/login/login_buttons.dart';
+import 'package:bicos_app/components/login/loginFreelancer/login_buttons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -6,8 +6,8 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
 import '../utils/app_routes.dart';
 
-class LoginScreen extends StatelessWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+class LoginFreelancerScreen extends StatelessWidget {
+  const LoginFreelancerScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +44,7 @@ class LoginScreen extends StatelessWidget {
                 child: Column(
                   children: const [
                     TextField(
-                      decoration: InputDecoration(hintText: 'E-mail'),
+                      decoration: InputDecoration(hintText: 'CPF'),
                       style: TextStyle(fontSize: 16),
                     ),
                     SizedBox(
@@ -60,7 +60,7 @@ class LoginScreen extends StatelessWidget {
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.1,
               ),
-              const LoginButtons(),
+              const LoginFreelancerButtons(),
               const SizedBox(
                 height: 2,
               ),

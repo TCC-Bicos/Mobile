@@ -3,7 +3,9 @@ import 'dart:ui';
 
 import 'package:bicos_app/screens/edit_profile_screen.dart';
 import 'package:bicos_app/screens/home_screen.dart';
-import 'package:bicos_app/screens/login_screen.dart';
+import 'package:bicos_app/screens/loginFreelancer_screen.dart';
+import 'package:bicos_app/screens/loginUserFreelancer_screen.dart';
+import 'package:bicos_app/screens/loginUser_screen.dart';
 import 'package:bicos_app/screens/navigation_screen.dart';
 import 'package:bicos_app/screens/novoAnuncio_Usuario_screen.dart';
 import 'package:bicos_app/screens/novoAnuncio_Freelancer_screen.dart';
@@ -45,7 +47,9 @@ class MyApp extends StatelessWidget {
       ),
       routes: {
         AppRoutes.opening: (ctx) => const WelcomeScreen(),
-        AppRoutes.login: (ctx) => const LoginScreen(),
+        AppRoutes.loginAsFreeUser: (ctx) => const LoginFreeUserScreen(),
+        AppRoutes.loginUser: (ctx) => const LoginUserScreen(),
+        AppRoutes.loginFreelancer: (ctx) => const LoginFreelancerScreen(),
         AppRoutes.signup: (ctx) => const SignUpScreen(),
         AppRoutes.navigationbar: (ctx) => NavigationBarScreen(),
         AppRoutes.editProfile: (ctx) => EditProfilePage(),

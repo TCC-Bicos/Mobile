@@ -88,7 +88,7 @@ class _SignupStepperState extends State<SignupStepper> {
                 return;
               }
             } else if (isLastStep) {
-              Navigator.of(context).pushNamed(AppRoutes.login);
+              Navigator.of(context).pushNamed(AppRoutes.opening);
             }
           },
         );
