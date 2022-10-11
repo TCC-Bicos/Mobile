@@ -11,19 +11,8 @@ class ModalMenu extends StatelessWidget {
       alignment: AlignmentDirectional.topCenter,
       clipBehavior: Clip.none,
       children: [
-        Positioned(
-          top: -15,
-          child: Container(
-            width: 60,
-            height: 7,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(5),
-              color: Colors.white,
-            ),
-          ),
-        ),
         Container(
-          height: 200,
+          height: 280,
           decoration: const BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.only(
@@ -33,7 +22,7 @@ class ModalMenu extends StatelessWidget {
           child: Column(
             children: [
               const SizedBox(
-                height: 20,
+                height: 30,
               ),
               ListTile(
                 contentPadding: EdgeInsets.zero,
@@ -50,7 +39,63 @@ class ModalMenu extends StatelessWidget {
                 ),
                 onTap: () {},
               ),
+              ListTile(
+                contentPadding: EdgeInsets.zero,
+                leading: IconButton(
+                  icon: const Icon(Icons.history),
+                  onPressed: () {},
+                ),
+                title: const Text(
+                  'Histórico de transações',
+                  style: TextStyle(fontSize: 16),
+                ),
+                trailing: const Icon(
+                  Icons.arrow_forward_ios,
+                ),
+                onTap: () {},
+              ),
+              ListTile(
+                contentPadding: EdgeInsets.zero,
+                leading: IconButton(
+                  icon: const Icon(Icons.archive),
+                  onPressed: () {},
+                ),
+                title: const Text(
+                  'Projetos',
+                  style: TextStyle(fontSize: 16),
+                ),
+                trailing: const Icon(
+                  Icons.arrow_forward_ios,
+                ),
+                onTap: () {},
+              ),
+              ListTile(
+                contentPadding: EdgeInsets.zero,
+                leading: IconButton(
+                  icon: const Icon(Icons.work),
+                  onPressed: () {},
+                ),
+                title: const Text(
+                  'Anúncios',
+                  style: TextStyle(fontSize: 16),
+                ),
+                trailing: const Icon(
+                  Icons.arrow_forward_ios,
+                ),
+                onTap: () {},
+              ),
             ],
+          ),
+        ),
+        Positioned(
+          top: 10,
+          child: Container(
+            width: 60,
+            height: 7,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(5),
+              color: const Color.fromARGB(255, 145, 145, 145),
+            ),
           ),
         ),
       ],

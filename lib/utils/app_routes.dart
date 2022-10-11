@@ -4,7 +4,9 @@ import 'package:bicos_app/screens/novoAnuncio_Freelancer_screen.dart';
 
 class AppRoutes {
   static const opening = '/';
-  static const login = '/login';
+  static const loginAsFreeUser = '/freeUserLogin';
+  static const loginUser = '/loginUser';
+  static const loginFreelancer = '/loginFreelancer';
   static const signup = '/signup';
   static const navigationbar = '/navigation';
   static const novoAnuncioFreelancer = '/novoServico';

@@ -22,7 +22,7 @@ class _NavigationBarScreenState extends State<NavigationBarScreen> {
       backgroundColor: Colors.transparent,
       context: context,
       builder: (_) {
-        return ModalMenu();
+        return const ModalMenu();
       },
     );
   }
@@ -33,7 +33,9 @@ class _NavigationBarScreenState extends State<NavigationBarScreen> {
     const HomePage(),
     const ChatPage(),
     const SearchPage(),
-    const TrabalhosScreen(),
+    const TrabalhosScreen(
+      statusLogin: 0,
+    ),
     const ProfilePage(),
   ];
 

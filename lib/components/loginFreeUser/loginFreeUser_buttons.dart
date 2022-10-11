@@ -4,18 +4,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
-class WelcomeButtons extends StatelessWidget {
-  const WelcomeButtons({Key? key}) : super(key: key);
+class LoginFreeUserButtons extends StatelessWidget {
+  const LoginFreeUserButtons({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         SizedBox(
-          width: 200,
+          width: 260,
           child: TextButton(
             onPressed: () {
-              Navigator.of(context).pushNamed(AppRoutes.signup);
+              Navigator.of(context).pushNamed(AppRoutes.loginUser);
             },
             style: ButtonStyle(
               foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
@@ -30,7 +30,7 @@ class WelcomeButtons extends StatelessWidget {
               ),
             ),
             child: const Text(
-              'Cadastrar',
+              'Entrar como Cliente',
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w700,
@@ -39,10 +39,10 @@ class WelcomeButtons extends StatelessWidget {
           ),
         ),
         SizedBox(
-          width: 200,
+          width: 260,
           child: TextButton(
             onPressed: () {
-              Navigator.of(context).pushNamed(AppRoutes.loginAsFreeUser);
+              Navigator.of(context).pushNamed(AppRoutes.loginFreelancer);
             },
             style: ButtonStyle(
               foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
@@ -57,7 +57,7 @@ class WelcomeButtons extends StatelessWidget {
               ),
             ),
             child: const Text(
-              'Entrar',
+              'Entrar como Freelancer',
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w700,
