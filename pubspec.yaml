@@ -43,6 +43,7 @@ dependencies:
   cpf_cnpj_validator: ^2.0.0
   brasil_fields: ^1.4.5
   intl: ^0.17.0
+  dio: ^4.0.6
 
 dev_dependencies:
   flutter_test:
