@@ -1,4 +1,5 @@
 import 'package:bicos_app/components/login/loginUser/login_buttons.dart';
+import 'package:bicos_app/providers/clientProvider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -6,8 +7,18 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
 import '../utils/app_routes.dart';
 
-class LoginUserScreen extends StatelessWidget {
+class LoginUserScreen extends StatefulWidget {
   const LoginUserScreen({Key? key}) : super(key: key);
+
+  @override
+  State<LoginUserScreen> createState() => _LoginUserScreenState();
+}
+
+class _LoginUserScreenState extends State<LoginUserScreen> {
+  final emailController = TextEditingController();
+  final senhaController = TextEditingController();
+
+  ClienteProvider _clientProvider = ClienteProvider();
 
   @override
   Widget build(BuildContext context) {
@@ -42,17 +53,19 @@ class LoginUserScreen extends StatelessWidget {
                   right: 20,
                 ),
                 child: Column(
-                  children: const [
+                  children: [
                     TextField(
-                      decoration: InputDecoration(hintText: 'E-mail'),
-                      style: TextStyle(fontSize: 16),
+                      controller: emailController,
+                      decoration: const InputDecoration(hintText: 'E-mail'),
+                      style: const TextStyle(fontSize: 16),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                     TextField(
-                      decoration: InputDecoration(hintText: 'Senha'),
-                      style: TextStyle(fontSize: 16),
+                      controller: senhaController,
+                      decoration: const InputDecoration(hintText: 'Senha'),
+                      style: const TextStyle(fontSize: 16),
                     )
                   ],
                 ),
@@ -60,7 +73,9 @@ class LoginUserScreen extends StatelessWidget {
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.1,
               ),
-              const LoginUserButtons(),
+              LoginUserButtons(
+                onPressed: onPressed,
+              ),
               const SizedBox(
                 height: 2,
               ),
@@ -87,5 +102,10 @@ class LoginUserScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void onPressed() {
+    _clientProvider.loginCliente(
+        emailController.text, senhaController.text, context);
   }
 }
