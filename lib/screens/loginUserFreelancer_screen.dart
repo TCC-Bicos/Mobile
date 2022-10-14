@@ -116,7 +116,7 @@ class LoginFreeUserScreen extends StatelessWidget {
               const SizedBox(
                 height: 50,
               ),
-              const LoginFreeUserButtons()
+              LoginFreeUserButtons(),
             ],
           ),
         ),

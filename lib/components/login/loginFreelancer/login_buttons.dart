@@ -18,7 +18,6 @@ class LoginFreelancerButtons extends StatelessWidget {
           child: TextButton(
             onPressed: () {
               Navigator.of(context).pushNamed(AppRoutes.navigationbar);
-              const StatusFreeUser(statuslogin: 1);
             },
             style: ButtonStyle(
               foregroundColor: MaterialStateProperty.all<Color>(Colors.white),

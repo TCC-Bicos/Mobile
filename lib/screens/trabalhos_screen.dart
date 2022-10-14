@@ -7,10 +7,9 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
 class TrabalhosScreen extends StatelessWidget {
-  const TrabalhosScreen({Key? key, required this.statusLogin})
-      : super(key: key);
+  TrabalhosScreen({Key? key}) : super(key: key);
 
-  final int statusLogin;
+  StatusFreeUser _statusFreeUser = StatusFreeUser();
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +33,7 @@ class TrabalhosScreen extends StatelessWidget {
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.05,
           ),
-          statusLogin == 0
+          _statusFreeUser.statusFreeUser == 0
               ? const AnuncioUsuarioCarousel()
               : const AnunciosFreelancerCarousel(),
           SizedBox(
