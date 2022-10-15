@@ -5,14 +5,14 @@ import 'package:bicos_app/utils/statusFree_User.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:provider/provider.dart';
 
 class TrabalhosScreen extends StatelessWidget {
-  TrabalhosScreen({Key? key}) : super(key: key);
-
-  StatusFreeUser _statusFreeUser = StatusFreeUser();
+  const TrabalhosScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    int status = Provider.of<StatusFreeUser>(context).getStatus();
     return Scaffold(
       body: ListView(
         physics: const BouncingScrollPhysics(),
@@ -33,7 +33,7 @@ class TrabalhosScreen extends StatelessWidget {
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.05,
           ),
-          _statusFreeUser.statusFreeUser == 0
+          status == 0
               ? const AnuncioUsuarioCarousel()
               : const AnunciosFreelancerCarousel(),
           SizedBox(
