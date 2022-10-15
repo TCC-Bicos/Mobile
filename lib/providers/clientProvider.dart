@@ -27,29 +27,36 @@ class ClienteProvider with ChangeNotifier {
   Cliente getUser() => user;
 
   Future<dynamic> loginCliente(String email, String senha, context) async {
-    var response =
-        await Dio().post('localhost:8000/api/loginUser/$email/$senha');
-
-    if (response.data['status'] == '200') {
-      if (response.data['loginResult'] == '1') {
-        Navigator.of(context).pushNamed(AppRoutes.navigationbar);
-        user = Cliente(
-          idCliente: response.data['user'][0]['idUser'],
-          nomeCliente: response.data['user'][0]['nome'],
-          cpfCliente: response.data['user'][0]['cpf'],
-          emailCliente: response.data['user'][0]['email'],
-          telefoneCliente: response.data['user'][0]['telefone'],
-          nascimentoCliente: response.data['user'][0]['nascimento'],
-          generoCliente: response.data['user'][0]['genero'],
-          senhaCliente: response.data['user'][0]['senha'],
-          imagemCliente: response.data['user'][0]['imagem'],
-          statusCliente: response.data['user'][0]['statusCliente'],
-        );
+    print('1');
+    try {
+      print('2');
+      var response =
+          await Dio().get('http://10.0.2.2:8000/api/loginUser/$email/$senha');
+      print('3');
+      if (response.data['status'] == '200') {
+        print('4');
+        if (response.data['loginResult'] == '1') {
+          Navigator.of(context).pushNamed(AppRoutes.navigationbar);
+          user = Cliente(
+            idCliente: response.data['user'][0]['idUser'],
+            nomeCliente: response.data['user'][0]['nome'],
+            cpfCliente: response.data['user'][0]['cpf'],
+            emailCliente: response.data['user'][0]['email'],
+            telefoneCliente: response.data['user'][0]['telefone'],
+            nascimentoCliente: response.data['user'][0]['nascimento'],
+            generoCliente: response.data['user'][0]['genero'],
+            senhaCliente: response.data['user'][0]['senha'],
+            imagemCliente: response.data['user'][0]['imagem'],
+            statusCliente: response.data['user'][0]['statusCliente'],
+          );
+          print('5');
+        }
+      } else {
+        print(response.data['loginResult'].toString());
       }
-      print('certo');
-    } else {
-      print(response.data['loginResult'].toString());
+      return user;
+    } catch (e) {
+      print(e);
     }
-    return user;
   }
 }

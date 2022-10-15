@@ -8,7 +8,7 @@ import 'package:flutter/src/widgets/framework.dart';
 class LoginFreeUserButtons extends StatelessWidget {
   LoginFreeUserButtons({Key? key}) : super(key: key);
 
-  StatusFreeUser _statusFreeUser = StatusFreeUser();
+  final StatusFreeUser _statusFreeUser = StatusFreeUser();
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +18,7 @@ class LoginFreeUserButtons extends StatelessWidget {
           width: 260,
           child: TextButton(
             onPressed: () {
-              _statusFreeUser.statusFreeUser = 0;
+              _statusFreeUser.statusUser();
               Navigator.of(context).pushNamed(AppRoutes.loginUser);
             },
             style: ButtonStyle(
@@ -46,7 +46,7 @@ class LoginFreeUserButtons extends StatelessWidget {
           width: 260,
           child: TextButton(
             onPressed: () {
-              _statusFreeUser.statusFreeUser = 1;
+              _statusFreeUser.statusFreelancer();
               Navigator.of(context).pushNamed(AppRoutes.loginFreelancer);
             },
             style: ButtonStyle(

@@ -9,7 +9,7 @@ class AppRoutes {
   static const loginFreelancer = '/loginFreelancer';
   static const signup = '/signup';
   static const navigationbar = '/navigation';
-  static const novoAnuncioFreelancer = '/novoServico';
-  static const novoAnuncioUsuario = '/novaSolicitacao';
+  static const novoAnuncioFreelancer = '/novoAnuncioFreelancer';
+  static const novoAnuncioUsuario = '/novaAnuncioUsuario';
   static const editProfile = '/editProfile';
 }

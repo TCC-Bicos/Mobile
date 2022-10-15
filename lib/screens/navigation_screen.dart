@@ -33,7 +33,7 @@ class _NavigationBarScreenState extends State<NavigationBarScreen> {
     const HomePage(),
     const ChatPage(),
     const SearchPage(),
-    TrabalhosScreen(),
+    const TrabalhosScreen(),
     const ProfilePage(),
   ];
 
