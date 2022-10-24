@@ -1,16 +1,15 @@
 // @dart=2.9
-import 'dart:ui';
 
 import 'package:bicos_app/providers/clientProvider.dart';
 import 'package:bicos_app/screens/edit_profile_screen.dart';
-import 'package:bicos_app/screens/home_screen.dart';
 import 'package:bicos_app/screens/loginFreelancer_screen.dart';
 import 'package:bicos_app/screens/loginUserFreelancer_screen.dart';
 import 'package:bicos_app/screens/loginUser_screen.dart';
+import 'package:bicos_app/screens/menu/configs.dart';
+import 'package:bicos_app/screens/message_Screen.dart';
 import 'package:bicos_app/screens/navigation_screen.dart';
 import 'package:bicos_app/screens/novoAnuncio_Usuario_screen.dart';
 import 'package:bicos_app/screens/novoAnuncio_Freelancer_screen.dart';
-import 'package:bicos_app/screens/profile_screen.dart';
 import 'package:bicos_app/screens/signup_screen.dart';
 import 'package:bicos_app/screens/welcome_screen.dart';
 import 'package:bicos_app/utils/statusFree_User.dart';
@@ -64,6 +63,8 @@ class MyApp extends StatelessWidget {
           AppRoutes.novoAnuncioFreelancer: (ctx) =>
               const NovoAnuncioFreelancer(),
           AppRoutes.novoAnuncioUsuario: (ctx) => const NovoAnuncioUsuario(),
+          AppRoutes.configs: (ctx) => const ConfigsScreen(),
+          AppRoutes.chat: (ctx) => MessageScreen(),
         },
       ),
     );

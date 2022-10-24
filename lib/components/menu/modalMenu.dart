@@ -1,6 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
+import '../../utils/app_routes.dart';
 
 class ModalMenu extends StatelessWidget {
   const ModalMenu({Key? key}) : super(key: key);
@@ -19,72 +18,83 @@ class ModalMenu extends StatelessWidget {
                 topRight: Radius.circular(15),
                 topLeft: Radius.circular(15),
               )),
-          child: Column(
-            children: [
-              const SizedBox(
-                height: 30,
-              ),
-              ListTile(
-                contentPadding: EdgeInsets.zero,
-                leading: IconButton(
-                  icon: const Icon(Icons.settings),
-                  onPressed: () {},
+          child: Padding(
+            padding: const EdgeInsets.only(left: 20, right: 15),
+            child: Column(
+              children: [
+                const SizedBox(
+                  height: 30,
                 ),
-                title: const Text(
-                  'Configurações',
-                  style: TextStyle(fontSize: 16),
+                ListTile(
+                  contentPadding: EdgeInsets.zero,
+                  leading: const Icon(
+                    Icons.settings,
+                    size: 25,
+                  ),
+                  title: const Text(
+                    'Configurações',
+                    style: TextStyle(fontSize: 16),
+                  ),
+                  trailing: const Icon(
+                    Icons.arrow_forward_ios,
+                  ),
+                  onTap: () {
+                    Navigator.of(context).pushNamed(AppRoutes.configs);
+                  },
                 ),
-                trailing: const Icon(
-                  Icons.arrow_forward_ios,
+                ListTile(
+                  contentPadding: EdgeInsets.zero,
+                  leading: const Icon(
+                    Icons.history,
+                    size: 25,
+                  ),
+                  title: const Text(
+                    'Histórico de transações',
+                    style: TextStyle(fontSize: 16),
+                  ),
+                  trailing: const Icon(
+                    Icons.arrow_forward_ios,
+                  ),
+                  onTap: () {
+                    Navigator.of(context).pushNamed(AppRoutes.configs);
+                  },
                 ),
-                onTap: () {},
-              ),
-              ListTile(
-                contentPadding: EdgeInsets.zero,
-                leading: IconButton(
-                  icon: const Icon(Icons.history),
-                  onPressed: () {},
+                ListTile(
+                  contentPadding: EdgeInsets.zero,
+                  leading: const Icon(
+                    Icons.archive,
+                    size: 25,
+                  ),
+                  title: const Text(
+                    'Projetos',
+                    style: TextStyle(fontSize: 16),
+                  ),
+                  trailing: const Icon(
+                    Icons.arrow_forward_ios,
+                  ),
+                  onTap: () {
+                    Navigator.of(context).pushNamed(AppRoutes.configs);
+                  },
                 ),
-                title: const Text(
-                  'Histórico de transações',
-                  style: TextStyle(fontSize: 16),
-                ),
-                trailing: const Icon(
-                  Icons.arrow_forward_ios,
-                ),
-                onTap: () {},
-              ),
-              ListTile(
-                contentPadding: EdgeInsets.zero,
-                leading: IconButton(
-                  icon: const Icon(Icons.archive),
-                  onPressed: () {},
-                ),
-                title: const Text(
-                  'Projetos',
-                  style: TextStyle(fontSize: 16),
-                ),
-                trailing: const Icon(
-                  Icons.arrow_forward_ios,
-                ),
-                onTap: () {},
-              ),
-              ListTile(
-                contentPadding: EdgeInsets.zero,
-                leading: IconButton(
-                  icon: const Icon(Icons.work),
-                  onPressed: () {},
-                ),
-                title: const Text(
-                  'Anúncios',
-                  style: TextStyle(fontSize: 16),
-                ),
-                trailing: const Icon(
-                  Icons.arrow_forward_ios,
-                ),
-                onTap: () {},
-              ),
-            ],
+                ListTile(
+                  contentPadding: EdgeInsets.zero,
+                  leading: const Icon(
+                    Icons.work,
+                    size: 25,
+                  ),
+                  title: const Text(
+                    'Anúncios',
+                    style: TextStyle(fontSize: 16),
+                  ),
+                  trailing: const Icon(
+                    Icons.arrow_forward_ios,
+                  ),
+                  onTap: () {
+                    Navigator.of(context).pushNamed(AppRoutes.configs);
+                  },
+                )
+              ],
+            ),
           ),
         ),
         Positioned(

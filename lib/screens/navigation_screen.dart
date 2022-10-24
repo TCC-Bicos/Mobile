@@ -31,7 +31,7 @@ class _NavigationBarScreenState extends State<NavigationBarScreen> {
 
   final screens = [
     const HomePage(),
-    const ChatPage(),
+    ChatScreen(),
     const SearchPage(),
     const TrabalhosScreen(),
     const ProfilePage(),
@@ -72,11 +72,32 @@ class _NavigationBarScreenState extends State<NavigationBarScreen> {
         actions: index == 4
             ? [
                 IconButton(
+                  onPressed: () {},
+                  icon: Icon(
+                    Icons.notifications,
+                    color: Theme.of(context).primaryColor,
+                    size: 28,
+                  ),
+                ),
+                IconButton(
                   onPressed: () => _openMenuModal(context),
-                  icon: Icon(Icons.menu, color: Theme.of(context).primaryColor),
+                  icon: Icon(
+                    Icons.menu,
+                    color: Theme.of(context).primaryColor,
+                    size: 28,
+                  ),
                 )
               ]
-            : null,
+            : [
+                IconButton(
+                  onPressed: () => {},
+                  icon: Icon(
+                    Icons.notifications,
+                    color: Theme.of(context).primaryColor,
+                    size: 28,
+                  ),
+                ),
+              ],
         centerTitle: true,
         backgroundColor: const Color.fromARGB(255, 255, 255, 255),
         title: Image.asset(

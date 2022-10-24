@@ -3,8 +3,6 @@ import 'package:bicos_app/components/trabalhos/projetos/projetos_carousel.dart';
 import 'package:bicos_app/components/trabalhos/anuncio_Usuario/anuncios_Usuario_carousel.dart';
 import 'package:bicos_app/utils/statusFree_User.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:provider/provider.dart';
 
 class TrabalhosScreen extends StatelessWidget {
@@ -12,7 +10,7 @@ class TrabalhosScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    int status = Provider.of<StatusFreeUser>(context).getStatus();
+    int status = context.watch<StatusFreeUser>().getStatus;
     return Scaffold(
       body: ListView(
         physics: const BouncingScrollPhysics(),

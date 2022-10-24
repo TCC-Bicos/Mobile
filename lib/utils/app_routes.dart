@@ -12,4 +12,6 @@ class AppRoutes {
   static const novoAnuncioFreelancer = '/novoAnuncioFreelancer';
   static const novoAnuncioUsuario = '/novaAnuncioUsuario';
   static const editProfile = '/editProfile';
+  static const configs = '/configs';
+  static const chat = '/chat';
 }
