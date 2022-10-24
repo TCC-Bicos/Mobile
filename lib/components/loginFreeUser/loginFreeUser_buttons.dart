@@ -1,14 +1,10 @@
 import 'package:bicos_app/utils/app_routes.dart';
 import 'package:bicos_app/utils/statusFree_User.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:provider/provider.dart';
 
 class LoginFreeUserButtons extends StatelessWidget {
-  LoginFreeUserButtons({Key? key}) : super(key: key);
-
-  final StatusFreeUser _statusFreeUser = StatusFreeUser();
+  const LoginFreeUserButtons({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +14,7 @@ class LoginFreeUserButtons extends StatelessWidget {
           width: 260,
           child: TextButton(
             onPressed: () {
-              _statusFreeUser.statusUser();
+              context.read<StatusFreeUser>().statusUser();
               Navigator.of(context).pushNamed(AppRoutes.loginUser);
             },
             style: ButtonStyle(
@@ -46,7 +42,7 @@ class LoginFreeUserButtons extends StatelessWidget {
           width: 260,
           child: TextButton(
             onPressed: () {
-              _statusFreeUser.statusFreelancer();
+              context.read<StatusFreeUser>().statusFreelancer();
               Navigator.of(context).pushNamed(AppRoutes.loginFreelancer);
             },
             style: ButtonStyle(
