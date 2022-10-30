@@ -147,6 +147,24 @@ class ConfigsScreen extends StatelessWidget {
             const SizedBox(
               height: 10,
             ),
+            InkWell(
+              onTap: null,
+              child: Container(
+                padding: const EdgeInsets.only(
+                  bottom: 1,
+                ),
+                decoration: const BoxDecoration(
+                  border: Border(
+                    bottom: BorderSide(
+                      width: 1.0,
+                    ),
+                  ),
+                ),
+                child: const Text(
+                  'Sair',
+                ),
+              ),
+            ),
           ],
         ),
       ),
