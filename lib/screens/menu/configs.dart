@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+
+import '../../utils/app_routes.dart';
 
 class ConfigsScreen extends StatelessWidget {
   const ConfigsScreen({super.key});
@@ -148,7 +151,9 @@ class ConfigsScreen extends StatelessWidget {
               height: 10,
             ),
             InkWell(
-              onTap: null,
+              onTap: () {
+                Navigator.of(context).pushNamed(AppRoutes.opening);
+              },
               child: Container(
                 padding: const EdgeInsets.only(
                   bottom: 1,
