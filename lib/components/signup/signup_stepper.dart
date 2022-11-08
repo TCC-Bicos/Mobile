@@ -40,7 +40,7 @@ class _SignupStepperState extends State<SignupStepper> {
   int verificaData = 0;
   int hasImage = 0;
 
-  String _fotoPadrao = 'assets/images/standardProfilePic.png';
+  final String _fotoPadrao = 'assets/images/standardProfilePic.png';
   String _armazenaFoto = '';
   String? _nome, _email, _cpf, _dropdownvalue, _armazenaGenero;
   Object? _usuariovalue = 'cliente';

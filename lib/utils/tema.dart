@@ -6,8 +6,13 @@ class TemaApp with ChangeNotifier {
   int temaClaroEscuro = 0;
 
   Color get getPrimaryColorUser => Colors.blue;
-
   Color get getPrimaryColorFree => Colors.green;
+
+  Color get getBackgroundColor => temaClaroEscuro == 0
+      ? const Color.fromARGB(255, 250, 253, 255)
+      : const Color.fromARGB(255, 2, 21, 37);
+
+  int get getTemaClaroEscuro => temaClaroEscuro;
 
   void temaClaro() {
     temaClaroEscuro = 0;

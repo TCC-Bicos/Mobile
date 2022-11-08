@@ -9,5 +9,6 @@ class AppRoutes {
   static const novoAnuncioUsuario = '/novaAnuncioUsuario';
   static const editProfile = '/editProfile';
   static const configs = '/configs';
+  static const tema = '/tema';
   static const chat = '/chat';
 }
