@@ -1,13 +1,10 @@
-import 'package:bicos_app/components/trabalhos/anuncio_Freelancer/botao_novoAnuncio_Freelancer.dart';
-import 'package:bicos_app/components/trabalhos/anuncio_Freelancer/botao_ver_mais_MeusAnuncios_Freelancer.dart';
-import 'package:bicos_app/components/trabalhos/projetos/projetos_carousel.dart';
 import 'package:bicos_app/utils/statusFree_User.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../components/trabalhos/anuncio_Usuario/botao_novoAnuncioUsuario.dart';
-import '../components/trabalhos/anuncio_Usuario/botao_ver_mais_MeusAnunciosUsuario.dart';
+import '../utils/app_routes.dart';
+import '../utils/tema.dart';
 
 class TrabalhosScreen extends StatelessWidget {
   const TrabalhosScreen({Key? key}) : super(key: key);
@@ -15,6 +12,9 @@ class TrabalhosScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     int status = context.watch<StatusFreeUser>().getStatus;
+    Color primaryColor = status == 0
+        ? context.watch<TemaApp>().getPrimaryColorUser
+        : context.watch<TemaApp>().getPrimaryColorFree;
 
     final List<String> imgList = [
       'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80',
@@ -101,9 +101,37 @@ class TrabalhosScreen extends StatelessWidget {
                       color: Color.fromARGB(255, 0, 38, 92),
                     ),
                   ),
-                  status == 0
-                      ? const NovoAnuncioUsuarioBotao()
-                      : const NovoAnuncioFreelancerBotao(),
+                  SizedBox(
+                    width: 120,
+                    height: 33,
+                    child: TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pushNamed(status == 0
+                            ? AppRoutes.novoAnuncioUsuario
+                            : AppRoutes.novoAnuncioFreelancer);
+                      },
+                      style: ButtonStyle(
+                        foregroundColor:
+                            MaterialStateProperty.all<Color>(Colors.white),
+                        backgroundColor:
+                            MaterialStateProperty.all<Color>(primaryColor),
+                        shape:
+                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(18.0),
+                            side: BorderSide(color: primaryColor),
+                          ),
+                        ),
+                      ),
+                      child: const Text(
+                        'Novo anúncio',
+                        style: TextStyle(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ),
+                  ),
                 ],
               ),
               SizedBox(
@@ -122,15 +150,109 @@ class TrabalhosScreen extends StatelessWidget {
                   items: imageSliders,
                 ),
               ),
-              status == 0
-                  ? const BotaoVerMaisMeusAnunciosUsuario()
-                  : const BotaoVerMaisMeusAnunciosFreelancer(),
+              SizedBox(
+                width: MediaQuery.of(context).size.width,
+                height: 35,
+                child: Padding(
+                  padding: EdgeInsets.only(
+                    left: MediaQuery.of(context).size.width * 0.2,
+                    right: MediaQuery.of(context).size.width * 0.2,
+                  ),
+                  child: TextButton(
+                    onPressed: () {},
+                    style: ButtonStyle(
+                      foregroundColor:
+                          MaterialStateProperty.all<Color>(Colors.white),
+                      backgroundColor:
+                          MaterialStateProperty.all<Color>(primaryColor),
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                      ),
+                    ),
+                    child: const Text(
+                      'Ver todos',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.05,
           ),
-          const ProjetosCarousel(),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: const [
+                  Text(
+                    'Projetos',
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontFamily: 'Inter',
+                      fontWeight: FontWeight.w800,
+                      color: Color.fromARGB(255, 0, 38, 92),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.01,
+              ),
+              Container(
+                margin: const EdgeInsets.only(bottom: 20),
+                child: CarouselSlider(
+                  options: CarouselOptions(
+                    aspectRatio: 2.0,
+                    enlargeCenterPage: true,
+                    enableInfiniteScroll: false,
+                    initialPage: 0,
+                    autoPlay: false,
+                  ),
+                  items: imageSliders,
+                ),
+              ),
+              SizedBox(
+                width: MediaQuery.of(context).size.width,
+                height: 35,
+                child: Padding(
+                  padding: EdgeInsets.only(
+                    left: MediaQuery.of(context).size.width * 0.2,
+                    right: MediaQuery.of(context).size.width * 0.2,
+                  ),
+                  child: TextButton(
+                    onPressed: () {},
+                    style: ButtonStyle(
+                      foregroundColor:
+                          MaterialStateProperty.all<Color>(Colors.white),
+                      backgroundColor:
+                          MaterialStateProperty.all<Color>(primaryColor),
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                      ),
+                    ),
+                    child: const Text(
+                      'Ver todos',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.05,
           ),

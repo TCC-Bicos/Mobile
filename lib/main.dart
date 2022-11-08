@@ -13,6 +13,7 @@ import 'package:bicos_app/screens/novoAnuncio_Freelancer_screen.dart';
 import 'package:bicos_app/screens/signup_screen.dart';
 import 'package:bicos_app/screens/welcome_screen.dart';
 import 'package:bicos_app/utils/statusFree_User.dart';
+import 'package:bicos_app/utils/tema.dart';
 import 'package:bicos_app/utils/user_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:bicos_app/utils/app_routes.dart';
@@ -33,6 +34,7 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => ClienteProvider()),
         ChangeNotifierProvider(create: (_) => StatusFreeUser()),
+        ChangeNotifierProvider(create: (_) => TemaApp()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
