@@ -1,7 +1,3 @@
-import 'package:bicos_app/components/trabalhos/anuncio_Usuario/botao_novoAnuncioUsuario.dart';
-import 'package:bicos_app/screens/navigation_screen.dart';
-import 'package:bicos_app/screens/novoAnuncio_Freelancer_screen.dart';
-
 class AppRoutes {
   static const opening = '/';
   static const loginAsFreeUser = '/freeUserLogin';
@@ -13,5 +9,6 @@ class AppRoutes {
   static const novoAnuncioUsuario = '/novaAnuncioUsuario';
   static const editProfile = '/editProfile';
   static const configs = '/configs';
+  static const tema = '/tema';
   static const chat = '/chat';
 }

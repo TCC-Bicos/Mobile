@@ -4,12 +4,15 @@ import 'package:bicos_app/screens/chat_screen.dart';
 import 'package:bicos_app/screens/profile_screen.dart';
 import 'package:bicos_app/screens/trabalhos_screen.dart';
 import 'package:bicos_app/screens/search_screen.dart';
+import 'package:bicos_app/utils/tema.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
+import 'package:provider/provider.dart';
 
 import '../components/menu/modalMenu.dart';
 import '../screens/home_screen.dart';
+import '../utils/statusFree_User.dart';
 
 class NavigationBarScreen extends StatefulWidget {
   @override
@@ -39,6 +42,11 @@ class _NavigationBarScreenState extends State<NavigationBarScreen> {
 
   @override
   Widget build(BuildContext context) {
+    int status = context.watch<StatusFreeUser>().getStatus;
+    Color primaryColor = status == 0
+        ? context.watch<TemaApp>().getPrimaryColorUser
+        : context.watch<TemaApp>().getPrimaryColorFree;
+
     final items = <Widget>[
       const Icon(
         Icons.home,
@@ -75,7 +83,7 @@ class _NavigationBarScreenState extends State<NavigationBarScreen> {
                   onPressed: () {},
                   icon: Icon(
                     Icons.notifications,
-                    color: Theme.of(context).primaryColor,
+                    color: primaryColor,
                     size: 28,
                   ),
                 ),
@@ -83,7 +91,7 @@ class _NavigationBarScreenState extends State<NavigationBarScreen> {
                   onPressed: () => _openMenuModal(context),
                   icon: Icon(
                     Icons.menu,
-                    color: Theme.of(context).primaryColor,
+                    color: primaryColor,
                     size: 28,
                   ),
                 )
@@ -93,7 +101,7 @@ class _NavigationBarScreenState extends State<NavigationBarScreen> {
                   onPressed: () => {},
                   icon: Icon(
                     Icons.notifications,
-                    color: Theme.of(context).primaryColor,
+                    color: primaryColor,
                     size: 28,
                   ),
                 ),
@@ -101,15 +109,17 @@ class _NavigationBarScreenState extends State<NavigationBarScreen> {
         centerTitle: true,
         backgroundColor: const Color.fromARGB(255, 255, 255, 255),
         title: Image.asset(
-          'assets/images/bicoslogo_azul.png',
+          status == 0
+              ? 'assets/images/bicoslogo_azul.png'
+              : 'assets/images/bicoslogo_verde.png',
           fit: BoxFit.contain,
           height: 22,
         ),
         elevation: 1,
       ),
       bottomNavigationBar: CurvedNavigationBar(
-        color: Colors.blue,
-        backgroundColor: (Colors.blue[800])!,
+        color: primaryColor,
+        backgroundColor: (status == 0 ? Colors.blue[800] : Colors.green[800])!,
         height: 57,
         index: index,
         items: items,
