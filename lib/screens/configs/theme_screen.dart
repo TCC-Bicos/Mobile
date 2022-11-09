@@ -14,9 +14,17 @@ class ThemeScreen extends StatefulWidget {
 }
 
 class _ThemeScreenState extends State<ThemeScreen> {
+  late int theme;
+
+  readTheme() {
+    theme = context.watch<TemaApp>().temaClaroEscuro;
+  }
+
   @override
   Widget build(BuildContext context) {
-    Object? _temaValue = context.watch<TemaApp>().getTemaClaroEscuro;
+    readTheme();
+
+    final temaValue = theme == 0 ? 1 : 0;
 
     Color backcolor = context.watch<TemaApp>().getBackgroundColor;
 
@@ -48,10 +56,10 @@ class _ThemeScreenState extends State<ThemeScreen> {
             children: [
               Radio(
                 value: 0,
-                groupValue: _temaValue,
+                groupValue: theme,
                 onChanged: ((value) {
                   setState(() {
-                    context.read<TemaApp>().temaClaro();
+                    context.read<TemaApp>().setTheme(temaValue);
                   });
                 }),
               ),
@@ -71,10 +79,10 @@ class _ThemeScreenState extends State<ThemeScreen> {
             children: [
               Radio(
                 value: 1,
-                groupValue: _temaValue,
+                groupValue: theme,
                 onChanged: ((value) {
                   setState(() {
-                    context.read<TemaApp>().temaEscuro();
+                    context.read<TemaApp>().setTheme(temaValue);
                   });
                 }),
               ),

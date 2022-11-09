@@ -1,8 +1,11 @@
 import 'package:bicos_app/utils/statusFree_User.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class TemaApp with ChangeNotifier {
+  late SharedPreferences _preferences;
+
   int temaClaroEscuro = 0;
 
   Color get getPrimaryColorUser => Colors.blue;
@@ -22,5 +25,29 @@ class TemaApp with ChangeNotifier {
   void temaEscuro() {
     temaClaroEscuro = 1;
     notifyListeners();
+  }
+
+  AppSettings() {
+    _startSettings();
+  }
+
+  _startSettings() async {
+    await _startPreferences();
+    await _readTheme();
+  }
+
+  Future<void> _startPreferences() async {
+    _preferences = await SharedPreferences.getInstance();
+  }
+
+  _readTheme() {
+    final tema = _preferences.getInt('tema') ?? 0;
+    temaClaroEscuro = tema;
+    notifyListeners();
+  }
+
+  setTheme(int tema) async {
+    await _preferences.setInt('tema', tema);
+    await _readTheme();
   }
 }
