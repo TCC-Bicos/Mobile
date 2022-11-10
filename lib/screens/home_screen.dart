@@ -17,7 +17,9 @@ class HomePage extends StatelessWidget {
         : context.watch<TemaApp>().getPrimaryColorFree;
 
     return Scaffold(
-      backgroundColor: primaryColor,
+      backgroundColor: status == 0
+          ? context.watch<TemaApp>().getBackgroundColorUser
+          : context.watch<TemaApp>().getBackgroundColorFree,
     );
   }
 }

@@ -5,9 +5,12 @@ import 'package:bicos_app/model/user.dart';
 import 'package:bicos_app/screens/edit_profile_screen.dart';
 import 'package:bicos_app/utils/user_preferences.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:provider/provider.dart';
 import '../components/profile-edit/button_widget.dart';
 import '../components/profile-edit/profile_widget.dart';
 import '../utils/app_routes.dart';
+import '../utils/statusFree_User.dart';
+import '../utils/tema.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -19,6 +22,11 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
+    int status = context.watch<StatusFreeUser>().getStatus;
+    Color primaryColor = status == 0
+        ? context.watch<TemaApp>().getPrimaryColorUser
+        : context.watch<TemaApp>().getPrimaryColorFree;
+
     final user = UserPreferences.getUser();
     final List<String> imgList = [
       'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80',
@@ -69,6 +77,9 @@ class _ProfilePageState extends State<ProfilePage> {
         .toList();
 
     return Scaffold(
+      backgroundColor: status == 0
+          ? context.watch<TemaApp>().getBackgroundColorUser
+          : context.watch<TemaApp>().getBackgroundColorFree,
       body: ListView(
         physics: const BouncingScrollPhysics(),
         children: [
@@ -83,7 +94,7 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
           ),
           const SizedBox(height: 24),
-          buildName(user),
+          buildName(user, primaryColor),
           const SizedBox(height: 24),
           Center(child: buildMessageButton()),
           const SizedBox(height: 48),
@@ -107,7 +118,7 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  Widget buildName(User user) => Column(
+  Widget buildName(User user, color) => Column(
         children: [
           Text(
             user.name,
@@ -116,7 +127,7 @@ class _ProfilePageState extends State<ProfilePage> {
           const SizedBox(height: 4),
           Text(
             user.profissao,
-            style: const TextStyle(color: Colors.blue),
+            style: TextStyle(color: color),
           )
         ],
       );
