@@ -2,6 +2,10 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:provider/provider.dart';
+
+import '../../utils/statusFree_User.dart';
+import '../../utils/tema.dart';
 
 class ProfileWidget extends StatelessWidget {
   final String imagePath;
@@ -19,7 +23,10 @@ class ProfileWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = Theme.of(context).colorScheme.primary;
+    int status = context.watch<StatusFreeUser>().getStatus;
+    Color color = status == 0
+        ? context.watch<TemaApp>().getPrimaryColorUser
+        : context.watch<TemaApp>().getPrimaryColorFree;
 
     return Center(
       child: Stack(

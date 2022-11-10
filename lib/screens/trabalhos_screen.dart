@@ -66,6 +66,9 @@ class TrabalhosScreen extends StatelessWidget {
         .toList();
 
     return Scaffold(
+      backgroundColor: status == 0
+          ? context.watch<TemaApp>().getBackgroundColorUser
+          : context.watch<TemaApp>().getBackgroundColorFree,
       body: ListView(
         physics: const BouncingScrollPhysics(),
         children: [

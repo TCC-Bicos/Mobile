@@ -40,12 +40,23 @@ class _NavigationBarScreenState extends State<NavigationBarScreen> {
     const ProfilePage(),
   ];
 
+  late int theme;
+
+  readTheme() {
+    theme = context.watch<TemaApp>().temaClaroEscuro;
+  }
+
   @override
   Widget build(BuildContext context) {
+    readTheme();
+
     int status = context.watch<StatusFreeUser>().getStatus;
     Color primaryColor = status == 0
         ? context.watch<TemaApp>().getPrimaryColorUser
         : context.watch<TemaApp>().getPrimaryColorFree;
+    Color secundaryColor = status == 0
+        ? context.watch<TemaApp>().getSecundaryColorUser
+        : context.watch<TemaApp>().getSecundaryColorFree;
 
     final items = <Widget>[
       const Icon(
@@ -77,13 +88,14 @@ class _NavigationBarScreenState extends State<NavigationBarScreen> {
 
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         actions: index == 4
             ? [
                 IconButton(
                   onPressed: () {},
                   icon: Icon(
                     Icons.notifications,
-                    color: primaryColor,
+                    color: theme == 0 ? primaryColor : Colors.white,
                     size: 28,
                   ),
                 ),
@@ -91,7 +103,7 @@ class _NavigationBarScreenState extends State<NavigationBarScreen> {
                   onPressed: () => _openMenuModal(context),
                   icon: Icon(
                     Icons.menu,
-                    color: primaryColor,
+                    color: theme == 0 ? primaryColor : Colors.white,
                     size: 28,
                   ),
                 )
@@ -101,25 +113,30 @@ class _NavigationBarScreenState extends State<NavigationBarScreen> {
                   onPressed: () => {},
                   icon: Icon(
                     Icons.notifications,
-                    color: primaryColor,
+                    color: theme == 0 ? primaryColor : Colors.white,
                     size: 28,
                   ),
                 ),
               ],
+        leading: null,
         centerTitle: true,
-        backgroundColor: const Color.fromARGB(255, 255, 255, 255),
+        backgroundColor: theme == 0 ? Colors.white : secundaryColor,
         title: Image.asset(
           status == 0
-              ? 'assets/images/bicoslogo_azul.png'
-              : 'assets/images/bicoslogo_verde.png',
+              ? theme == 0
+                  ? 'assets/images/bicoslogo_azul.png'
+                  : 'assets/images/bicoslogo.png'
+              : theme == 0
+                  ? 'assets/images/bicoslogo_verde.png'
+                  : 'assets/images/bicoslogo.png',
           fit: BoxFit.contain,
           height: 22,
         ),
         elevation: 1,
       ),
       bottomNavigationBar: CurvedNavigationBar(
-        color: primaryColor,
-        backgroundColor: (status == 0 ? Colors.blue[800] : Colors.green[800])!,
+        color: theme == 0 ? primaryColor : secundaryColor,
+        backgroundColor: (theme == 0 ? secundaryColor : primaryColor),
         height: 57,
         index: index,
         items: items,

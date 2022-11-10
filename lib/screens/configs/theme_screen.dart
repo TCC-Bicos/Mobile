@@ -26,15 +26,15 @@ class _ThemeScreenState extends State<ThemeScreen> {
 
     final temaValue = theme == 0 ? 1 : 0;
 
-    Color backcolor = context.watch<TemaApp>().getBackgroundColor;
-
     int status = context.watch<StatusFreeUser>().getStatus;
     Color primaryColor = status == 0
         ? context.watch<TemaApp>().getPrimaryColorUser
         : context.watch<TemaApp>().getPrimaryColorFree;
 
     return Scaffold(
-      backgroundColor: backcolor,
+      backgroundColor: status == 0
+          ? context.watch<TemaApp>().getBackgroundColorUser
+          : context.watch<TemaApp>().getBackgroundColorFree,
       appBar: AppBar(
         leading: IconButton(
           icon: Icon(
