@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:bicos_app/model/user.dart';
-import 'package:bicos_app/screens/edit_profile_screen.dart';
 import 'package:bicos_app/utils/user_preferences.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:provider/provider.dart';
@@ -135,22 +134,30 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget buildMessageButton() =>
       ButtonWidget(text: 'Enviar Mensagem', onClicked: () {});
 
-  Widget buildAbout(User user) => Container(
-        padding: const EdgeInsets.symmetric(horizontal: 48),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'Sobre:',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 16),
-            Text(
-              maxLines: 7,
-              user.about,
-              style: const TextStyle(fontSize: 16, height: 1.4),
-            )
-          ],
-        ),
-      );
+  Widget buildAbout(User user) {
+    int status = context.watch<StatusFreeUser>().getStatus;
+    Color textColor = status == 0
+        ? context.watch<TemaApp>().getTextColorUser
+        : context.watch<TemaApp>().getTextColorFree;
+
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 48),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Sobre:',
+            style: TextStyle(
+                fontSize: 24, fontWeight: FontWeight.bold, color: textColor),
+          ),
+          const SizedBox(height: 16),
+          Text(
+            maxLines: 7,
+            user.about,
+            style: TextStyle(fontSize: 16, height: 1.4, color: textColor),
+          )
+        ],
+      ),
+    );
+  }
 }

@@ -6,29 +6,54 @@ import '../../utils/app_routes.dart';
 import '../../utils/statusFree_User.dart';
 import '../../utils/tema.dart';
 
-class ConfigsScreen extends StatelessWidget {
+class ConfigsScreen extends StatefulWidget {
   const ConfigsScreen({super.key});
 
   @override
+  State<ConfigsScreen> createState() => _ConfigsScreenState();
+}
+
+class _ConfigsScreenState extends State<ConfigsScreen> {
+  late int theme;
+
+  readTheme() {
+    theme = context.watch<TemaApp>().temaClaroEscuro;
+  }
+
+  @override
   Widget build(BuildContext context) {
+    readTheme();
+
     int status = context.watch<StatusFreeUser>().getStatus;
     Color primaryColor = status == 0
         ? context.watch<TemaApp>().getPrimaryColorUser
         : context.watch<TemaApp>().getPrimaryColorFree;
+    Color secundaryColor = status == 0
+        ? context.watch<TemaApp>().getSecundaryColorUser
+        : context.watch<TemaApp>().getSecundaryColorFree;
+    Color backColor = status == 0
+        ? context.watch<TemaApp>().getBackgroundColorUser
+        : context.watch<TemaApp>().getBackgroundColorFree;
+    Color textColor = status == 0
+        ? context.watch<TemaApp>().getTextColorUser
+        : context.watch<TemaApp>().getTextColorFree;
 
     return Scaffold(
+      backgroundColor: backColor,
       appBar: AppBar(
         leading: IconButton(
           icon: Icon(
             Icons.arrow_back,
-            color: primaryColor,
+            color: theme == 0 ? primaryColor : backColor,
           ),
           onPressed: () => Navigator.of(context).pop(),
         ),
-        backgroundColor: const Color.fromARGB(255, 250, 253, 255),
+        backgroundColor: theme == 0
+            ? const Color.fromARGB(255, 250, 253, 255)
+            : secundaryColor,
         title: Text(
           'Configurações',
-          style: TextStyle(color: primaryColor),
+          style: TextStyle(color: theme == 0 ? primaryColor : backColor),
         ),
         elevation: 1,
       ),
@@ -42,109 +67,142 @@ class ConfigsScreen extends StatelessWidget {
             ),
             ListTile(
               contentPadding: EdgeInsets.zero,
-              leading: const Icon(
+              leading: Icon(
                 Icons.notifications,
                 size: 25,
+                color: textColor,
               ),
-              title: const Text(
+              title: Text(
                 'Notificações',
-                style: TextStyle(fontSize: 16),
+                style: TextStyle(fontSize: 16, color: textColor),
               ),
               onTap: () {},
             ),
             ListTile(
               contentPadding: EdgeInsets.zero,
-              leading: const Icon(
+              leading: Icon(
                 Icons.archive,
                 size: 25,
+                color: textColor,
               ),
-              title: const Text(
+              title: Text(
                 'Projetos',
-                style: TextStyle(fontSize: 16),
+                style: TextStyle(
+                  fontSize: 16,
+                  color: textColor,
+                ),
               ),
               onTap: () {},
             ),
             ListTile(
               contentPadding: EdgeInsets.zero,
-              leading: const Icon(
+              leading: Icon(
                 Icons.work,
                 size: 25,
+                color: textColor,
               ),
-              title: const Text(
+              title: Text(
                 'Anúncios',
-                style: TextStyle(fontSize: 16),
+                style: TextStyle(
+                  fontSize: 16,
+                  color: textColor,
+                ),
               ),
               onTap: () {},
             ),
             ListTile(
               contentPadding: EdgeInsets.zero,
-              leading: const Icon(
+              leading: Icon(
                 Icons.lock,
                 size: 25,
+                color: textColor,
               ),
-              title: const Text(
+              title: Text(
                 'Privacidade',
-                style: TextStyle(fontSize: 16),
+                style: TextStyle(
+                  fontSize: 16,
+                  color: textColor,
+                ),
               ),
               onTap: () {},
             ),
             ListTile(
               contentPadding: EdgeInsets.zero,
-              leading: const Icon(
+              leading: Icon(
                 Icons.privacy_tip,
                 size: 25,
+                color: textColor,
               ),
-              title: const Text(
+              title: Text(
                 'Segurança',
-                style: TextStyle(fontSize: 16),
+                style: TextStyle(
+                  fontSize: 16,
+                  color: textColor,
+                ),
               ),
               onTap: () {},
             ),
             ListTile(
               contentPadding: EdgeInsets.zero,
-              leading: const Icon(
+              leading: Icon(
                 Icons.account_circle,
                 size: 25,
+                color: textColor,
               ),
-              title: const Text(
+              title: Text(
                 'Conta',
-                style: TextStyle(fontSize: 16),
+                style: TextStyle(
+                  fontSize: 16,
+                  color: textColor,
+                ),
               ),
               onTap: () {},
             ),
             ListTile(
               contentPadding: EdgeInsets.zero,
-              leading: const Icon(
+              leading: Icon(
                 Icons.help,
                 size: 25,
+                color: textColor,
               ),
-              title: const Text(
+              title: Text(
                 'Ajuda',
-                style: TextStyle(fontSize: 16),
+                style: TextStyle(
+                  fontSize: 16,
+                  color: textColor,
+                ),
               ),
               onTap: () {},
             ),
             ListTile(
               contentPadding: EdgeInsets.zero,
-              leading: const Icon(
+              leading: Icon(
                 Icons.info,
                 size: 25,
+                color: textColor,
               ),
-              title: const Text(
+              title: Text(
                 'Sobre',
-                style: TextStyle(fontSize: 16),
+                style: TextStyle(
+                  fontSize: 16,
+                  color: textColor,
+                ),
               ),
               onTap: () {},
             ),
             ListTile(
               contentPadding: EdgeInsets.zero,
-              leading: const Icon(
+              leading: Icon(
                 Icons.color_lens,
                 size: 25,
+                color: textColor,
               ),
-              title: const Text(
+              title: Text(
                 'Tema',
-                style: TextStyle(fontSize: 16),
+                style: TextStyle(
+                  fontSize: 16,
+                  color: textColor,
+                ),
               ),
               onTap: () {
                 Navigator.of(context).pushNamed(AppRoutes.tema);
@@ -153,9 +211,12 @@ class ConfigsScreen extends StatelessWidget {
             const SizedBox(
               height: 20,
             ),
-            const Text(
+            Text(
               'Login',
-              style: TextStyle(fontSize: 18),
+              style: TextStyle(
+                fontSize: 18,
+                color: textColor,
+              ),
             ),
             const SizedBox(
               height: 10,
@@ -168,15 +229,20 @@ class ConfigsScreen extends StatelessWidget {
                 padding: const EdgeInsets.only(
                   bottom: 1,
                 ),
-                decoration: const BoxDecoration(
+                decoration: BoxDecoration(
                   border: Border(
                     bottom: BorderSide(
                       width: 1.0,
+                      color: textColor,
                     ),
                   ),
                 ),
-                child: const Text(
+                child: Text(
                   'Sair',
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: textColor,
+                  ),
                 ),
               ),
             ),

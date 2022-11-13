@@ -6,15 +6,34 @@ import 'package:provider/provider.dart';
 import '../utils/app_routes.dart';
 import '../utils/tema.dart';
 
-class TrabalhosScreen extends StatelessWidget {
+class TrabalhosScreen extends StatefulWidget {
   const TrabalhosScreen({Key? key}) : super(key: key);
 
   @override
+  State<TrabalhosScreen> createState() => _TrabalhosScreenState();
+}
+
+class _TrabalhosScreenState extends State<TrabalhosScreen> {
+  late int theme;
+
+  readTheme() {
+    theme = context.watch<TemaApp>().temaClaroEscuro;
+  }
+
+  @override
   Widget build(BuildContext context) {
+    readTheme();
+
     int status = context.watch<StatusFreeUser>().getStatus;
     Color primaryColor = status == 0
         ? context.watch<TemaApp>().getPrimaryColorUser
         : context.watch<TemaApp>().getPrimaryColorFree;
+    Color textColor = status == 0
+        ? context.watch<TemaApp>().getTextColorUser
+        : context.watch<TemaApp>().getTextColorFree;
+    Color backColor = status == 0
+        ? context.watch<TemaApp>().getBackgroundColorUser
+        : context.watch<TemaApp>().getBackgroundColorFree;
 
     final List<String> imgList = [
       'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80',
@@ -66,22 +85,20 @@ class TrabalhosScreen extends StatelessWidget {
         .toList();
 
     return Scaffold(
-      backgroundColor: status == 0
-          ? context.watch<TemaApp>().getBackgroundColorUser
-          : context.watch<TemaApp>().getBackgroundColorFree,
+      backgroundColor: backColor,
       body: ListView(
         physics: const BouncingScrollPhysics(),
         children: [
           Container(
             margin: const EdgeInsets.only(top: 35),
-            child: const Text(
+            child: Text(
               'Trabalhos',
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 32,
                 fontFamily: 'Inter',
                 fontWeight: FontWeight.w800,
-                color: Color.fromARGB(255, 0, 38, 92),
+                color: textColor,
               ),
             ),
           ),
@@ -94,14 +111,14 @@ class TrabalhosScreen extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  const Text(
+                  Text(
                     'Meus anúncios',
                     textAlign: TextAlign.left,
                     style: TextStyle(
                       fontSize: 20,
                       fontFamily: 'Inter',
                       fontWeight: FontWeight.w800,
-                      color: Color.fromARGB(255, 0, 38, 92),
+                      color: textColor,
                     ),
                   ),
                   SizedBox(
@@ -114,8 +131,8 @@ class TrabalhosScreen extends StatelessWidget {
                             : AppRoutes.novoAnuncioFreelancer);
                       },
                       style: ButtonStyle(
-                        foregroundColor:
-                            MaterialStateProperty.all<Color>(Colors.white),
+                        foregroundColor: MaterialStateProperty.all<Color>(
+                            theme == 0 ? Colors.white : backColor),
                         backgroundColor:
                             MaterialStateProperty.all<Color>(primaryColor),
                         shape:
@@ -164,8 +181,8 @@ class TrabalhosScreen extends StatelessWidget {
                   child: TextButton(
                     onPressed: () {},
                     style: ButtonStyle(
-                      foregroundColor:
-                          MaterialStateProperty.all<Color>(Colors.white),
+                      foregroundColor: MaterialStateProperty.all<Color>(
+                          theme == 0 ? Colors.white : backColor),
                       backgroundColor:
                           MaterialStateProperty.all<Color>(primaryColor),
                       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
@@ -194,7 +211,7 @@ class TrabalhosScreen extends StatelessWidget {
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: const [
+                children: [
                   Text(
                     'Projetos',
                     textAlign: TextAlign.left,
@@ -202,7 +219,7 @@ class TrabalhosScreen extends StatelessWidget {
                       fontSize: 20,
                       fontFamily: 'Inter',
                       fontWeight: FontWeight.w800,
-                      color: Color.fromARGB(255, 0, 38, 92),
+                      color: textColor,
                     ),
                   ),
                 ],
@@ -234,8 +251,8 @@ class TrabalhosScreen extends StatelessWidget {
                   child: TextButton(
                     onPressed: () {},
                     style: ButtonStyle(
-                      foregroundColor:
-                          MaterialStateProperty.all<Color>(Colors.white),
+                      foregroundColor: MaterialStateProperty.all<Color>(
+                          theme == 0 ? Colors.white : backColor),
                       backgroundColor:
                           MaterialStateProperty.all<Color>(primaryColor),
                       shape: MaterialStateProperty.all<RoundedRectangleBorder>(

@@ -33,6 +33,10 @@ class _SearchPageState extends State<SearchPage> {
     Color secundaryColor = status == 0
         ? context.watch<TemaApp>().getSecundaryColorUser
         : context.watch<TemaApp>().getSecundaryColorFree;
+    Color textColor = status == 0
+        ? context.watch<TemaApp>().getTextColorUser
+        : context.watch<TemaApp>().getTextColorFree;
+    Color secTextColor = context.watch<TemaApp>().getSecundaryTextColor;
 
     return Container(
       color: status == 0
@@ -83,7 +87,8 @@ class _SearchPageState extends State<SearchPage> {
                                 borderRadius: BorderRadius.circular(20),
                               ),
                               hintText: 'Pesquisar',
-                              hintStyle: const TextStyle(fontSize: 16),
+                              hintStyle:
+                                  TextStyle(fontSize: 16, color: secTextColor),
                               contentPadding: const EdgeInsets.only(
                                 top: 2,
                                 bottom: 2,
@@ -99,14 +104,14 @@ class _SearchPageState extends State<SearchPage> {
                         height: 20,
                       ),
                       Row(
-                        children: const [
+                        children: [
                           Padding(
-                            padding: EdgeInsets.only(left: 20),
+                            padding: const EdgeInsets.only(left: 20),
                             child: Text(
                               'Você visitou:',
                               style: TextStyle(
                                 fontSize: 18,
-                                color: Color.fromARGB(255, 0, 38, 92),
+                                color: textColor,
                               ),
                             ),
                           ),
@@ -128,9 +133,7 @@ class _SearchPageState extends State<SearchPage> {
                                 Text(
                                   'Você ainda não visitou\n nenhum anúncio',
                                   style: TextStyle(
-                                    fontSize: 14,
-                                    color: Colors.blueGrey[800],
-                                  ),
+                                      fontSize: 14, color: secTextColor),
                                   textAlign: TextAlign.center,
                                 ),
                               ],
@@ -179,9 +182,10 @@ class _SearchPageState extends State<SearchPage> {
                               ),
                             ),
                             hintText: 'Pesquisar',
-                            hintStyle: const TextStyle(fontSize: 16),
+                            hintStyle:
+                                TextStyle(fontSize: 16, color: secTextColor),
                           ),
-                          style: const TextStyle(fontSize: 16),
+                          style: TextStyle(fontSize: 16, color: textColor),
                         ),
                       ],
                     )

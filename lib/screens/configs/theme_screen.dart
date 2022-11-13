@@ -30,6 +30,15 @@ class _ThemeScreenState extends State<ThemeScreen> {
     Color primaryColor = status == 0
         ? context.watch<TemaApp>().getPrimaryColorUser
         : context.watch<TemaApp>().getPrimaryColorFree;
+    Color secundaryColor = status == 0
+        ? context.watch<TemaApp>().getSecundaryColorUser
+        : context.watch<TemaApp>().getSecundaryColorFree;
+    Color backColor = status == 0
+        ? context.watch<TemaApp>().getBackgroundColorUser
+        : context.watch<TemaApp>().getBackgroundColorFree;
+    Color textColor = status == 0
+        ? context.watch<TemaApp>().getTextColorUser
+        : context.watch<TemaApp>().getTextColorFree;
 
     return Scaffold(
       backgroundColor: status == 0
@@ -39,14 +48,16 @@ class _ThemeScreenState extends State<ThemeScreen> {
         leading: IconButton(
           icon: Icon(
             Icons.arrow_back,
-            color: primaryColor,
+            color: theme == 0 ? primaryColor : backColor,
           ),
           onPressed: () => Navigator.of(context).pop(),
         ),
-        backgroundColor: const Color.fromARGB(255, 250, 253, 255),
+        backgroundColor: theme == 0
+            ? const Color.fromARGB(255, 250, 253, 255)
+            : secundaryColor,
         title: Text(
           'Tema',
-          style: TextStyle(color: primaryColor),
+          style: TextStyle(color: theme == 0 ? primaryColor : backColor),
         ),
         elevation: 1,
       ),
@@ -55,6 +66,8 @@ class _ThemeScreenState extends State<ThemeScreen> {
           Row(
             children: [
               Radio(
+                fillColor:
+                    MaterialStateColor.resolveWith((states) => primaryColor),
                 value: 0,
                 groupValue: theme,
                 onChanged: ((value) {
@@ -66,11 +79,11 @@ class _ThemeScreenState extends State<ThemeScreen> {
               SizedBox(
                 width: MediaQuery.of(this.context).size.height * 0.01,
               ),
-              const Text(
+              Text(
                 'Claro',
                 style: TextStyle(
                   fontSize: 16,
-                  color: Color.fromARGB(255, 104, 111, 118),
+                  color: textColor,
                 ),
               ),
             ],
@@ -78,6 +91,8 @@ class _ThemeScreenState extends State<ThemeScreen> {
           Row(
             children: [
               Radio(
+                fillColor:
+                    MaterialStateColor.resolveWith((states) => primaryColor),
                 value: 1,
                 groupValue: theme,
                 onChanged: ((value) {
@@ -89,11 +104,11 @@ class _ThemeScreenState extends State<ThemeScreen> {
               SizedBox(
                 width: MediaQuery.of(this.context).size.height * 0.01,
               ),
-              const Text(
+              Text(
                 'Escuro',
                 style: TextStyle(
                   fontSize: 16,
-                  color: Color.fromARGB(255, 104, 111, 118),
+                  color: textColor,
                 ),
               ),
             ],
