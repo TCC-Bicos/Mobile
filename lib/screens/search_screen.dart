@@ -16,6 +16,57 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
+  static const historyLength = 5;
+
+  List<String> _searchHistory = [];
+
+  late List<String> filteredSearchHistory;
+
+  late String selectedTerm;
+
+  List<String> filterSearchTerms({
+    required String? filter,
+  }) {
+    if (filter != null && filter.isNotEmpty) {
+      // Reversed because we want the last added items to appear first in the UI
+      return _searchHistory.reversed
+          .where((term) => term.startsWith(filter))
+          .toList();
+    } else {
+      return _searchHistory.reversed.toList();
+    }
+  }
+
+  void addSearchTerm(String term) {
+    if (_searchHistory.contains(term)) {
+      // This method will be implemented soon
+      putSearchTermFirst(term);
+      return;
+    }
+    _searchHistory.add(term);
+    if (_searchHistory.length > historyLength) {
+      _searchHistory.removeRange(0, _searchHistory.length - historyLength);
+    }
+    // Changes in _searchHistory mean that we have to update the filteredSearchHistory
+    filteredSearchHistory = filterSearchTerms(filter: null);
+  }
+
+  void deleteSearchTerm(String term) {
+    _searchHistory.removeWhere((t) => t == term);
+    filteredSearchHistory = filterSearchTerms(filter: null);
+  }
+
+  void putSearchTermFirst(String term) {
+    deleteSearchTerm(term);
+    addSearchTerm(term);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    filteredSearchHistory = filterSearchTerms(filter: null);
+  }
+
   int index = 0;
 
   final searchController = TextEditingController();
