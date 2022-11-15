@@ -105,7 +105,7 @@ class _LoginUserScreenState extends State<LoginUserScreen> {
   }
 
   void onPressed() {
-    _clientProvider.loginCliente(
+    _clientProvider.loginUser(
         emailController.text, senhaController.text, context);
   }
 }

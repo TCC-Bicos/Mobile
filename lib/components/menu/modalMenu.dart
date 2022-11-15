@@ -1,20 +1,47 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../utils/app_routes.dart';
+import '../../utils/statusFree_User.dart';
+import '../../utils/tema.dart';
 
-class ModalMenu extends StatelessWidget {
+class ModalMenu extends StatefulWidget {
   const ModalMenu({Key? key}) : super(key: key);
 
   @override
+  State<ModalMenu> createState() => _ModalMenuState();
+}
+
+class _ModalMenuState extends State<ModalMenu> {
+  late int theme;
+
+  readTheme() {
+    theme = context.watch<TemaApp>().temaClaroEscuro;
+  }
+
+  @override
   Widget build(BuildContext context) {
+    readTheme();
+
+    int status = context.watch<StatusFreeUser>().getStatus;
+    Color textColor = status == 0
+        ? context.watch<TemaApp>().getTextColorUser
+        : context.watch<TemaApp>().getTextColorFree;
+
     return Stack(
       alignment: AlignmentDirectional.topCenter,
       clipBehavior: Clip.none,
       children: [
         Container(
           height: 280,
-          decoration: const BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.only(
+          decoration: BoxDecoration(
+              color: status == 0
+                  ? theme == 0
+                      ? Colors.white
+                      : context.watch<TemaApp>().getBackgroundColorUser
+                  : theme == 0
+                      ? Colors.white
+                      : context.watch<TemaApp>().getBackgroundColorFree,
+              borderRadius: const BorderRadius.only(
                 topRight: Radius.circular(15),
                 topLeft: Radius.circular(15),
               )),
@@ -27,16 +54,14 @@ class ModalMenu extends StatelessWidget {
                 ),
                 ListTile(
                   contentPadding: EdgeInsets.zero,
-                  leading: const Icon(
-                    Icons.settings,
-                    size: 25,
-                  ),
-                  title: const Text(
+                  leading: Icon(Icons.settings, size: 25, color: textColor),
+                  title: Text(
                     'Configurações',
-                    style: TextStyle(fontSize: 16),
+                    style: TextStyle(fontSize: 16, color: textColor),
                   ),
-                  trailing: const Icon(
+                  trailing: Icon(
                     Icons.arrow_forward_ios,
+                    color: textColor,
                   ),
                   onTap: () {
                     Navigator.of(context).pushNamed(AppRoutes.configs);
@@ -44,16 +69,14 @@ class ModalMenu extends StatelessWidget {
                 ),
                 ListTile(
                   contentPadding: EdgeInsets.zero,
-                  leading: const Icon(
-                    Icons.history,
-                    size: 25,
-                  ),
-                  title: const Text(
+                  leading: Icon(Icons.history, size: 25, color: textColor),
+                  title: Text(
                     'Histórico de transações',
-                    style: TextStyle(fontSize: 16),
+                    style: TextStyle(fontSize: 16, color: textColor),
                   ),
-                  trailing: const Icon(
+                  trailing: Icon(
                     Icons.arrow_forward_ios,
+                    color: textColor,
                   ),
                   onTap: () {
                     Navigator.of(context).pushNamed(AppRoutes.configs);
@@ -61,16 +84,14 @@ class ModalMenu extends StatelessWidget {
                 ),
                 ListTile(
                   contentPadding: EdgeInsets.zero,
-                  leading: const Icon(
-                    Icons.archive,
-                    size: 25,
-                  ),
-                  title: const Text(
+                  leading: Icon(Icons.archive, size: 25, color: textColor),
+                  title: Text(
                     'Projetos',
-                    style: TextStyle(fontSize: 16),
+                    style: TextStyle(fontSize: 16, color: textColor),
                   ),
-                  trailing: const Icon(
+                  trailing: Icon(
                     Icons.arrow_forward_ios,
+                    color: textColor,
                   ),
                   onTap: () {
                     Navigator.of(context).pushNamed(AppRoutes.configs);
@@ -78,16 +99,14 @@ class ModalMenu extends StatelessWidget {
                 ),
                 ListTile(
                   contentPadding: EdgeInsets.zero,
-                  leading: const Icon(
-                    Icons.work,
-                    size: 25,
-                  ),
-                  title: const Text(
+                  leading: Icon(Icons.work, size: 25, color: textColor),
+                  title: Text(
                     'Anúncios',
-                    style: TextStyle(fontSize: 16),
+                    style: TextStyle(fontSize: 16, color: textColor),
                   ),
-                  trailing: const Icon(
+                  trailing: Icon(
                     Icons.arrow_forward_ios,
+                    color: textColor,
                   ),
                   onTap: () {
                     Navigator.of(context).pushNamed(AppRoutes.configs);

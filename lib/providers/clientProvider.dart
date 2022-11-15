@@ -8,48 +8,45 @@ import '../model/cliente.dart';
 import '../utils/app_routes.dart';
 
 class ClienteProvider with ChangeNotifier {
-  List<Cliente> _clientes = [];
-  List<Cliente> getClientes() => _clientes;
+  List<User> _users = [];
+  List<User> getUsers() => _users;
 
-  Cliente user = Cliente(
-    idCliente: 0,
-    nomeCliente: 'nomeCliente',
-    cpfCliente: 'cpfCliente',
-    emailCliente: 'emailCliente',
-    telefoneCliente: 'telefoneCliente',
-    nascimentoCliente: 'nascimentoCliente',
-    generoCliente: 'generoCliente',
-    senhaCliente: 'senhaCliente',
-    imagemCliente: 'imagemCliente',
-    statusCliente: 'statusCliente',
+  User user = User(
+    idUser: 0,
+    NomeUser: 'NomeUser',
+    CPFUser: 'CPFUser',
+    EmailUser: 'EmailUser',
+    TelUser: 'TelUser',
+    DataNascUser: 'DataNascUser',
+    GeneroUser: 'GeneroUser',
+    SenhaUser: 'SenhaUser',
+    DescUser: 'DescUser',
+    ImgUser: 'ImgUser',
+    StatusUser: 'StatusUser',
   );
 
-  Cliente getUser() => user;
+  User getUser() => user;
 
-  Future<dynamic> loginCliente(String email, String senha, context) async {
-    print('1');
+  Future<dynamic> loginUser(String email, String senha, context) async {
     try {
-      print('2');
       var response =
           await Dio().get('http://10.0.2.2:8000/api/loginUser/$email/$senha');
-      print('3');
       if (response.data['status'] == '200') {
-        print('4');
         if (response.data['loginResult'] == '1') {
           Navigator.of(context).pushNamed(AppRoutes.navigationbar);
-          user = Cliente(
-            idCliente: response.data['user'][0]['idUser'],
-            nomeCliente: response.data['user'][0]['nome'],
-            cpfCliente: response.data['user'][0]['cpf'],
-            emailCliente: response.data['user'][0]['email'],
-            telefoneCliente: response.data['user'][0]['telefone'],
-            nascimentoCliente: response.data['user'][0]['nascimento'],
-            generoCliente: response.data['user'][0]['genero'],
-            senhaCliente: response.data['user'][0]['senha'],
-            imagemCliente: response.data['user'][0]['imagem'],
-            statusCliente: response.data['user'][0]['statusCliente'],
+          user = User(
+            idUser: response.data['User'][0]['idUser'],
+            NomeUser: response.data['User'][0]['NomeUser'],
+            CPFUser: response.data['User'][0]['CPFUser'],
+            EmailUser: response.data['User'][0]['EmailUser'],
+            TelUser: response.data['User'][0]['TelUser'],
+            DataNascUser: response.data['User'][0]['DataNascUser'],
+            GeneroUser: response.data['User'][0]['GeneroUser'],
+            SenhaUser: response.data['User'][0]['SenhaUser'],
+            DescUser: response.data['User'][0]['DescUser'],
+            ImgUser: response.data['User'][0]['ImgUser'],
+            StatusUser: response.data['User'][0]['StatusUser'],
           );
-          print('5');
         }
       } else {
         print(response.data['loginResult'].toString());

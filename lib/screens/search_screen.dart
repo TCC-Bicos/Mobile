@@ -16,6 +16,57 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
+  static const historyLength = 5;
+
+  List<String> _searchHistory = [];
+
+  late List<String> filteredSearchHistory;
+
+  late String selectedTerm;
+
+  List<String> filterSearchTerms({
+    required String? filter,
+  }) {
+    if (filter != null && filter.isNotEmpty) {
+      // Reversed because we want the last added items to appear first in the UI
+      return _searchHistory.reversed
+          .where((term) => term.startsWith(filter))
+          .toList();
+    } else {
+      return _searchHistory.reversed.toList();
+    }
+  }
+
+  void addSearchTerm(String term) {
+    if (_searchHistory.contains(term)) {
+      // This method will be implemented soon
+      putSearchTermFirst(term);
+      return;
+    }
+    _searchHistory.add(term);
+    if (_searchHistory.length > historyLength) {
+      _searchHistory.removeRange(0, _searchHistory.length - historyLength);
+    }
+    // Changes in _searchHistory mean that we have to update the filteredSearchHistory
+    filteredSearchHistory = filterSearchTerms(filter: null);
+  }
+
+  void deleteSearchTerm(String term) {
+    _searchHistory.removeWhere((t) => t == term);
+    filteredSearchHistory = filterSearchTerms(filter: null);
+  }
+
+  void putSearchTermFirst(String term) {
+    deleteSearchTerm(term);
+    addSearchTerm(term);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    filteredSearchHistory = filterSearchTerms(filter: null);
+  }
+
   int index = 0;
 
   final searchController = TextEditingController();
@@ -33,6 +84,10 @@ class _SearchPageState extends State<SearchPage> {
     Color secundaryColor = status == 0
         ? context.watch<TemaApp>().getSecundaryColorUser
         : context.watch<TemaApp>().getSecundaryColorFree;
+    Color textColor = status == 0
+        ? context.watch<TemaApp>().getTextColorUser
+        : context.watch<TemaApp>().getTextColorFree;
+    Color secTextColor = context.watch<TemaApp>().getSecundaryTextColor;
 
     return Container(
       color: status == 0
@@ -83,7 +138,8 @@ class _SearchPageState extends State<SearchPage> {
                                 borderRadius: BorderRadius.circular(20),
                               ),
                               hintText: 'Pesquisar',
-                              hintStyle: const TextStyle(fontSize: 16),
+                              hintStyle:
+                                  TextStyle(fontSize: 16, color: secTextColor),
                               contentPadding: const EdgeInsets.only(
                                 top: 2,
                                 bottom: 2,
@@ -99,14 +155,14 @@ class _SearchPageState extends State<SearchPage> {
                         height: 20,
                       ),
                       Row(
-                        children: const [
+                        children: [
                           Padding(
-                            padding: EdgeInsets.only(left: 20),
+                            padding: const EdgeInsets.only(left: 20),
                             child: Text(
                               'Você visitou:',
                               style: TextStyle(
                                 fontSize: 18,
-                                color: Color.fromARGB(255, 0, 38, 92),
+                                color: textColor,
                               ),
                             ),
                           ),
@@ -128,9 +184,7 @@ class _SearchPageState extends State<SearchPage> {
                                 Text(
                                   'Você ainda não visitou\n nenhum anúncio',
                                   style: TextStyle(
-                                    fontSize: 14,
-                                    color: Colors.blueGrey[800],
-                                  ),
+                                      fontSize: 14, color: secTextColor),
                                   textAlign: TextAlign.center,
                                 ),
                               ],
@@ -179,9 +233,10 @@ class _SearchPageState extends State<SearchPage> {
                               ),
                             ),
                             hintText: 'Pesquisar',
-                            hintStyle: const TextStyle(fontSize: 16),
+                            hintStyle:
+                                TextStyle(fontSize: 16, color: secTextColor),
                           ),
-                          style: const TextStyle(fontSize: 16),
+                          style: TextStyle(fontSize: 16, color: textColor),
                         ),
                       ],
                     )

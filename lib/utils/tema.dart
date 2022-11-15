@@ -20,7 +20,18 @@ class TemaApp with ChangeNotifier {
 
   Color get getBackgroundColorFree => temaClaroEscuro == 0
       ? const Color.fromARGB(255, 250, 253, 255)
-      : Color.fromARGB(255, 2, 37, 8);
+      : const Color.fromARGB(255, 2, 37, 8);
+
+  Color get getTextColorUser => temaClaroEscuro == 0
+      ? const Color.fromARGB(255, 0, 38, 92)
+      : (Colors.blueGrey[100])!;
+
+  Color get getTextColorFree => temaClaroEscuro == 0
+      ? Color.fromARGB(255, 0, 59, 3)
+      : (Colors.blueGrey[100])!;
+
+  Color get getSecundaryTextColor =>
+      temaClaroEscuro == 0 ? (Colors.blueGrey[800])! : (Colors.blueGrey[300])!;
 
   int get getTemaClaroEscuro => temaClaroEscuro;
 
