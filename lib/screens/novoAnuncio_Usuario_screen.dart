@@ -1,12 +1,12 @@
 import 'dart:io';
-
-import 'package:bicos_app/components/trabalhos/anuncio_Usuario/botao_criarNovoAnuncio_Usuario.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+
+import '../providers/anunUserProvider.dart';
 
 class NovoAnuncioUsuario extends StatefulWidget {
   const NovoAnuncioUsuario({Key? key}) : super(key: key);
@@ -44,6 +44,13 @@ class CurrencyInputFormatter extends TextInputFormatter {
 
 class _NovoAnuncioUsuarioState extends State<NovoAnuncioUsuario> {
   XFile? imagemAnuncioUsuario;
+
+  final titleController = TextEditingController();
+  final descController = TextEditingController();
+  final precoController = TextEditingController();
+  final requisitosController = TextEditingController();
+
+  AnunUserProvider _anunUserProvider = AnunUserProvider();
 
   @override
   Widget build(BuildContext context) {
@@ -96,6 +103,7 @@ class _NovoAnuncioUsuarioState extends State<NovoAnuncioUsuario> {
                 child: Column(
                   children: [
                     TextFormField(
+                      controller: titleController,
                       maxLength: 50,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
@@ -120,6 +128,7 @@ class _NovoAnuncioUsuarioState extends State<NovoAnuncioUsuario> {
                     ConstrainedBox(
                       constraints: const BoxConstraints(maxHeight: 150),
                       child: TextFormField(
+                        controller: descController,
                         maxLength: 500,
                         maxLines: null,
                         decoration: InputDecoration(
@@ -144,6 +153,7 @@ class _NovoAnuncioUsuarioState extends State<NovoAnuncioUsuario> {
                       height: 15,
                     ),
                     TextFormField(
+                      controller: precoController,
                       inputFormatters: [
                         FilteringTextInputFormatter.digitsOnly,
                         CurrencyInputFormatter(maxDigits: 8)
@@ -156,6 +166,28 @@ class _NovoAnuncioUsuarioState extends State<NovoAnuncioUsuario> {
                           borderRadius: BorderRadius.circular(5),
                         ),
                         hintText: 'Remuneração',
+                        hintStyle: const TextStyle(fontSize: 16),
+                        contentPadding: const EdgeInsets.only(
+                          top: 2,
+                          bottom: 2,
+                          left: 15,
+                          right: 15,
+                        ),
+                      ),
+                      style: const TextStyle(fontSize: 16),
+                    ),
+                    const SizedBox(
+                      height: 25,
+                    ),
+                    TextFormField(
+                      controller: requisitosController,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderSide:
+                              const BorderSide(width: 3, color: Colors.blue),
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        hintText: 'Requisitos',
                         hintStyle: const TextStyle(fontSize: 16),
                         contentPadding: const EdgeInsets.only(
                           top: 2,
@@ -208,7 +240,46 @@ class _NovoAnuncioUsuarioState extends State<NovoAnuncioUsuario> {
                     const SizedBox(
                       height: 25,
                     ),
-                    const CriarNovoAnuncioUsuarioBotao(),
+                    Column(
+                      children: [
+                        SizedBox(
+                          width: 220,
+                          child: TextButton(
+                            onPressed: () {
+                              _anunUserProvider.addAnunUsuario(
+                                  titleController.text,
+                                  descController.text,
+                                  precoController.text,
+                                  requisitosController.text,
+                                  '',
+                                  context);
+                              Navigator.of(context).pop();
+                            },
+                            style: ButtonStyle(
+                              foregroundColor: MaterialStateProperty.all<Color>(
+                                  Colors.white),
+                              backgroundColor: MaterialStateProperty.all<Color>(
+                                  const Color.fromARGB(255, 24, 145, 250)),
+                              shape: MaterialStateProperty.all<
+                                  RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(18.0),
+                                  side: const BorderSide(
+                                      color: Color.fromARGB(255, 24, 145, 250)),
+                                ),
+                              ),
+                            ),
+                            child: const Text(
+                              'Criar anúncio',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ],
                 ),
               ),

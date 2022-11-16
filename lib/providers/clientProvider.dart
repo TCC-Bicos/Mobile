@@ -25,7 +25,7 @@ class ClienteProvider with ChangeNotifier {
     StatusUser: 'StatusUser',
   );
 
-  User getUser() => user;
+  User get getUser => user;
 
   Future<dynamic> loginUser(String email, String senha, context) async {
     try {
