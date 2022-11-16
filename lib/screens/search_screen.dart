@@ -28,7 +28,6 @@ class _SearchPageState extends State<SearchPage> {
     required String? filter,
   }) {
     if (filter != null && filter.isNotEmpty) {
-      // Reversed because we want the last added items to appear first in the UI
       return _searchHistory.reversed
           .where((term) => term.startsWith(filter))
           .toList();
@@ -39,7 +38,6 @@ class _SearchPageState extends State<SearchPage> {
 
   void addSearchTerm(String term) {
     if (_searchHistory.contains(term)) {
-      // This method will be implemented soon
       putSearchTermFirst(term);
       return;
     }
@@ -47,7 +45,6 @@ class _SearchPageState extends State<SearchPage> {
     if (_searchHistory.length > historyLength) {
       _searchHistory.removeRange(0, _searchHistory.length - historyLength);
     }
-    // Changes in _searchHistory mean that we have to update the filteredSearchHistory
     filteredSearchHistory = filterSearchTerms(filter: null);
   }
 
@@ -61,15 +58,21 @@ class _SearchPageState extends State<SearchPage> {
     addSearchTerm(term);
   }
 
+  final searchController = TextEditingController();
+
   @override
   void initState() {
     super.initState();
     filteredSearchHistory = filterSearchTerms(filter: null);
   }
 
-  int index = 0;
+  @override
+  void dispose() {
+    searchController.dispose();
+    super.dispose();
+  }
 
-  final searchController = TextEditingController();
+  int index = 0;
 
   void clearText() {
     searchController.clear();
@@ -199,6 +202,19 @@ class _SearchPageState extends State<SearchPage> {
                   ? Column(
                       children: [
                         TextFormField(
+                          onChanged: (query) {
+                            setState(() {
+                              filteredSearchHistory =
+                                  filterSearchTerms(filter: query);
+                            });
+                          },
+                          onFieldSubmitted: (query) {
+                            setState(() {
+                              addSearchTerm(query);
+                              selectedTerm = query;
+                            });
+                            FocusScope.of(context).unfocus();
+                          },
                           onTap: () {},
                           autofocus: true,
                           controller: searchController,
@@ -237,6 +253,87 @@ class _SearchPageState extends State<SearchPage> {
                                 TextStyle(fontSize: 16, color: secTextColor),
                           ),
                           style: TextStyle(fontSize: 16, color: textColor),
+                        ),
+                        Builder(
+                          builder: (context) {
+                            if (filteredSearchHistory.isEmpty &&
+                                searchController.text.isEmpty) {
+                              return Container(
+                                height: 56,
+                                width: double.infinity,
+                                alignment: Alignment.center,
+                                child: Text(
+                                  'Comece a pesquisar',
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    color: textColor,
+                                  ),
+                                ),
+                              );
+                            } else if (filteredSearchHistory.isEmpty) {
+                              return ListTile(
+                                title: Text(
+                                  searchController.text,
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    color: textColor,
+                                  ),
+                                ),
+                                leading: Icon(
+                                  Icons.search,
+                                  color: textColor,
+                                ),
+                                onTap: () {
+                                  setState(() {
+                                    addSearchTerm(searchController.text);
+                                    selectedTerm = searchController.text;
+                                  });
+                                  FocusScope.of(context).unfocus();
+                                },
+                              );
+                            } else {
+                              return Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: filteredSearchHistory
+                                    .map(
+                                      (term) => ListTile(
+                                        title: Text(
+                                          term,
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: TextStyle(
+                                            color: textColor,
+                                            fontSize: 16,
+                                          ),
+                                        ),
+                                        leading: Icon(
+                                          Icons.history,
+                                          color: textColor,
+                                        ),
+                                        trailing: IconButton(
+                                          icon: Icon(Icons.clear,
+                                              color: textColor),
+                                          onPressed: () {
+                                            setState(() {
+                                              deleteSearchTerm(term);
+                                            });
+                                          },
+                                        ),
+                                        onTap: () {
+                                          setState(() {
+                                            putSearchTermFirst(term);
+                                            selectedTerm = term;
+                                          });
+                                          FocusScope.of(context).unfocus();
+                                        },
+                                      ),
+                                    )
+                                    .toList(),
+                              );
+                            }
+                          },
                         ),
                       ],
                     )
