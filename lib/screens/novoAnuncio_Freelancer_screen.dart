@@ -1,12 +1,14 @@
 import 'dart:io';
 
 import 'package:bicos_app/components/trabalhos/anuncio_Freelancer/botao_criarNovoAnuncio_Freelancer.dart';
+import 'package:bicos_app/utils/tema.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 
 class NovoAnuncioFreelancer extends StatefulWidget {
   const NovoAnuncioFreelancer({Key? key}) : super(key: key);
@@ -45,18 +47,36 @@ class CurrencyInputFormatter extends TextInputFormatter {
 class _NovoAnuncioFreelancerState extends State<NovoAnuncioFreelancer> {
   XFile? imagemAnuncioFreelancer;
 
+  late int theme;
+
+  readTheme() {
+    theme = context.watch<TemaApp>().temaClaroEscuro;
+  }
+
   @override
   Widget build(BuildContext context) {
+    readTheme();
+
+    Color primaryColor = context.watch<TemaApp>().getPrimaryColorFree;
+    Color secundaryColor = context.watch<TemaApp>().getSecundaryColorFree;
+    Color textColor = context.watch<TemaApp>().getTextColorFree;
+    Color secTextColor = context.watch<TemaApp>().getSecundaryTextColor;
+    Color backColor = context.watch<TemaApp>().getBackgroundColorFree;
+
     return Scaffold(
+      backgroundColor: backColor,
       appBar: AppBar(
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.blue),
+          icon: Icon(Icons.arrow_back,
+              color: theme == 0 ? primaryColor : Colors.white),
           onPressed: () => Navigator.of(context).pop(),
         ),
         centerTitle: true,
-        backgroundColor: const Color.fromARGB(255, 250, 253, 255),
+        backgroundColor: theme == 0 ? Colors.white : secundaryColor,
         title: Image.asset(
-          'assets/images/bicoslogo_azul.png',
+          theme == 0
+              ? 'assets/images/bicoslogo_verde.png'
+              : 'assets/images/bicoslogo.png',
           fit: BoxFit.contain,
           height: 22,
         ),
@@ -74,14 +94,14 @@ class _NovoAnuncioFreelancerState extends State<NovoAnuncioFreelancer> {
               const SizedBox(
                 height: 35,
               ),
-              const Text(
+              Text(
                 'Novo anúncio',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontFamily: 'Inter',
                   fontWeight: FontWeight.w800,
                   fontSize: 32,
-                  color: Color.fromARGB(255, 0, 38, 92),
+                  color: textColor,
                 ),
               ),
               const SizedBox(
@@ -96,15 +116,20 @@ class _NovoAnuncioFreelancerState extends State<NovoAnuncioFreelancer> {
                 child: Column(
                   children: [
                     TextFormField(
+                      cursorColor: primaryColor,
                       maxLength: 50,
                       decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderSide:
-                              const BorderSide(width: 3, color: Colors.blue),
+                        counterStyle: TextStyle(color: textColor),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(width: 3, color: primaryColor),
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(width: 1, color: textColor),
                           borderRadius: BorderRadius.circular(5),
                         ),
                         hintText: 'Título do anúncio',
-                        hintStyle: const TextStyle(fontSize: 16),
+                        hintStyle: TextStyle(fontSize: 16, color: textColor),
                         contentPadding: const EdgeInsets.only(
                           top: 2,
                           bottom: 2,
@@ -112,7 +137,7 @@ class _NovoAnuncioFreelancerState extends State<NovoAnuncioFreelancer> {
                           right: 15,
                         ),
                       ),
-                      style: const TextStyle(fontSize: 16),
+                      style: TextStyle(fontSize: 16, color: textColor),
                     ),
                     const SizedBox(
                       height: 15,
@@ -120,16 +145,22 @@ class _NovoAnuncioFreelancerState extends State<NovoAnuncioFreelancer> {
                     ConstrainedBox(
                       constraints: const BoxConstraints(maxHeight: 150),
                       child: TextFormField(
+                        cursorColor: primaryColor,
                         maxLength: 500,
                         maxLines: null,
                         decoration: InputDecoration(
-                          border: OutlineInputBorder(
+                          counterStyle: TextStyle(color: textColor),
+                          focusedBorder: OutlineInputBorder(
                             borderSide:
-                                const BorderSide(width: 3, color: Colors.blue),
+                                BorderSide(width: 3, color: primaryColor),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(width: 1, color: textColor),
                             borderRadius: BorderRadius.circular(5),
                           ),
                           hintText: 'Descrição',
-                          hintStyle: const TextStyle(fontSize: 16),
+                          hintStyle: TextStyle(fontSize: 16, color: textColor),
                           contentPadding: const EdgeInsets.only(
                             top: 2,
                             bottom: 2,
@@ -137,26 +168,31 @@ class _NovoAnuncioFreelancerState extends State<NovoAnuncioFreelancer> {
                             right: 15,
                           ),
                         ),
-                        style: const TextStyle(fontSize: 16),
+                        style: TextStyle(fontSize: 16, color: textColor),
                       ),
                     ),
                     const SizedBox(
                       height: 15,
                     ),
                     TextFormField(
+                      cursorColor: primaryColor,
                       inputFormatters: [
                         FilteringTextInputFormatter.digitsOnly,
                         CurrencyInputFormatter(maxDigits: 8)
                       ],
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderSide:
-                              const BorderSide(width: 3, color: Colors.blue),
+                        counterStyle: TextStyle(color: textColor),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(width: 3, color: primaryColor),
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(width: 1, color: textColor),
                           borderRadius: BorderRadius.circular(5),
                         ),
                         hintText: 'Valor do serviço',
-                        hintStyle: const TextStyle(fontSize: 16),
+                        hintStyle: TextStyle(fontSize: 16, color: textColor),
                         contentPadding: const EdgeInsets.only(
                           top: 2,
                           bottom: 2,
@@ -164,7 +200,7 @@ class _NovoAnuncioFreelancerState extends State<NovoAnuncioFreelancer> {
                           right: 15,
                         ),
                       ),
-                      style: const TextStyle(fontSize: 16),
+                      style: TextStyle(fontSize: 16, color: textColor),
                     ),
                     const SizedBox(
                       height: 25,
@@ -177,23 +213,22 @@ class _NovoAnuncioFreelancerState extends State<NovoAnuncioFreelancer> {
                           height: MediaQuery.of(context).size.height * 0.3,
                           decoration: BoxDecoration(
                             border: Border.all(
-                              color: const Color.fromARGB(255, 141, 141, 141),
+                              color: textColor,
                             ),
                           ),
                           child: imagemAnuncioFreelancer == null
                               ? Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
-                                  children: const [
+                                  children: [
                                     Icon(
                                       Icons.add_a_photo,
-                                      color: Color.fromARGB(255, 136, 136, 136),
+                                      color: textColor,
                                       size: 60,
                                     ),
                                     Text(
                                       'Carregar imagem',
                                       style: TextStyle(
-                                        color:
-                                            Color.fromARGB(255, 141, 141, 141),
+                                        color: textColor,
                                       ),
                                     ),
                                   ],

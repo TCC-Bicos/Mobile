@@ -156,6 +156,11 @@ class _NavigationBarScreenState extends State<NavigationBarScreen> {
       ),
       body: PageView(
         controller: pageController,
+        onPageChanged: (newIndex) {
+          setState(() {
+            index = newIndex;
+          });
+        },
         children: screens,
       ),
     );

@@ -5,8 +5,10 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 import '../providers/anunUserProvider.dart';
+import '../utils/tema.dart';
 
 class NovoAnuncioUsuario extends StatefulWidget {
   const NovoAnuncioUsuario({Key? key}) : super(key: key);
@@ -52,18 +54,38 @@ class _NovoAnuncioUsuarioState extends State<NovoAnuncioUsuario> {
 
   AnunUserProvider _anunUserProvider = AnunUserProvider();
 
+  late int theme;
+
+  readTheme() {
+    theme = context.watch<TemaApp>().temaClaroEscuro;
+  }
+
   @override
   Widget build(BuildContext context) {
+    readTheme();
+
+    Color primaryColor = context.watch<TemaApp>().getPrimaryColorUser;
+    Color secundaryColor = context.watch<TemaApp>().getSecundaryColorUser;
+    Color textColor = context.watch<TemaApp>().getTextColorUser;
+    Color secTextColor = context.watch<TemaApp>().getSecundaryTextColor;
+    Color backColor = context.watch<TemaApp>().getBackgroundColorUser;
+
     return Scaffold(
+      backgroundColor: backColor,
       appBar: AppBar(
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.blue),
+          icon: Icon(
+            Icons.arrow_back,
+            color: theme == 0 ? primaryColor : Colors.white,
+          ),
           onPressed: () => Navigator.of(context).pop(),
         ),
         centerTitle: true,
-        backgroundColor: const Color.fromARGB(255, 250, 253, 255),
+        backgroundColor: theme == 0 ? Colors.white : secundaryColor,
         title: Image.asset(
-          'assets/images/bicoslogo_azul.png',
+          theme == 0
+              ? 'assets/images/bicoslogo_azul.png'
+              : 'assets/images/bicoslogo.png',
           fit: BoxFit.contain,
           height: 22,
         ),
@@ -81,14 +103,14 @@ class _NovoAnuncioUsuarioState extends State<NovoAnuncioUsuario> {
               const SizedBox(
                 height: 35,
               ),
-              const Text(
+              Text(
                 'Novo anúncio',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontFamily: 'Inter',
                   fontWeight: FontWeight.w800,
                   fontSize: 32,
-                  color: Color.fromARGB(255, 0, 38, 92),
+                  color: textColor,
                 ),
               ),
               const SizedBox(
@@ -103,16 +125,21 @@ class _NovoAnuncioUsuarioState extends State<NovoAnuncioUsuario> {
                 child: Column(
                   children: [
                     TextFormField(
+                      cursorColor: primaryColor,
                       controller: titleController,
                       maxLength: 50,
                       decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderSide:
-                              const BorderSide(width: 3, color: Colors.blue),
+                        counterStyle: TextStyle(color: textColor),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(width: 3, color: primaryColor),
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(width: 1, color: textColor),
                           borderRadius: BorderRadius.circular(5),
                         ),
                         hintText: 'Título do projeto',
-                        hintStyle: const TextStyle(fontSize: 16),
+                        hintStyle: TextStyle(fontSize: 16, color: textColor),
                         contentPadding: const EdgeInsets.only(
                           top: 2,
                           bottom: 2,
@@ -120,7 +147,7 @@ class _NovoAnuncioUsuarioState extends State<NovoAnuncioUsuario> {
                           right: 15,
                         ),
                       ),
-                      style: const TextStyle(fontSize: 16),
+                      style: TextStyle(fontSize: 16, color: textColor),
                     ),
                     const SizedBox(
                       height: 15,
@@ -128,17 +155,23 @@ class _NovoAnuncioUsuarioState extends State<NovoAnuncioUsuario> {
                     ConstrainedBox(
                       constraints: const BoxConstraints(maxHeight: 150),
                       child: TextFormField(
+                        cursorColor: primaryColor,
                         controller: descController,
                         maxLength: 500,
                         maxLines: null,
                         decoration: InputDecoration(
-                          border: OutlineInputBorder(
+                          counterStyle: TextStyle(color: textColor),
+                          focusedBorder: OutlineInputBorder(
                             borderSide:
-                                const BorderSide(width: 3, color: Colors.blue),
+                                BorderSide(width: 3, color: primaryColor),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(width: 1, color: textColor),
                             borderRadius: BorderRadius.circular(5),
                           ),
                           hintText: 'Descrição',
-                          hintStyle: const TextStyle(fontSize: 16),
+                          hintStyle: TextStyle(fontSize: 16, color: textColor),
                           contentPadding: const EdgeInsets.only(
                             top: 2,
                             bottom: 2,
@@ -146,13 +179,14 @@ class _NovoAnuncioUsuarioState extends State<NovoAnuncioUsuario> {
                             right: 15,
                           ),
                         ),
-                        style: const TextStyle(fontSize: 16),
+                        style: TextStyle(fontSize: 16, color: textColor),
                       ),
                     ),
                     const SizedBox(
                       height: 15,
                     ),
                     TextFormField(
+                      cursorColor: primaryColor,
                       controller: precoController,
                       inputFormatters: [
                         FilteringTextInputFormatter.digitsOnly,
@@ -160,13 +194,17 @@ class _NovoAnuncioUsuarioState extends State<NovoAnuncioUsuario> {
                       ],
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderSide:
-                              const BorderSide(width: 3, color: Colors.blue),
+                        counterStyle: TextStyle(color: textColor),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(width: 3, color: primaryColor),
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(width: 1, color: textColor),
                           borderRadius: BorderRadius.circular(5),
                         ),
                         hintText: 'Remuneração',
-                        hintStyle: const TextStyle(fontSize: 16),
+                        hintStyle: TextStyle(fontSize: 16, color: textColor),
                         contentPadding: const EdgeInsets.only(
                           top: 2,
                           bottom: 2,
@@ -174,21 +212,26 @@ class _NovoAnuncioUsuarioState extends State<NovoAnuncioUsuario> {
                           right: 15,
                         ),
                       ),
-                      style: const TextStyle(fontSize: 16),
+                      style: TextStyle(fontSize: 16, color: textColor),
                     ),
                     const SizedBox(
                       height: 25,
                     ),
                     TextFormField(
+                      cursorColor: primaryColor,
                       controller: requisitosController,
                       decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderSide:
-                              const BorderSide(width: 3, color: Colors.blue),
+                        counterStyle: TextStyle(color: textColor),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(width: 3, color: primaryColor),
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(width: 1, color: textColor),
                           borderRadius: BorderRadius.circular(5),
                         ),
                         hintText: 'Requisitos',
-                        hintStyle: const TextStyle(fontSize: 16),
+                        hintStyle: TextStyle(fontSize: 16, color: textColor),
                         contentPadding: const EdgeInsets.only(
                           top: 2,
                           bottom: 2,
@@ -196,7 +239,7 @@ class _NovoAnuncioUsuarioState extends State<NovoAnuncioUsuario> {
                           right: 15,
                         ),
                       ),
-                      style: const TextStyle(fontSize: 16),
+                      style: TextStyle(fontSize: 16, color: textColor),
                     ),
                     const SizedBox(
                       height: 25,
@@ -209,23 +252,22 @@ class _NovoAnuncioUsuarioState extends State<NovoAnuncioUsuario> {
                           height: MediaQuery.of(context).size.height * 0.3,
                           decoration: BoxDecoration(
                             border: Border.all(
-                              color: const Color.fromARGB(255, 141, 141, 141),
+                              color: textColor,
                             ),
                           ),
                           child: imagemAnuncioUsuario == null
                               ? Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
-                                  children: const [
+                                  children: [
                                     Icon(
                                       Icons.add_a_photo,
-                                      color: Color.fromARGB(255, 136, 136, 136),
+                                      color: textColor,
                                       size: 60,
                                     ),
                                     Text(
                                       'Carregar imagem',
                                       style: TextStyle(
-                                        color:
-                                            Color.fromARGB(255, 141, 141, 141),
+                                        color: textColor,
                                       ),
                                     ),
                                   ],
@@ -257,15 +299,14 @@ class _NovoAnuncioUsuarioState extends State<NovoAnuncioUsuario> {
                             },
                             style: ButtonStyle(
                               foregroundColor: MaterialStateProperty.all<Color>(
-                                  Colors.white),
+                                  theme == 0 ? Colors.white : backColor),
                               backgroundColor: MaterialStateProperty.all<Color>(
                                   const Color.fromARGB(255, 24, 145, 250)),
                               shape: MaterialStateProperty.all<
                                   RoundedRectangleBorder>(
                                 RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(18.0),
-                                  side: const BorderSide(
-                                      color: Color.fromARGB(255, 24, 145, 250)),
+                                  side: BorderSide(color: primaryColor),
                                 ),
                               ),
                             ),

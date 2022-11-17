@@ -1,11 +1,11 @@
 import 'dart:async';
 
-import 'package:bicos_app/screens/welcome_screen.dart';
 import 'package:bicos_app/utils/app_routes.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../utils/tema.dart';
 
 String? finalEmail;
 
@@ -45,6 +45,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: context.watch<TemaApp>().getBackgroundColor,
       body: Center(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
