@@ -13,7 +13,8 @@ class TrabalhosScreen extends StatefulWidget {
   State<TrabalhosScreen> createState() => _TrabalhosScreenState();
 }
 
-class _TrabalhosScreenState extends State<TrabalhosScreen> {
+class _TrabalhosScreenState extends State<TrabalhosScreen>
+    with AutomaticKeepAliveClientMixin {
   late int theme;
 
   readTheme() {
@@ -83,6 +84,8 @@ class _TrabalhosScreenState extends State<TrabalhosScreen> {
                   )),
             ))
         .toList();
+
+    super.build(context);
 
     return Scaffold(
       backgroundColor: backColor,
@@ -280,4 +283,7 @@ class _TrabalhosScreenState extends State<TrabalhosScreen> {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

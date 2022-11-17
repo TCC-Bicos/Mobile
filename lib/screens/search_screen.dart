@@ -15,7 +15,8 @@ class SearchPage extends StatefulWidget {
   State<SearchPage> createState() => _SearchPageState();
 }
 
-class _SearchPageState extends State<SearchPage> {
+class _SearchPageState extends State<SearchPage>
+    with AutomaticKeepAliveClientMixin {
   static const historyLength = 15;
 
   List<String> _searchHistory = [];
@@ -91,6 +92,8 @@ class _SearchPageState extends State<SearchPage> {
         ? context.watch<TemaApp>().getTextColorUser
         : context.watch<TemaApp>().getTextColorFree;
     Color secTextColor = context.watch<TemaApp>().getSecundaryTextColor;
+
+    super.build(context);
 
     return Container(
       height: MediaQuery.of(context).size.height - 113,
@@ -354,4 +357,7 @@ class _SearchPageState extends State<SearchPage> {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

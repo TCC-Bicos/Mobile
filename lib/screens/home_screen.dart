@@ -10,9 +10,15 @@ import '../components/home/title_with_more_bbtn.dart';
 import '../utils/statusFree_User.dart';
 import '../utils/tema.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage>
+    with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
     int status = context.watch<StatusFreeUser>().getStatus;
@@ -20,6 +26,8 @@ class HomePage extends StatelessWidget {
         ? context.watch<TemaApp>().getPrimaryColorUser
         : context.watch<TemaApp>().getPrimaryColorFree;
     Size size = MediaQuery.of(context).size;
+
+    super.build(context);
 
     return Scaffold(
       backgroundColor: status == 0
@@ -42,4 +50,7 @@ class HomePage extends StatelessWidget {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
