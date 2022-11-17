@@ -1,5 +1,6 @@
 class AppRoutes {
-  static const opening = '/';
+  static const splashScreen = '/';
+  static const opening = '/opening';
   static const loginAsFreeUser = '/freeUserLogin';
   static const loginUser = '/loginUser';
   static const loginFreelancer = '/loginFreelancer';

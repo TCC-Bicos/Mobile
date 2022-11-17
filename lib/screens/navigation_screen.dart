@@ -142,7 +142,10 @@ class _NavigationBarScreenState extends State<NavigationBarScreen> {
         items: items,
         onTap: (index) => setState(() => this.index = index),
       ),
-      body: screens[index],
+      body: IndexedStack(
+        index: index,
+        children: screens,
+      ),
     );
   }
 }
