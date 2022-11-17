@@ -1,12 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:provider/provider.dart';
 
-class CriarNovoAnuncioFreelancerBotao extends StatelessWidget {
+import '../../../utils/tema.dart';
+
+class CriarNovoAnuncioFreelancerBotao extends StatefulWidget {
   const CriarNovoAnuncioFreelancerBotao({Key? key}) : super(key: key);
 
   @override
+  State<CriarNovoAnuncioFreelancerBotao> createState() =>
+      _CriarNovoAnuncioFreelancerBotaoState();
+}
+
+class _CriarNovoAnuncioFreelancerBotaoState
+    extends State<CriarNovoAnuncioFreelancerBotao> {
+  late int theme;
+
+  readTheme() {
+    theme = context.watch<TemaApp>().temaClaroEscuro;
+  }
+
+  @override
   Widget build(BuildContext context) {
+    readTheme();
+
+    Color primaryColor = context.watch<TemaApp>().getPrimaryColorFree;
+    Color secundaryColor = context.watch<TemaApp>().getSecundaryColorFree;
+    Color textColor = context.watch<TemaApp>().getTextColorFree;
+    Color secTextColor = context.watch<TemaApp>().getSecundaryTextColor;
+    Color backColor = context.watch<TemaApp>().getBackgroundColorFree;
+
     return Column(
       children: [
         SizedBox(
@@ -16,14 +40,13 @@ class CriarNovoAnuncioFreelancerBotao extends StatelessWidget {
               Navigator.of(context).pop();
             },
             style: ButtonStyle(
-              foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
-              backgroundColor: MaterialStateProperty.all<Color>(
-                  const Color.fromARGB(255, 24, 145, 250)),
+              foregroundColor: MaterialStateProperty.all<Color>(
+                  theme == 0 ? Colors.white : backColor),
+              backgroundColor: MaterialStateProperty.all<Color>(primaryColor),
               shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                 RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(18.0),
-                  side: const BorderSide(
-                      color: Color.fromARGB(255, 24, 145, 250)),
+                  side: BorderSide(color: primaryColor),
                 ),
               ),
             ),

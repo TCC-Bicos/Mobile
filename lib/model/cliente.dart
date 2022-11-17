@@ -1,5 +1,3 @@
-import 'package:dropdown_date_picker/dropdown_date_picker.dart';
-
 class User {
   final int idUser;
   final String NomeUser;

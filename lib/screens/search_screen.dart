@@ -15,8 +15,9 @@ class SearchPage extends StatefulWidget {
   State<SearchPage> createState() => _SearchPageState();
 }
 
-class _SearchPageState extends State<SearchPage> {
-  static const historyLength = 5;
+class _SearchPageState extends State<SearchPage>
+    with AutomaticKeepAliveClientMixin {
+  static const historyLength = 15;
 
   List<String> _searchHistory = [];
 
@@ -28,7 +29,6 @@ class _SearchPageState extends State<SearchPage> {
     required String? filter,
   }) {
     if (filter != null && filter.isNotEmpty) {
-      // Reversed because we want the last added items to appear first in the UI
       return _searchHistory.reversed
           .where((term) => term.startsWith(filter))
           .toList();
@@ -39,7 +39,6 @@ class _SearchPageState extends State<SearchPage> {
 
   void addSearchTerm(String term) {
     if (_searchHistory.contains(term)) {
-      // This method will be implemented soon
       putSearchTermFirst(term);
       return;
     }
@@ -47,7 +46,6 @@ class _SearchPageState extends State<SearchPage> {
     if (_searchHistory.length > historyLength) {
       _searchHistory.removeRange(0, _searchHistory.length - historyLength);
     }
-    // Changes in _searchHistory mean that we have to update the filteredSearchHistory
     filteredSearchHistory = filterSearchTerms(filter: null);
   }
 
@@ -61,15 +59,21 @@ class _SearchPageState extends State<SearchPage> {
     addSearchTerm(term);
   }
 
+  final searchController = TextEditingController();
+
   @override
   void initState() {
     super.initState();
     filteredSearchHistory = filterSearchTerms(filter: null);
   }
 
-  int index = 0;
+  @override
+  void dispose() {
+    searchController.dispose();
+    super.dispose();
+  }
 
-  final searchController = TextEditingController();
+  int index = 0;
 
   void clearText() {
     searchController.clear();
@@ -89,160 +93,271 @@ class _SearchPageState extends State<SearchPage> {
         : context.watch<TemaApp>().getTextColorFree;
     Color secTextColor = context.watch<TemaApp>().getSecundaryTextColor;
 
+    super.build(context);
+
     return Container(
+      height: MediaQuery.of(context).size.height - 113,
       color: status == 0
           ? context.watch<TemaApp>().getBackgroundColorUser
           : context.watch<TemaApp>().getBackgroundColorFree,
-      child: ListView(
-        physics: const BouncingScrollPhysics(),
-        children: [
-          index == 0
-              ? Padding(
-                  padding: const EdgeInsets.only(top: 20),
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        height: 40,
-                        child: Padding(
-                          padding: const EdgeInsets.only(
-                            right: 20,
-                            left: 20,
-                          ),
-                          child: TextFormField(
-                            onTap: () {
-                              setState(() {
-                                index = 1;
-                              });
-                            },
-                            decoration: InputDecoration(
-                              enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: primaryColor,
-                                  width: 1.0,
-                                ),
-                                borderRadius: BorderRadius.circular(25.0),
-                              ),
-                              filled: true,
-                              fillColor: status == 0
-                                  ? const Color.fromARGB(48, 65, 124, 175)
-                                  : const Color.fromARGB(47, 65, 175, 70),
-                              prefixIcon: Icon(
-                                Icons.search,
-                                color: primaryColor,
-                              ),
-                              border: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  width: 3,
-                                  color: primaryColor,
-                                ),
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              hintText: 'Pesquisar',
-                              hintStyle:
-                                  TextStyle(fontSize: 16, color: secTextColor),
-                              contentPadding: const EdgeInsets.only(
-                                top: 2,
-                                bottom: 2,
-                                left: 15,
-                                right: 15,
-                              ),
-                            ),
-                            style: const TextStyle(fontSize: 16),
-                          ),
+      child: SingleChildScrollView(
+        child: index == 0
+            ? Padding(
+                padding: const EdgeInsets.only(top: 20),
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: 40,
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                          right: 20,
+                          left: 20,
                         ),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Row(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(left: 20),
-                            child: Text(
-                              'Você visitou:',
-                              style: TextStyle(
-                                fontSize: 18,
-                                color: textColor,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.6856,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Column(
-                              children: [
-                                Icon(
-                                  Icons.history,
-                                  size:
-                                      MediaQuery.of(context).size.width * 0.17,
-                                  color: primaryColor,
-                                ),
-                                Text(
-                                  'Você ainda não visitou\n nenhum anúncio',
-                                  style: TextStyle(
-                                      fontSize: 14, color: secTextColor),
-                                  textAlign: TextAlign.center,
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      )
-                    ],
-                  ),
-                )
-              : index == 1
-                  ? Column(
-                      children: [
-                        TextFormField(
-                          onTap: () {},
-                          autofocus: true,
-                          controller: searchController,
+                        child: TextFormField(
+                          onTap: () {
+                            setState(() {
+                              index = 1;
+                            });
+                          },
                           decoration: InputDecoration(
-                            border: InputBorder.none,
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: primaryColor,
+                                width: 1.0,
+                              ),
+                              borderRadius: BorderRadius.circular(25.0),
+                            ),
                             filled: true,
                             fillColor: status == 0
                                 ? const Color.fromARGB(48, 65, 124, 175)
                                 : const Color.fromARGB(47, 65, 175, 70),
-                            prefixIcon: Padding(
-                              padding: const EdgeInsets.only(right: 15),
-                              child: Container(
-                                color: secundaryColor,
-                                child: IconButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      index = 0;
-                                    });
-                                  },
-                                  icon: const Icon(
-                                    Icons.arrow_back,
-                                    color: Color.fromARGB(255, 250, 253, 255),
-                                  ),
-                                ),
-                              ),
+                            prefixIcon: Icon(
+                              Icons.search,
+                              color: primaryColor,
                             ),
-                            suffixIcon: IconButton(
-                              onPressed: clearText,
-                              icon: Icon(
-                                Icons.clear,
+                            border: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                width: 3,
                                 color: primaryColor,
                               ),
+                              borderRadius: BorderRadius.circular(20),
                             ),
                             hintText: 'Pesquisar',
                             hintStyle:
                                 TextStyle(fontSize: 16, color: secTextColor),
+                            contentPadding: const EdgeInsets.only(
+                              top: 2,
+                              bottom: 2,
+                              left: 15,
+                              right: 15,
+                            ),
                           ),
-                          style: TextStyle(fontSize: 16, color: textColor),
+                          style: const TextStyle(fontSize: 16),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(left: 20),
+                          child: Text(
+                            'Você visitou:',
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: textColor,
+                            ),
+                          ),
                         ),
                       ],
+                    ),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.6856,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Column(
+                            children: [
+                              Icon(
+                                Icons.history,
+                                size: MediaQuery.of(context).size.width * 0.17,
+                                color: primaryColor,
+                              ),
+                              Text(
+                                'Você ainda não visitou\n nenhum anúncio',
+                                style: TextStyle(
+                                    fontSize: 14, color: secTextColor),
+                                textAlign: TextAlign.center,
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     )
-                  : const SizedBox(),
-        ],
+                  ],
+                ),
+              )
+            : index == 1
+                ? Column(
+                    children: [
+                      TextFormField(
+                        onChanged: (query) {
+                          setState(() {
+                            filteredSearchHistory =
+                                filterSearchTerms(filter: query);
+                          });
+                        },
+                        onFieldSubmitted: (query) {
+                          setState(() {
+                            addSearchTerm(query);
+                            selectedTerm = query;
+                          });
+                          searchController.clear();
+                          FocusScope.of(context).unfocus();
+                        },
+                        onTap: () {},
+                        autofocus: true,
+                        controller: searchController,
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          filled: true,
+                          fillColor: status == 0
+                              ? const Color.fromARGB(48, 65, 124, 175)
+                              : const Color.fromARGB(47, 65, 175, 70),
+                          prefixIcon: Padding(
+                            padding: const EdgeInsets.only(right: 15),
+                            child: Container(
+                              color: secundaryColor,
+                              child: IconButton(
+                                onPressed: () {
+                                  searchController.clear();
+                                  setState(() {
+                                    index = 0;
+                                  });
+                                },
+                                icon: const Icon(
+                                  Icons.arrow_back,
+                                  color: Color.fromARGB(255, 250, 253, 255),
+                                ),
+                              ),
+                            ),
+                          ),
+                          suffixIcon: IconButton(
+                            onPressed: clearText,
+                            icon: Icon(
+                              Icons.clear,
+                              color: primaryColor,
+                            ),
+                          ),
+                          hintText: 'Pesquisar',
+                          hintStyle:
+                              TextStyle(fontSize: 16, color: secTextColor),
+                        ),
+                        style: TextStyle(fontSize: 16, color: textColor),
+                      ),
+                      Builder(
+                        builder: (context) {
+                          if (filteredSearchHistory.isEmpty &&
+                              searchController.text.isEmpty) {
+                            return Container(
+                              height: MediaQuery.of(context).size.height - 185,
+                              width: double.infinity,
+                              alignment: Alignment.center,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    'Comece a pesquisar',
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      color: textColor,
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 20,
+                                  ),
+                                  Icon(
+                                    Icons.search_rounded,
+                                    color: textColor,
+                                    size: 50,
+                                  )
+                                ],
+                              ),
+                            );
+                          } else if (filteredSearchHistory.isEmpty) {
+                            return ListTile(
+                              title: Text(
+                                searchController.text,
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: textColor,
+                                ),
+                              ),
+                              leading: Icon(
+                                Icons.search,
+                                color: textColor,
+                              ),
+                              onTap: () {
+                                setState(() {
+                                  addSearchTerm(searchController.text);
+                                  selectedTerm = searchController.text;
+                                });
+                                FocusScope.of(context).unfocus();
+                              },
+                            );
+                          } else {
+                            return Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: filteredSearchHistory
+                                  .map(
+                                    (term) => ListTile(
+                                      title: Text(
+                                        term,
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(
+                                          color: textColor,
+                                          fontSize: 16,
+                                        ),
+                                      ),
+                                      leading: Icon(
+                                        Icons.history,
+                                        color: textColor,
+                                      ),
+                                      trailing: IconButton(
+                                        icon:
+                                            Icon(Icons.clear, color: textColor),
+                                        onPressed: () {
+                                          setState(() {
+                                            deleteSearchTerm(term);
+                                          });
+                                        },
+                                      ),
+                                      onTap: () {
+                                        setState(() {
+                                          putSearchTermFirst(term);
+                                          selectedTerm = term;
+                                        });
+                                        FocusScope.of(context).unfocus();
+                                      },
+                                    ),
+                                  )
+                                  .toList(),
+                            );
+                          }
+                        },
+                      ),
+                    ],
+                  )
+                : const SizedBox(),
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

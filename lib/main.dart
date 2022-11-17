@@ -12,6 +12,7 @@ import 'package:bicos_app/screens/navigation_screen.dart';
 import 'package:bicos_app/screens/novoAnuncio_Usuario_screen.dart';
 import 'package:bicos_app/screens/novoAnuncio_Freelancer_screen.dart';
 import 'package:bicos_app/screens/signup_screen.dart';
+import 'package:bicos_app/screens/splash_screen.dart';
 import 'package:bicos_app/screens/welcome_screen.dart';
 import 'package:bicos_app/utils/statusFree_User.dart';
 import 'package:bicos_app/utils/tema.dart';
@@ -56,6 +57,7 @@ class MyApp extends StatelessWidget {
               ),
         ),
         routes: {
+          AppRoutes.splashScreen: (ctx) => const SplashScreen(),
           AppRoutes.opening: (ctx) => const WelcomeScreen(),
           AppRoutes.loginAsFreeUser: (ctx) => const LoginFreeUserScreen(),
           AppRoutes.loginUser: (ctx) => const LoginUserScreen(),

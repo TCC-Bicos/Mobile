@@ -40,6 +40,15 @@ class _NavigationBarScreenState extends State<NavigationBarScreen> {
     const ProfilePage(),
   ];
 
+  @override
+  void initState() {
+    super.initState();
+
+    pageController = PageController(initialPage: index);
+  }
+
+  PageController? pageController;
+
   late int theme;
 
   readTheme() {
@@ -140,9 +149,20 @@ class _NavigationBarScreenState extends State<NavigationBarScreen> {
         height: 57,
         index: index,
         items: items,
-        onTap: (index) => setState(() => this.index = index),
+        onTap: (index) => setState(() {
+          this.index = index;
+          pageController!.jumpToPage(index);
+        }),
       ),
-      body: screens[index],
+      body: PageView(
+        controller: pageController,
+        onPageChanged: (newIndex) {
+          setState(() {
+            index = newIndex;
+          });
+        },
+        children: screens,
+      ),
     );
   }
 }

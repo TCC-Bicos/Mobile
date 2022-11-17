@@ -45,6 +45,7 @@ dependencies:
   intl: ^0.17.0
   dio: ^4.0.6
   provider: ^6.0.4
+  fluttertoast: ^8.0.8
 
 dev_dependencies:
   flutter_test:
@@ -82,6 +83,12 @@ flutter:
     - assets/images/6.jpg
     - assets/images/7.jpg
     - assets/images/8.jpg
+    - assets/images/testeImagemAnun.png
+    - assets/images/unknown.png
+    - assets/images/web.jpg
+    - assets/images/design.jpg
+    - assets/images/celulinhos.jpg
+    - assets/images/wa.jpg
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

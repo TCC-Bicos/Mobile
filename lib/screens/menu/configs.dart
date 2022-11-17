@@ -1,6 +1,8 @@
+import 'package:bicos_app/providers/clientProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../utils/app_routes.dart';
 import '../../utils/statusFree_User.dart';
@@ -19,6 +21,8 @@ class _ConfigsScreenState extends State<ConfigsScreen> {
   readTheme() {
     theme = context.watch<TemaApp>().temaClaroEscuro;
   }
+
+  ClienteProvider _clienteProvider = ClienteProvider();
 
   @override
   Widget build(BuildContext context) {
@@ -57,197 +61,228 @@ class _ConfigsScreenState extends State<ConfigsScreen> {
         ),
         elevation: 1,
       ),
-      body: Padding(
-        padding: const EdgeInsets.only(left: 20, right: 15),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(
-              height: 10,
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const SizedBox(
+            height: 10,
+          ),
+          ListTile(
+            contentPadding: const EdgeInsets.only(left: 20, right: 20),
+            leading: Icon(
+              Icons.notifications,
+              size: 25,
+              color: textColor,
             ),
-            ListTile(
-              contentPadding: EdgeInsets.zero,
-              leading: Icon(
-                Icons.notifications,
-                size: 25,
-                color: textColor,
-              ),
-              title: Text(
-                'Notificações',
-                style: TextStyle(fontSize: 16, color: textColor),
-              ),
-              onTap: () {},
+            title: Text(
+              'Notificações',
+              style: TextStyle(fontSize: 16, color: textColor),
             ),
-            ListTile(
-              contentPadding: EdgeInsets.zero,
-              leading: Icon(
-                Icons.archive,
-                size: 25,
-                color: textColor,
-              ),
-              title: Text(
-                'Projetos',
-                style: TextStyle(
-                  fontSize: 16,
-                  color: textColor,
-                ),
-              ),
-              onTap: () {},
+            onTap: () {},
+          ),
+          ListTile(
+            contentPadding: const EdgeInsets.only(left: 20, right: 20),
+            leading: Icon(
+              Icons.archive,
+              size: 25,
+              color: textColor,
             ),
-            ListTile(
-              contentPadding: EdgeInsets.zero,
-              leading: Icon(
-                Icons.work,
-                size: 25,
-                color: textColor,
-              ),
-              title: Text(
-                'Anúncios',
-                style: TextStyle(
-                  fontSize: 16,
-                  color: textColor,
-                ),
-              ),
-              onTap: () {},
-            ),
-            ListTile(
-              contentPadding: EdgeInsets.zero,
-              leading: Icon(
-                Icons.lock,
-                size: 25,
-                color: textColor,
-              ),
-              title: Text(
-                'Privacidade',
-                style: TextStyle(
-                  fontSize: 16,
-                  color: textColor,
-                ),
-              ),
-              onTap: () {},
-            ),
-            ListTile(
-              contentPadding: EdgeInsets.zero,
-              leading: Icon(
-                Icons.privacy_tip,
-                size: 25,
-                color: textColor,
-              ),
-              title: Text(
-                'Segurança',
-                style: TextStyle(
-                  fontSize: 16,
-                  color: textColor,
-                ),
-              ),
-              onTap: () {},
-            ),
-            ListTile(
-              contentPadding: EdgeInsets.zero,
-              leading: Icon(
-                Icons.account_circle,
-                size: 25,
-                color: textColor,
-              ),
-              title: Text(
-                'Conta',
-                style: TextStyle(
-                  fontSize: 16,
-                  color: textColor,
-                ),
-              ),
-              onTap: () {},
-            ),
-            ListTile(
-              contentPadding: EdgeInsets.zero,
-              leading: Icon(
-                Icons.help,
-                size: 25,
-                color: textColor,
-              ),
-              title: Text(
-                'Ajuda',
-                style: TextStyle(
-                  fontSize: 16,
-                  color: textColor,
-                ),
-              ),
-              onTap: () {},
-            ),
-            ListTile(
-              contentPadding: EdgeInsets.zero,
-              leading: Icon(
-                Icons.info,
-                size: 25,
-                color: textColor,
-              ),
-              title: Text(
-                'Sobre',
-                style: TextStyle(
-                  fontSize: 16,
-                  color: textColor,
-                ),
-              ),
-              onTap: () {},
-            ),
-            ListTile(
-              contentPadding: EdgeInsets.zero,
-              leading: Icon(
-                Icons.color_lens,
-                size: 25,
-                color: textColor,
-              ),
-              title: Text(
-                'Tema',
-                style: TextStyle(
-                  fontSize: 16,
-                  color: textColor,
-                ),
-              ),
-              onTap: () {
-                Navigator.of(context).pushNamed(AppRoutes.tema);
-              },
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            Text(
-              'Login',
+            title: Text(
+              'Projetos',
               style: TextStyle(
-                fontSize: 18,
+                fontSize: 16,
                 color: textColor,
               ),
             ),
-            const SizedBox(
-              height: 10,
+            onTap: () {},
+          ),
+          ListTile(
+            contentPadding: const EdgeInsets.only(left: 20, right: 20),
+            leading: Icon(
+              Icons.work,
+              size: 25,
+              color: textColor,
             ),
-            InkWell(
-              onTap: () {
-                Navigator.of(context).pushNamed(AppRoutes.opening);
-              },
-              child: Container(
-                padding: const EdgeInsets.only(
-                  bottom: 1,
-                ),
-                decoration: BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(
-                      width: 1.0,
-                      color: textColor,
-                    ),
-                  ),
-                ),
-                child: Text(
-                  'Sair',
+            title: Text(
+              'Anúncios',
+              style: TextStyle(
+                fontSize: 16,
+                color: textColor,
+              ),
+            ),
+            onTap: () {},
+          ),
+          ListTile(
+            contentPadding: const EdgeInsets.only(left: 20, right: 20),
+            leading: Icon(
+              Icons.lock,
+              size: 25,
+              color: textColor,
+            ),
+            title: Text(
+              'Privacidade',
+              style: TextStyle(
+                fontSize: 16,
+                color: textColor,
+              ),
+            ),
+            onTap: () {},
+          ),
+          ListTile(
+            contentPadding: const EdgeInsets.only(left: 20, right: 20),
+            leading: Icon(
+              Icons.privacy_tip,
+              size: 25,
+              color: textColor,
+            ),
+            title: Text(
+              'Segurança',
+              style: TextStyle(
+                fontSize: 16,
+                color: textColor,
+              ),
+            ),
+            onTap: () {},
+          ),
+          ListTile(
+            contentPadding: const EdgeInsets.only(left: 20, right: 20),
+            leading: Icon(
+              Icons.account_circle,
+              size: 25,
+              color: textColor,
+            ),
+            title: Text(
+              'Conta',
+              style: TextStyle(
+                fontSize: 16,
+                color: textColor,
+              ),
+            ),
+            onTap: () {},
+          ),
+          ListTile(
+            contentPadding: const EdgeInsets.only(left: 20, right: 20),
+            leading: Icon(
+              Icons.help,
+              size: 25,
+              color: textColor,
+            ),
+            title: Text(
+              'Ajuda',
+              style: TextStyle(
+                fontSize: 16,
+                color: textColor,
+              ),
+            ),
+            onTap: () {},
+          ),
+          ListTile(
+            contentPadding: const EdgeInsets.only(left: 20, right: 20),
+            leading: Icon(
+              Icons.info,
+              size: 25,
+              color: textColor,
+            ),
+            title: Text(
+              'Sobre',
+              style: TextStyle(
+                fontSize: 16,
+                color: textColor,
+              ),
+            ),
+            onTap: () {},
+          ),
+          ListTile(
+            contentPadding: const EdgeInsets.only(left: 20, right: 20),
+            leading: Icon(
+              Icons.color_lens,
+              size: 25,
+              color: textColor,
+            ),
+            title: Text(
+              'Tema',
+              style: TextStyle(
+                fontSize: 16,
+                color: textColor,
+              ),
+            ),
+            onTap: () {
+              Navigator.of(context).pushNamed(AppRoutes.tema);
+            },
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 20, right: 20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Login',
                   style: TextStyle(
-                    fontSize: 16,
+                    fontSize: 18,
                     color: textColor,
                   ),
                 ),
-              ),
+                const SizedBox(
+                  height: 10,
+                ),
+                InkWell(
+                  onTap: () async {
+                    bool? exitApp = await showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: const Text('Sair'),
+                          content: const Text('Deseja mesmo sair da conta?'),
+                          actions: <Widget>[
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop(false);
+                              },
+                              child: const Text('Não'),
+                            ),
+                            TextButton(
+                                onPressed: () async {
+                                  final SharedPreferences sharedPreferences =
+                                      await SharedPreferences.getInstance();
+                                  sharedPreferences.remove('emailValidation');
+                                  Navigator.of(context).pushNamedAndRemoveUntil(
+                                      AppRoutes.opening, (route) => false);
+                                  _clienteProvider.deslogar();
+                                },
+                                child: const Text('Sim'))
+                          ],
+                        );
+                      },
+                    );
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.only(
+                      bottom: 1,
+                    ),
+                    decoration: BoxDecoration(
+                      border: Border(
+                        bottom: BorderSide(
+                          width: 1.0,
+                          color: textColor,
+                        ),
+                      ),
+                    ),
+                    child: Text(
+                      'Sair',
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: textColor,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
