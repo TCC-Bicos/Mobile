@@ -1,6 +1,8 @@
 // @dart=2.9
 
 import 'package:bicos_app/providers/clientProvider.dart';
+import 'package:bicos_app/screens/configs/conta/conta_configs_screen.dart';
+import 'package:bicos_app/screens/configs/conta/infopessoais_screen.dart';
 import 'package:bicos_app/screens/configs/theme_screen.dart';
 import 'package:bicos_app/screens/edit_profile_screen.dart';
 import 'package:bicos_app/screens/loginFreelancer_screen.dart';
@@ -69,6 +71,8 @@ class MyApp extends StatelessWidget {
               const NovoAnuncioFreelancer(),
           AppRoutes.novoAnuncioUsuario: (ctx) => const NovoAnuncioUsuario(),
           AppRoutes.configs: (ctx) => const ConfigsScreen(),
+          AppRoutes.contaConfigs: (ctx) => const ContaConfigs(),
+          AppRoutes.infoPessoais: (ctx) => const InfoPessoais(),
           AppRoutes.tema: (ctx) => const ThemeScreen(),
           AppRoutes.chat: (ctx) => MessageScreen(),
         },

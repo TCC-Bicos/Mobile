@@ -5,6 +5,7 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../utils/app_routes.dart';
 
 class LoginUserScreen extends StatefulWidget {
@@ -17,8 +18,6 @@ class LoginUserScreen extends StatefulWidget {
 class _LoginUserScreenState extends State<LoginUserScreen> {
   final emailController = TextEditingController();
   final senhaController = TextEditingController();
-
-  ClienteProvider _clientProvider = ClienteProvider();
 
   @override
   Widget build(BuildContext context) {
@@ -105,7 +104,8 @@ class _LoginUserScreenState extends State<LoginUserScreen> {
   }
 
   void onPressed() {
-    _clientProvider.loginUser(
-        emailController.text, senhaController.text, context);
+    context
+        .read<ClienteProvider>()
+        .loginUser(emailController.text, senhaController.text, context);
   }
 }

@@ -22,8 +22,6 @@ class _ConfigsScreenState extends State<ConfigsScreen> {
     theme = context.watch<TemaApp>().temaClaroEscuro;
   }
 
-  ClienteProvider _clienteProvider = ClienteProvider();
-
   @override
   Widget build(BuildContext context) {
     readTheme();
@@ -158,7 +156,9 @@ class _ConfigsScreenState extends State<ConfigsScreen> {
                 color: textColor,
               ),
             ),
-            onTap: () {},
+            onTap: () {
+              Navigator.of(context).pushNamed(AppRoutes.contaConfigs);
+            },
           ),
           ListTile(
             contentPadding: const EdgeInsets.only(left: 20, right: 20),
@@ -245,12 +245,12 @@ class _ConfigsScreenState extends State<ConfigsScreen> {
                             ),
                             TextButton(
                                 onPressed: () async {
+                                  context.read<ClienteProvider>().deslogar();
                                   final SharedPreferences sharedPreferences =
                                       await SharedPreferences.getInstance();
                                   sharedPreferences.remove('emailValidation');
                                   Navigator.of(context).pushNamedAndRemoveUntil(
                                       AppRoutes.opening, (route) => false);
-                                  _clienteProvider.deslogar();
                                 },
                                 child: const Text('Sim'))
                           ],

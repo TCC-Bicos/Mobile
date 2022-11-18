@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:bicos_app/model/anuncio_Usuario.dart';
 import 'package:bicos_app/providers/clientProvider.dart';
 import 'package:dio/dio.dart';
@@ -27,15 +29,16 @@ class AnunUserProvider with ChangeNotifier {
         data: {
           'TituloAnunUser': titulo,
           'DescAnunUser': desc,
-          'PrecoAnunUser': preco,
+          'PrecoAnunUser':
+              preco.replaceAll('.', '').replaceAll(',', '.').substring(3),
           'RequisitosAnunUser': requisitos,
           'ImgAnunUser': 'assets/images/testeImagemAnun.png',
-          'StatusAnunUser': 1,
-          'DataAnunUser': DateFormat('yyyy-MM-dd').format(DateTime.now()),
-          'idUser': Provider.of<ClienteProvider>(context, listen: false)
+          'StatusAnunUser': '1',
+          'DataAnunUser': DateFormat('YYYY/MM/DD').format(DateTime.now()),
+          'idUserAnunUser': Provider.of<ClienteProvider>(context, listen: false)
               .getUser
               .idUser,
-          'NomeServ': 'designer',
+          'NomeServAnunUser': 'Design de Logos',
         },
       );
       if (response.data['status'] == '200') {
