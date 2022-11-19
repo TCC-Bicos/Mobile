@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../model/cliente.dart';
 import '../utils/tema.dart';
-
-String? finalEmail;
+import '../utils/user_preferences.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -17,29 +17,19 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  late User user;
+
   @override
   void initState() {
-    getValidationData().whenComplete(
-      () async {
-        Timer(
-            const Duration(seconds: 2),
-            () => finalEmail == null
-                ? Navigator.of(context).pushNamedAndRemoveUntil(
-                    AppRoutes.opening, (route) => false)
-                : Navigator.of(context).pushNamedAndRemoveUntil(
-                    AppRoutes.navigationbar, (route) => false));
-      },
-    );
+    user = UserPreferences.getUser();
+    Timer(
+        const Duration(seconds: 2),
+        () => user.idUser == 0
+            ? Navigator.of(context)
+                .pushNamedAndRemoveUntil(AppRoutes.opening, (route) => false)
+            : Navigator.of(context).pushNamedAndRemoveUntil(
+                AppRoutes.navigationbar, (route) => false));
     super.initState();
-  }
-
-  Future getValidationData() async {
-    final SharedPreferences sharedPreferences =
-        await SharedPreferences.getInstance();
-    var obtainedEmail = sharedPreferences.getString('emailValidation');
-    setState(() {
-      finalEmail = obtainedEmail;
-    });
   }
 
   @override

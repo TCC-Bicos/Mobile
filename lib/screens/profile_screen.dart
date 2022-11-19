@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:bicos_app/model/user.dart';
+import 'package:bicos_app/model/cliente.dart';
 import 'package:bicos_app/utils/user_preferences.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:provider/provider.dart';
@@ -88,7 +88,7 @@ class _ProfilePageState extends State<ProfilePage>
           Container(
             margin: const EdgeInsets.only(top: 20),
             child: ProfileWidget(
-              imagePath: user.imagePath,
+              imagePath: user.ImgUser,
               onClicked: () async {
                 await Navigator.of(context).pushNamed(AppRoutes.editProfile);
                 setState(() {});
@@ -123,14 +123,10 @@ class _ProfilePageState extends State<ProfilePage>
   Widget buildName(User user, color) => Column(
         children: [
           Text(
-            user.name,
+            user.NomeUser,
             style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
           ),
           const SizedBox(height: 4),
-          Text(
-            user.profissao,
-            style: TextStyle(color: color),
-          )
         ],
       );
 
@@ -156,7 +152,7 @@ class _ProfilePageState extends State<ProfilePage>
           const SizedBox(height: 16),
           Text(
             maxLines: 7,
-            user.about,
+            user.DescUser,
             style: TextStyle(fontSize: 16, height: 1.4, color: textColor),
           )
         ],

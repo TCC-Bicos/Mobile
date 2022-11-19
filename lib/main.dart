@@ -1,5 +1,6 @@
 // @dart=2.9
 
+import 'package:bicos_app/providers/anunUserProvider.dart';
 import 'package:bicos_app/providers/clientProvider.dart';
 import 'package:bicos_app/screens/configs/conta/conta_configs_screen.dart';
 import 'package:bicos_app/screens/configs/conta/infopessoais_screen.dart';
@@ -38,6 +39,7 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => ClienteProvider()),
         ChangeNotifierProvider(create: (_) => StatusFreeUser()),
+        ChangeNotifierProvider(create: (_) => AnunUserProvider()),
         ChangeNotifierProvider(create: (_) => TemaApp()),
       ],
       child: MaterialApp(

@@ -7,13 +7,14 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../model/cliente.dart';
 import '../utils/app_routes.dart';
+import '../utils/user_preferences.dart';
 
 class AnunUserProvider with ChangeNotifier {
-  List<AnuncioUsuario> _anunciosUsuario = [];
-  List<AnuncioUsuario> getAnunciosUsuario() => _anunciosUsuario;
+  late User user;
 
   Future<dynamic> addAnunUsuario(
     String titulo,
@@ -24,6 +25,8 @@ class AnunUserProvider with ChangeNotifier {
     context,
   ) async {
     try {
+      final SharedPreferences sharedPreferences =
+          await SharedPreferences.getInstance();
       var response = await Dio().post(
         'http://10.0.2.2:8000/api/addAnunUsuario',
         data: {
@@ -35,9 +38,7 @@ class AnunUserProvider with ChangeNotifier {
           'ImgAnunUser': 'assets/images/testeImagemAnun.png',
           'StatusAnunUser': '1',
           'DataAnunUser': DateFormat('YYYY/MM/DD').format(DateTime.now()),
-          'idUserAnunUser': Provider.of<ClienteProvider>(context, listen: false)
-              .getUser
-              .idUser,
+          'idUserAnunUser': UserPreferences.getUser().idUser,
           'NomeServAnunUser': 'Design de Logos',
         },
       );

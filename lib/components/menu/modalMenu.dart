@@ -32,7 +32,7 @@ class _ModalMenuState extends State<ModalMenu> {
       clipBehavior: Clip.none,
       children: [
         Container(
-          height: 280,
+          height: 360,
           decoration: BoxDecoration(
               color: status == 0
                   ? theme == 0
@@ -50,7 +50,7 @@ class _ModalMenuState extends State<ModalMenu> {
             child: Column(
               children: [
                 const SizedBox(
-                  height: 30,
+                  height: 40,
                 ),
                 ListTile(
                   contentPadding: EdgeInsets.zero,
@@ -111,7 +111,35 @@ class _ModalMenuState extends State<ModalMenu> {
                   onTap: () {
                     Navigator.of(context).pushNamed(AppRoutes.configs);
                   },
-                )
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                SizedBox(
+                  width: 260,
+                  child: TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    style: ButtonStyle(
+                      foregroundColor:
+                          MaterialStateProperty.all<Color>(textColor),
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(18.0),
+                          side: BorderSide(color: textColor),
+                        ),
+                      ),
+                    ),
+                    child: const Text(
+                      'Cancelar',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
