@@ -20,18 +20,4 @@ class AnuncioUsuario {
     required this.idUserAnunUser,
     required this.NomeServAnunUser,
   });
-
-  factory AnuncioUsuario.fromJson(Map<String, dynamic> json) {
-    return AnuncioUsuario(
-      TituloAnunUser: json['AnuncioUsuario']['TituloAnunUser'],
-      DescAnunUser: json['AnuncioUsuario']['DescAnunUser'],
-      PrecoAnunUser: json['AnuncioUsuario']['PrecoAnunUser'],
-      RequisitosAnunUser: json['AnuncioUsuario']['RequisitosAnunUser'],
-      ImgAnunUser: json['AnuncioUsuario']['ImgAnunUser'],
-      StatusAnunUser: json['AnuncioUsuario']['StatusAnunUser'],
-      DataAnunUser: json['AnuncioUsuario']['DataAnunUser'],
-      idUserAnunUser: json['AnuncioUsuario']['idUserAnunUser'],
-      NomeServAnunUser: json['AnuncioUsuario']['NomeServAnunUser'],
-    );
-  }
 }

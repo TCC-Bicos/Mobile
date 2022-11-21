@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:bicos_app/model/user.dart';
+import 'package:bicos_app/model/cliente.dart';
 import 'package:bicos_app/utils/user_preferences.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:provider/provider.dart';
@@ -20,9 +20,16 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage>
     with AutomaticKeepAliveClientMixin {
+  late int status;
+
+  @override
+  void initState() {
+    super.initState();
+    status = StatusFreeUser.getStatus();
+  }
+
   @override
   Widget build(BuildContext context) {
-    int status = context.watch<StatusFreeUser>().getStatus;
     Color primaryColor = status == 0
         ? context.watch<TemaApp>().getPrimaryColorUser
         : context.watch<TemaApp>().getPrimaryColorFree;
@@ -88,7 +95,7 @@ class _ProfilePageState extends State<ProfilePage>
           Container(
             margin: const EdgeInsets.only(top: 20),
             child: ProfileWidget(
-              imagePath: user.imagePath,
+              imagePath: user.ImgUser,
               onClicked: () async {
                 await Navigator.of(context).pushNamed(AppRoutes.editProfile);
                 setState(() {});
@@ -123,14 +130,10 @@ class _ProfilePageState extends State<ProfilePage>
   Widget buildName(User user, color) => Column(
         children: [
           Text(
-            user.name,
+            user.NomeUser,
             style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
           ),
           const SizedBox(height: 4),
-          Text(
-            user.profissao,
-            style: TextStyle(color: color),
-          )
         ],
       );
 
@@ -138,7 +141,6 @@ class _ProfilePageState extends State<ProfilePage>
       ButtonWidget(text: 'Enviar Mensagem', onClicked: () {});
 
   Widget buildAbout(User user) {
-    int status = context.watch<StatusFreeUser>().getStatus;
     Color textColor = status == 0
         ? context.watch<TemaApp>().getTextColorUser
         : context.watch<TemaApp>().getTextColorFree;
@@ -156,7 +158,7 @@ class _ProfilePageState extends State<ProfilePage>
           const SizedBox(height: 16),
           Text(
             maxLines: 7,
-            user.about,
+            user.DescUser,
             style: TextStyle(fontSize: 16, height: 1.4, color: textColor),
           )
         ],

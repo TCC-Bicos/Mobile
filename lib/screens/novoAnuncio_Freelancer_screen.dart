@@ -129,7 +129,7 @@ class _NovoAnuncioFreelancerState extends State<NovoAnuncioFreelancer> {
                           borderRadius: BorderRadius.circular(5),
                         ),
                         hintText: 'Título do anúncio',
-                        hintStyle: TextStyle(fontSize: 16, color: textColor),
+                        hintStyle: TextStyle(fontSize: 16, color: secTextColor),
                         contentPadding: const EdgeInsets.only(
                           top: 2,
                           bottom: 2,
@@ -160,7 +160,8 @@ class _NovoAnuncioFreelancerState extends State<NovoAnuncioFreelancer> {
                             borderRadius: BorderRadius.circular(5),
                           ),
                           hintText: 'Descrição',
-                          hintStyle: TextStyle(fontSize: 16, color: textColor),
+                          hintStyle:
+                              TextStyle(fontSize: 16, color: secTextColor),
                           contentPadding: const EdgeInsets.only(
                             top: 2,
                             bottom: 2,
@@ -192,7 +193,7 @@ class _NovoAnuncioFreelancerState extends State<NovoAnuncioFreelancer> {
                           borderRadius: BorderRadius.circular(5),
                         ),
                         hintText: 'Valor do serviço',
-                        hintStyle: TextStyle(fontSize: 16, color: textColor),
+                        hintStyle: TextStyle(fontSize: 16, color: secTextColor),
                         contentPadding: const EdgeInsets.only(
                           top: 2,
                           bottom: 2,
@@ -222,13 +223,13 @@ class _NovoAnuncioFreelancerState extends State<NovoAnuncioFreelancer> {
                                   children: [
                                     Icon(
                                       Icons.add_a_photo,
-                                      color: textColor,
+                                      color: secTextColor,
                                       size: 60,
                                     ),
                                     Text(
                                       'Carregar imagem',
                                       style: TextStyle(
-                                        color: textColor,
+                                        color: secTextColor,
                                       ),
                                     ),
                                   ],

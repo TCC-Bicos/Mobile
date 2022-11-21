@@ -7,6 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../utils/app_routes.dart';
 import '../../utils/statusFree_User.dart';
 import '../../utils/tema.dart';
+import '../../utils/user_preferences.dart';
 
 class ConfigsScreen extends StatefulWidget {
   const ConfigsScreen({super.key});
@@ -17,18 +18,22 @@ class ConfigsScreen extends StatefulWidget {
 
 class _ConfigsScreenState extends State<ConfigsScreen> {
   late int theme;
+  late int status;
 
   readTheme() {
     theme = context.watch<TemaApp>().temaClaroEscuro;
   }
 
-  ClienteProvider _clienteProvider = ClienteProvider();
+  @override
+  void initState() {
+    super.initState();
+    status = StatusFreeUser.getStatus();
+  }
 
   @override
   Widget build(BuildContext context) {
     readTheme();
 
-    int status = context.watch<StatusFreeUser>().getStatus;
     Color primaryColor = status == 0
         ? context.watch<TemaApp>().getPrimaryColorUser
         : context.watch<TemaApp>().getPrimaryColorFree;
@@ -158,7 +163,9 @@ class _ConfigsScreenState extends State<ConfigsScreen> {
                 color: textColor,
               ),
             ),
-            onTap: () {},
+            onTap: () {
+              Navigator.of(context).pushNamed(AppRoutes.contaConfigs);
+            },
           ),
           ListTile(
             contentPadding: const EdgeInsets.only(left: 20, right: 20),
@@ -210,77 +217,55 @@ class _ConfigsScreenState extends State<ConfigsScreen> {
               Navigator.of(context).pushNamed(AppRoutes.tema);
             },
           ),
-          const SizedBox(
-            height: 20,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 20, right: 20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Login',
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: textColor,
-                  ),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                InkWell(
-                  onTap: () async {
-                    bool? exitApp = await showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          title: const Text('Sair'),
-                          content: const Text('Deseja mesmo sair da conta?'),
-                          actions: <Widget>[
-                            TextButton(
-                              onPressed: () {
-                                Navigator.of(context).pop(false);
-                              },
-                              child: const Text('Não'),
-                            ),
-                            TextButton(
-                                onPressed: () async {
-                                  final SharedPreferences sharedPreferences =
-                                      await SharedPreferences.getInstance();
-                                  sharedPreferences.remove('emailValidation');
-                                  Navigator.of(context).pushNamedAndRemoveUntil(
-                                      AppRoutes.opening, (route) => false);
-                                  _clienteProvider.deslogar();
-                                },
-                                child: const Text('Sim'))
-                          ],
-                        );
-                      },
-                    );
-                  },
-                  child: Container(
-                    padding: const EdgeInsets.only(
-                      bottom: 1,
-                    ),
-                    decoration: BoxDecoration(
-                      border: Border(
-                        bottom: BorderSide(
-                          width: 1.0,
-                          color: textColor,
-                        ),
-                      ),
-                    ),
-                    child: Text(
-                      'Sair',
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: textColor,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
+          ListTile(
+            contentPadding: const EdgeInsets.only(left: 20, right: 20),
+            leading: Icon(
+              Icons.logout,
+              size: 25,
+              color: textColor,
             ),
+            title: Text(
+              'Sair da conta',
+              style: TextStyle(
+                fontSize: 16,
+                color: textColor,
+              ),
+            ),
+            onTap: () async {
+              bool? exitApp = await showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return Theme(
+                    data: ThemeData(dialogBackgroundColor: backColor),
+                    child: AlertDialog(
+                      title: Text(
+                        'Sair',
+                        style: TextStyle(color: textColor),
+                      ),
+                      content: Text(
+                        'Deseja mesmo sair da conta?',
+                        style: TextStyle(color: textColor),
+                      ),
+                      actions: <Widget>[
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop(false);
+                          },
+                          child: const Text('Não'),
+                        ),
+                        TextButton(
+                            onPressed: () async {
+                              UserPreferences.deslogar();
+                              Navigator.of(context).pushNamedAndRemoveUntil(
+                                  AppRoutes.opening, (route) => false);
+                            },
+                            child: const Text('Sim'))
+                      ],
+                    ),
+                  );
+                },
+              );
+            },
           ),
         ],
       ),

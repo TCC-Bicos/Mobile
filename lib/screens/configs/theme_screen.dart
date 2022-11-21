@@ -15,9 +15,16 @@ class ThemeScreen extends StatefulWidget {
 
 class _ThemeScreenState extends State<ThemeScreen> {
   late int theme;
+  late int status;
 
   readTheme() {
     theme = context.watch<TemaApp>().temaClaroEscuro;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    status = StatusFreeUser.getStatus();
   }
 
   @override
@@ -26,7 +33,6 @@ class _ThemeScreenState extends State<ThemeScreen> {
 
     final temaValue = theme == 0 ? 1 : 0;
 
-    int status = context.watch<StatusFreeUser>().getStatus;
     Color primaryColor = status == 0
         ? context.watch<TemaApp>().getPrimaryColorUser
         : context.watch<TemaApp>().getPrimaryColorFree;

@@ -1,17 +1,20 @@
-import 'package:flutter/cupertino.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class StatusFreeUser with ChangeNotifier {
-  int _statusFreeUser = 0;
+class StatusFreeUser {
+  static late SharedPreferences sharedPreferences;
 
-  int get getStatus => _statusFreeUser;
+  static const _keyStatus = 'status';
+  static const myStatus = 0;
 
-  void statusFreelancer() {
-    _statusFreeUser = 1;
-    notifyListeners();
+  static Future init() async =>
+      sharedPreferences = await SharedPreferences.getInstance();
+
+  static Future setStatus(int status) async {
+    await sharedPreferences.setInt(_keyStatus, status);
   }
 
-  void statusUser() {
-    _statusFreeUser = 0;
-    notifyListeners();
+  static int getStatus() {
+    final status = sharedPreferences.getInt(_keyStatus);
+    return status ?? myStatus;
   }
 }

@@ -22,8 +22,15 @@ class _SearchPageState extends State<SearchPage>
   List<String> _searchHistory = [];
 
   late List<String> filteredSearchHistory;
-
   late String selectedTerm;
+  late int status;
+
+  @override
+  void initState() {
+    super.initState();
+    status = StatusFreeUser.getStatus();
+    filteredSearchHistory = filterSearchTerms(filter: null);
+  }
 
   List<String> filterSearchTerms({
     required String? filter,
@@ -62,12 +69,6 @@ class _SearchPageState extends State<SearchPage>
   final searchController = TextEditingController();
 
   @override
-  void initState() {
-    super.initState();
-    filteredSearchHistory = filterSearchTerms(filter: null);
-  }
-
-  @override
   void dispose() {
     searchController.dispose();
     super.dispose();
@@ -81,7 +82,6 @@ class _SearchPageState extends State<SearchPage>
 
   @override
   Widget build(BuildContext context) {
-    int status = context.watch<StatusFreeUser>().getStatus;
     Color primaryColor = status == 0
         ? context.watch<TemaApp>().getPrimaryColorUser
         : context.watch<TemaApp>().getPrimaryColorFree;

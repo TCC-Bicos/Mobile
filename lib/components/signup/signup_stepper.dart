@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:bicos_app/model/servico.dart';
+import 'package:bicos_app/providers/servicosProvider.dart';
 import 'package:brasil_fields/brasil_fields.dart' as brasil_fields;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -7,9 +9,10 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:dropdown_date_picker/dropdown_date_picker.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:path/path.dart';
+import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
 import 'package:cpf_cnpj_validator/cpf_validator.dart';
+import 'package:provider/provider.dart';
 
 import '../../utils/app_routes.dart';
 
@@ -42,7 +45,12 @@ class _SignupStepperState extends State<SignupStepper> {
 
   final String _fotoPadrao = 'assets/images/standardProfilePic.png';
   String _armazenaFoto = '';
-  String? _nome, _email, _cpf, _dropdownvalue, _armazenaGenero;
+  String? _nome,
+      _email,
+      _cpf,
+      _dropdownvalue,
+      _dropdownCargovalue,
+      _armazenaGenero;
   Object? _usuariovalue = 'cliente';
   final TextEditingController _senha = TextEditingController();
   final TextEditingController _confirmsenha = TextEditingController();
@@ -50,6 +58,47 @@ class _SignupStepperState extends State<SignupStepper> {
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
   final GlobalKey<FormState> _formkey2 = GlobalKey<FormState>();
   final GlobalKey<FormState> _formkey3 = GlobalKey<FormState>();
+
+  bool _isLoading = true;
+
+  late List<TipoServico> servicos;
+
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration.zero, () {
+      Provider.of<ServicosProvider>(context).getAllServicos().then((value) {
+        setState(() {
+          _isLoading = false;
+          servicos = Provider.of<ServicosProvider>(context).getServicos;
+        });
+      });
+    });
+  }
+
+// List<DropdownMenuItem<String>> get dropdownItems{
+//   List<DropdownMenuItem<String>> menuItems = [
+//     for(int i = 0; i < servicos.length; i ++){{DropdownMenuItem<String>(
+//                                 value: servicos[0].NomeServ,
+//                                 child: Text(
+//                                   servicos[0].NomeServ,
+//                                   style: const TextStyle(
+//                                     fontSize: 16,
+//                                   ),
+//                                 ),
+//                               );}}
+//     // servicos.forEach((e) {DropdownMenuItem<String>(
+//     //                             value: servicos[e].NomeServ,
+//     //                             child: Text(
+//     //                               servicos[e].NomeServ,
+//     //                               style: const TextStyle(
+//     //                                 fontSize: 16,
+//     //                               ),
+//     //                             ),
+//     //                           );})
+//   ];
+//   return menuItems;
+// }
 
   @override
   Widget build(BuildContext context) {
@@ -375,6 +424,24 @@ class _SignupStepperState extends State<SignupStepper> {
                               style: TextStyle(fontSize: 16),
                             ),
                           ),
+                          // DropdownButtonFormField<String>(
+                          //   value: _dropdownCargovalue,
+                          //   hint: const Text(
+                          //     'Cargo',
+                          //     style: TextStyle(
+                          //       fontSize: 16,
+                          //       color: Color.fromARGB(255, 104, 111, 118),
+                          //     ),
+                          //   ),
+                          //   onChanged: (dropdownCargovalue) => setState(() => {
+                          //         _dropdownCargovalue = dropdownCargovalue,
+                          //       }),
+                          //   validator: (value) => value == null
+                          //       ? 'Por favor selecione um cargo'
+                          //       : null,
+                          //   items:
+                          // ),
+
                           SizedBox(
                             height:
                                 MediaQuery.of(this.context).size.height * 0.02,
@@ -549,7 +616,7 @@ class _SignupStepperState extends State<SignupStepper> {
                         .pickImage(source: ImageSource.gallery);
                     if (image == null) return;
                     final directory = await getApplicationDocumentsDirectory();
-                    final name = basename(image.path);
+                    final name = path.basename(image.path);
                     final imageFile = File('${directory.path}/$name');
                     final newImage =
                         await File(image.path).copy(imageFile.path);
@@ -576,7 +643,7 @@ class _SignupStepperState extends State<SignupStepper> {
                         .pickImage(source: ImageSource.gallery);
                     if (image == null) return;
                     final directory = await getApplicationDocumentsDirectory();
-                    final name = basename(image.path);
+                    final name = path.basename(image.path);
                     final imageFile = File('${directory.path}/$name');
                     final newImage =
                         await File(image.path).copy(imageFile.path);

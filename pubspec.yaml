@@ -46,6 +46,7 @@ dependencies:
   dio: ^4.0.6
   provider: ^6.0.4
   fluttertoast: ^8.0.8
+  email_validator: ^2.1.17
 
 dev_dependencies:
   flutter_test:
@@ -75,14 +76,14 @@ flutter:
     - assets/images/bicoslogo_azul.png
     - assets/images/bicoslogo_verde.png
     - assets/images/standardProfilePic.png
-    - assets/images/1.jpg
-    - assets/images/2.jpg
-    - assets/images/3.jpg
-    - assets/images/4.jpg
-    - assets/images/5.jpg
-    - assets/images/6.jpg
-    - assets/images/7.jpg
-    - assets/images/8.jpg
+    - assets/images/ogaua.png
+    - assets/images/shalgun.png
+    - assets/images/eruliko.png
+    - assets/images/quesheg.png
+    - assets/images/choi.png
+    - assets/images/mousedesvio.png
+    - assets/images/amariano.png
+    - assets/images/roodorooraada.png
     - assets/images/testeImagemAnun.png
     - assets/images/unknown.png
     - assets/images/web.jpg

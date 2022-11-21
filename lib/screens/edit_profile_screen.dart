@@ -7,7 +7,7 @@ import 'package:bicos_app/utils/user_preferences.dart';
 import 'package:bicos_app/components/profile-edit/button_widget.dart';
 import 'dart:io';
 import '../components/profile-edit/editprofile_widget.dart';
-import '../model/user.dart';
+import '../model/cliente.dart';
 import '../components/profile-edit/textfield_widget.dart';
 import 'package:path/path.dart';
 
@@ -48,7 +48,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
             Container(
               margin: const EdgeInsets.only(top: 20),
               child: EditProfileWidget(
-                imagePath: user.imagePath,
+                imagePath: user.ImgUser,
                 isEdit: true,
                 onClicked: () async {
                   final image = await ImagePicker()
@@ -58,31 +58,26 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   final name = basename(image.path);
                   final imageFile = File('${directory.path}/$name');
                   final newImage = await File(image.path).copy(imageFile.path);
-                  setState(() => user = user.copy(imagePath: newImage.path));
+                  setState(() => user = user.copy(ImgUser: newImage.path));
                 },
                 onDeleted: () async {
-                  setState(() => user = user.copy(imagePath: ''));
+                  setState(() => user = user.copy(ImgUser: ''));
                 },
               ),
             ),
             const SizedBox(height: 24),
             TextFieldWidget(
               label: 'Nome:',
-              text: user.name,
-              onChanged: (name) => user = user.copy(name: name),
+              text: user.NomeUser,
+              onChanged: (name) => user = user.copy(NomeUser: name),
             ),
             const SizedBox(height: 24),
-            TextFieldWidget(
-              label: 'Profissão:',
-              text: user.profissao,
-              onChanged: (profissao) => user = user.copy(profissao: profissao),
-            ),
             const SizedBox(height: 24),
             TextFieldWidget(
               label: 'Sobre:',
-              text: user.about,
+              text: user.DescUser,
               maxLines: 5,
-              onChanged: (about) => user = user.copy(about: about),
+              onChanged: (about) => user = user.copy(DescUser: about),
             ),
             const SizedBox(height: 24),
             Container(

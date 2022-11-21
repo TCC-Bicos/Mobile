@@ -49,31 +49,44 @@ class EditProfileWidget extends StatelessWidget {
         : FileImage(File(imagePath));
     final img = Image.asset('assets/images/standardProfilePic.png');
 
-    return hasImage == 0
-        ? ClipOval(
-            child: Material(
-              color: Colors.transparent,
-              child: Ink.image(
-                image: img.image,
-                fit: BoxFit.cover,
-                width: 128,
-                height: 128,
-                child: InkWell(onTap: onClicked),
-              ),
-            ),
-          )
-        : ClipOval(
-            child: Material(
-              color: Colors.transparent,
-              child: Ink.image(
-                image: image as ImageProvider,
-                fit: BoxFit.cover,
-                width: 128,
-                height: 128,
-                child: InkWell(onTap: onClicked),
-              ),
-            ),
-          );
+    return ClipOval(
+      child: Material(
+        color: Colors.transparent,
+        child: Ink.image(
+          image: img.image,
+          fit: BoxFit.cover,
+          width: 128,
+          height: 128,
+          child: InkWell(onTap: onClicked),
+        ),
+      ),
+    );
+
+    // return hasImage == 0
+    //     ? ClipOval(
+    //         child: Material(
+    //           color: Colors.transparent,
+    //           child: Ink.image(
+    //             image: img.image,
+    //             fit: BoxFit.cover,
+    //             width: 128,
+    //             height: 128,
+    //             child: InkWell(onTap: onClicked),
+    //           ),
+    //         ),
+    //       )
+    //     : ClipOval(
+    //         child: Material(
+    //           color: Colors.transparent,
+    //           child: Ink.image(
+    //             image: image as ImageProvider,
+    //             fit: BoxFit.cover,
+    //             width: 128,
+    //             height: 128,
+    //             child: InkWell(onTap: onClicked),
+    //           ),
+    //         ),
+    //       );
   }
 
   buildEditIcon(Color color) => buildCircle(

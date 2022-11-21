@@ -52,8 +52,6 @@ class _NovoAnuncioUsuarioState extends State<NovoAnuncioUsuario> {
   final precoController = TextEditingController();
   final requisitosController = TextEditingController();
 
-  AnunUserProvider _anunUserProvider = AnunUserProvider();
-
   late int theme;
 
   readTheme() {
@@ -139,7 +137,7 @@ class _NovoAnuncioUsuarioState extends State<NovoAnuncioUsuario> {
                           borderRadius: BorderRadius.circular(5),
                         ),
                         hintText: 'Título do projeto',
-                        hintStyle: TextStyle(fontSize: 16, color: textColor),
+                        hintStyle: TextStyle(fontSize: 16, color: secTextColor),
                         contentPadding: const EdgeInsets.only(
                           top: 2,
                           bottom: 2,
@@ -171,7 +169,8 @@ class _NovoAnuncioUsuarioState extends State<NovoAnuncioUsuario> {
                             borderRadius: BorderRadius.circular(5),
                           ),
                           hintText: 'Descrição',
-                          hintStyle: TextStyle(fontSize: 16, color: textColor),
+                          hintStyle:
+                              TextStyle(fontSize: 16, color: secTextColor),
                           contentPadding: const EdgeInsets.only(
                             top: 2,
                             bottom: 2,
@@ -204,7 +203,7 @@ class _NovoAnuncioUsuarioState extends State<NovoAnuncioUsuario> {
                           borderRadius: BorderRadius.circular(5),
                         ),
                         hintText: 'Remuneração',
-                        hintStyle: TextStyle(fontSize: 16, color: textColor),
+                        hintStyle: TextStyle(fontSize: 16, color: secTextColor),
                         contentPadding: const EdgeInsets.only(
                           top: 2,
                           bottom: 2,
@@ -231,7 +230,7 @@ class _NovoAnuncioUsuarioState extends State<NovoAnuncioUsuario> {
                           borderRadius: BorderRadius.circular(5),
                         ),
                         hintText: 'Requisitos',
-                        hintStyle: TextStyle(fontSize: 16, color: textColor),
+                        hintStyle: TextStyle(fontSize: 16, color: secTextColor),
                         contentPadding: const EdgeInsets.only(
                           top: 2,
                           bottom: 2,
@@ -261,13 +260,13 @@ class _NovoAnuncioUsuarioState extends State<NovoAnuncioUsuario> {
                                   children: [
                                     Icon(
                                       Icons.add_a_photo,
-                                      color: textColor,
+                                      color: secTextColor,
                                       size: 60,
                                     ),
                                     Text(
                                       'Carregar imagem',
                                       style: TextStyle(
-                                        color: textColor,
+                                        color: secTextColor,
                                       ),
                                     ),
                                   ],
@@ -288,7 +287,7 @@ class _NovoAnuncioUsuarioState extends State<NovoAnuncioUsuario> {
                           width: 220,
                           child: TextButton(
                             onPressed: () {
-                              _anunUserProvider.addAnunUsuario(
+                              context.read<AnunUserProvider>().addAnunUsuario(
                                   titleController.text,
                                   descController.text,
                                   precoController.text,

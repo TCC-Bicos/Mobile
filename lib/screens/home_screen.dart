@@ -19,9 +19,16 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage>
     with AutomaticKeepAliveClientMixin {
+  late int status;
+
+  @override
+  void initState() {
+    super.initState();
+    status = StatusFreeUser.getStatus();
+  }
+
   @override
   Widget build(BuildContext context) {
-    int status = context.watch<StatusFreeUser>().getStatus;
     Color primaryColor = status == 0
         ? context.watch<TemaApp>().getPrimaryColorUser
         : context.watch<TemaApp>().getPrimaryColorFree;
