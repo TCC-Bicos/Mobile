@@ -20,9 +20,16 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage>
     with AutomaticKeepAliveClientMixin {
+  late int status;
+
+  @override
+  void initState() {
+    super.initState();
+    status = StatusFreeUser.getStatus();
+  }
+
   @override
   Widget build(BuildContext context) {
-    int status = context.watch<StatusFreeUser>().getStatus;
     Color primaryColor = status == 0
         ? context.watch<TemaApp>().getPrimaryColorUser
         : context.watch<TemaApp>().getPrimaryColorFree;
@@ -134,7 +141,6 @@ class _ProfilePageState extends State<ProfilePage>
       ButtonWidget(text: 'Enviar Mensagem', onClicked: () {});
 
   Widget buildAbout(User user) {
-    int status = context.watch<StatusFreeUser>().getStatus;
     Color textColor = status == 0
         ? context.watch<TemaApp>().getTextColorUser
         : context.watch<TemaApp>().getTextColorFree;

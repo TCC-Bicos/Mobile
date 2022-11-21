@@ -17,18 +17,22 @@ class ContaConfigs extends StatefulWidget {
 
 class _ContaConfigsState extends State<ContaConfigs> {
   late int theme;
+  late int status;
 
   readTheme() {
     theme = context.watch<TemaApp>().temaClaroEscuro;
   }
 
-  ClienteProvider _clienteProvider = ClienteProvider();
+  @override
+  void initState() {
+    super.initState();
+    status = StatusFreeUser.getStatus();
+  }
 
   @override
   Widget build(BuildContext context) {
     readTheme();
 
-    int status = context.watch<StatusFreeUser>().getStatus;
     Color primaryColor = status == 0
         ? context.watch<TemaApp>().getPrimaryColorUser
         : context.watch<TemaApp>().getPrimaryColorFree;

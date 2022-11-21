@@ -1,227 +1,184 @@
-import 'package:bicos_app/utils/app_routes.dart';
+import 'package:bicos_app/components/chat/chat.dart';
+import 'package:bicos_app/model/chat_users.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:provider/provider.dart';
 
-import 'dart:ui';
-import 'package:flutter/material.dart';
+import '../utils/statusFree_User.dart';
+import '../utils/tema.dart';
 
 class ChatScreen extends StatefulWidget {
-  const ChatScreen({Key? key}) : super(key: key);
-
   @override
-  State<ChatScreen> createState() => _ChatScreenState();
+  _ChatScreenState createState() => _ChatScreenState();
 }
 
-class _ChatScreenState extends State<ChatScreen>
-    with AutomaticKeepAliveClientMixin {
+class _ChatScreenState extends State<ChatScreen> {
+  List<ChatUsers> chatUsers = [
+    ChatUsers(
+        text: "Ogaua",
+        secondaryText: "Trabaia",
+        image: "assets/images/ogaua.png",
+        time: "Agora"),
+    ChatUsers(
+        text: "Shalgun",
+        secondaryText: "Aram?",
+        image: "assets/images/shalgun.png",
+        time: "Ontem"),
+    ChatUsers(
+        text: "Eruliko",
+        secondaryText: "Bora lol?",
+        image: "assets/images/eruliko.png",
+        time: "18 Dez"),
+    ChatUsers(
+        text: "Quesheg",
+        secondaryText: "Olha esse vídeo aqui",
+        image: "assets/images/quesheg.png",
+        time: "17 Dez"),
+    ChatUsers(
+        text: "Choi",
+        secondaryText: "Bora sair esse fds?",
+        image: "assets/images/choi.png",
+        time: "Ontem"),
+    ChatUsers(
+        text: "Mousedesvio",
+        secondaryText: "amogus sus sus amogus",
+        image: "assets/images/mousedesvio.png",
+        time: "1 Nov"),
+    ChatUsers(
+      text: "Amariano",
+      secondaryText: ":)",
+      image: "assets/images/amariano.png",
+      time: "Ontem",
+    ),
+    ChatUsers(
+        text: "Roodorooraada",
+        secondaryText: "Kof",
+        image: "assets/images/roodorooraada.png",
+        time: "18 Dez"),
+  ];
+
+  late int theme;
+  late int status;
+
+  readTheme() {
+    theme = context.watch<TemaApp>().temaClaroEscuro;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    status = StatusFreeUser.getStatus();
+  }
+
   @override
   Widget build(BuildContext context) {
-    super.build(context);
+    readTheme();
+
+    Color primaryColor = status == 0
+        ? context.watch<TemaApp>().getPrimaryColorUser
+        : context.watch<TemaApp>().getPrimaryColorFree;
+    Color secundaryColor = status == 0
+        ? context.watch<TemaApp>().getSecundaryColorUser
+        : context.watch<TemaApp>().getSecundaryColorFree;
+    Color backColor = status == 0
+        ? context.watch<TemaApp>().getBackgroundColorUser
+        : context.watch<TemaApp>().getBackgroundColorFree;
+    Color textColor = status == 0
+        ? context.watch<TemaApp>().getTextColorUser
+        : context.watch<TemaApp>().getTextColorFree;
+    Color secTextColor = context.watch<TemaApp>().getSecundaryTextColor;
+
     return Scaffold(
-      backgroundColor: Colors.indigo,
-      body: SafeArea(
-        child: Column(
-          children: [
-            _top(),
-            _body(),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _top() {
-    return Container(
-      padding: const EdgeInsets.only(top: 30, left: 30),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text(
-            'Fale sobre \nseus trabalhos',
-            style: TextStyle(
-                fontSize: 28, fontWeight: FontWeight.bold, color: Colors.white),
-          ),
-          Row(
-            children: [
-              Container(
-                padding: const EdgeInsets.all(14),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(50),
-                  color: Colors.black12,
-                ),
-                child: const Icon(
-                  Icons.search,
-                  size: 30,
-                  color: Colors.white,
-                ),
-              ),
-              const SizedBox(
-                width: 15,
-              ),
-              Expanded(
-                child: SizedBox(
-                  height: 100,
-                  child: ListView.builder(
-                    physics: const BouncingScrollPhysics(),
-                    scrollDirection: Axis.horizontal,
-                    shrinkWrap: true,
-                    itemCount: 8,
-                    itemBuilder: (context, index) {
-                      return Avatar(
-                        margin: const EdgeInsets.only(right: 15),
-                        image: 'assets/images/${index + 1}.jpg',
-                      );
-                    },
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _body() {
-    return Expanded(
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 30),
-        width: double.infinity,
-        decoration: const BoxDecoration(
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(45), topRight: Radius.circular(45)),
-          color: Colors.white,
-        ),
-        child: ListView(
-          padding: const EdgeInsets.only(top: 35),
+      body: Scaffold(
+        backgroundColor: backColor,
+        body: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
-          children: [
-            _itemChats(
-              avatar: 'assets/images/2.jpg',
-              name: 'Johnny Doe',
-              chat:
-                  'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
-              time: '08.10',
-            ),
-            _itemChats(
-              avatar: 'assets/images/4.jpg',
-              name: 'Adrian',
-              chat: 'Excepteur sint occaecat cupidatat non proident',
-              time: '03.19',
-            ),
-            _itemChats(
-              avatar: 'assets/images/5.jpg',
-              name: 'Fiona',
-              chat: 'Hii... 😎',
-              time: '02.53',
-            ),
-            _itemChats(
-              avatar: 'assets/images/6.jpg',
-              name: 'Emma',
-              chat: 'Consectetur adipiscing elit',
-              time: '11.39',
-            ),
-            _itemChats(
-              avatar: 'assets/images/7.jpg',
-              name: 'Alexander',
-              chat:
-                  'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur',
-              time: '00.09',
-            ),
-            _itemChats(
-              avatar: 'assets/images/8.jpg',
-              name: 'Alsoher',
-              chat:
-                  'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur',
-              time: '00.09',
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _itemChats(
-      {String avatar = '', name = '', chat = '', time = '00.00'}) {
-    return GestureDetector(
-      onTap: () {
-        Navigator.of(context).pushNamed(AppRoutes.chat);
-      },
-      child: Card(
-        margin: const EdgeInsets.symmetric(vertical: 20),
-        elevation: 0,
-        child: Row(
-          children: [
-            Avatar(
-              margin: const EdgeInsets.only(right: 20),
-              size: 60,
-              image: avatar,
-            ),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              SafeArea(
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 16, right: 16, top: 10),
+                  child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
+                    children: <Widget>[
                       Text(
-                        '$name',
-                        style: const TextStyle(
-                            fontSize: 17, fontWeight: FontWeight.bold),
+                        "Chats",
+                        style: TextStyle(
+                            fontSize: 30,
+                            fontWeight: FontWeight.bold,
+                            color: textColor),
                       ),
-                      Text(
-                        '$time',
-                        style: const TextStyle(
-                            color: Colors.grey, fontWeight: FontWeight.bold),
-                      ),
+                      Container(
+                        padding: const EdgeInsets.only(
+                            left: 8, right: 8, top: 2, bottom: 2),
+                        height: 30,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(30),
+                          color: secundaryColor,
+                        ),
+                        child: Row(
+                          children: <Widget>[
+                            Icon(
+                              Icons.add,
+                              color: primaryColor,
+                              size: 20,
+                            ),
+                            const SizedBox(
+                              width: 2,
+                            ),
+                            Text(
+                              "Novo",
+                              style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                  color: textColor),
+                            ),
+                          ],
+                        ),
+                      )
                     ],
                   ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Text(
-                    '$chat',
-                    overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
-                      color: Colors.black54,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
+                ),
               ),
-            )
-          ],
-        ),
-      ),
-    );
-  }
-
-  @override
-  bool get wantKeepAlive => true;
-}
-
-class Avatar extends StatelessWidget {
-  final double size;
-  final image;
-  final EdgeInsets margin;
-  const Avatar(
-      {Key? key,
-      this.image,
-      this.size = 50,
-      this.margin = const EdgeInsets.all(0)})
-      : super(key: key);
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: margin,
-      child: Container(
-        width: size,
-        height: size,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          image: DecorationImage(
-            image: AssetImage(image),
+              Padding(
+                padding: const EdgeInsets.only(top: 16, left: 16, right: 16),
+                child: TextField(
+                  decoration: InputDecoration(
+                    hintText: "Procurar...",
+                    hintStyle: TextStyle(color: secTextColor),
+                    prefixIcon: Icon(
+                      Icons.search,
+                      color: primaryColor,
+                      size: 20,
+                    ),
+                    filled: true,
+                    fillColor: status == 0
+                        ? const Color.fromARGB(48, 65, 124, 175)
+                        : const Color.fromARGB(47, 65, 175, 70),
+                    contentPadding: const EdgeInsets.all(8),
+                    enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30),
+                        borderSide: BorderSide(color: primaryColor)),
+                  ),
+                ),
+              ),
+              ListView.builder(
+                itemCount: chatUsers.length,
+                shrinkWrap: true,
+                padding: const EdgeInsets.only(top: 16),
+                physics: const NeverScrollableScrollPhysics(),
+                itemBuilder: (context, index) {
+                  return ChatUsersList(
+                    text: chatUsers[index].text,
+                    secondaryText: chatUsers[index].secondaryText,
+                    image: chatUsers[index].image,
+                    time: chatUsers[index].time,
+                    isMessageRead: (index == 0 || index == 3) ? true : false,
+                  );
+                },
+              ),
+            ],
           ),
         ),
       ),

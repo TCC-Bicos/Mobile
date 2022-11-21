@@ -13,16 +13,22 @@ class ModalMenu extends StatefulWidget {
 
 class _ModalMenuState extends State<ModalMenu> {
   late int theme;
+  late int status;
 
   readTheme() {
     theme = context.watch<TemaApp>().temaClaroEscuro;
   }
 
   @override
+  void initState() {
+    super.initState();
+    status = StatusFreeUser.getStatus();
+  }
+
+  @override
   Widget build(BuildContext context) {
     readTheme();
 
-    int status = context.watch<StatusFreeUser>().getStatus;
     Color textColor = status == 0
         ? context.watch<TemaApp>().getTextColorUser
         : context.watch<TemaApp>().getTextColorFree;

@@ -2,6 +2,7 @@
 
 import 'package:bicos_app/providers/anunUserProvider.dart';
 import 'package:bicos_app/providers/clientProvider.dart';
+import 'package:bicos_app/providers/servicosProvider.dart';
 import 'package:bicos_app/screens/configs/conta/conta_configs_screen.dart';
 import 'package:bicos_app/screens/configs/conta/infopessoais_screen.dart';
 import 'package:bicos_app/screens/configs/theme_screen.dart';
@@ -10,7 +11,6 @@ import 'package:bicos_app/screens/loginFreelancer_screen.dart';
 import 'package:bicos_app/screens/loginUserFreelancer_screen.dart';
 import 'package:bicos_app/screens/loginUser_screen.dart';
 import 'package:bicos_app/screens/menu/configs.dart';
-import 'package:bicos_app/screens/message_Screen.dart';
 import 'package:bicos_app/screens/navigation_screen.dart';
 import 'package:bicos_app/screens/novoAnuncio_Usuario_screen.dart';
 import 'package:bicos_app/screens/novoAnuncio_Freelancer_screen.dart';
@@ -28,6 +28,7 @@ Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await UserPreferences.init();
+  await StatusFreeUser.init();
 
   runApp(MyApp());
 }
@@ -38,9 +39,9 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => ClienteProvider()),
-        ChangeNotifierProvider(create: (_) => StatusFreeUser()),
         ChangeNotifierProvider(create: (_) => AnunUserProvider()),
         ChangeNotifierProvider(create: (_) => TemaApp()),
+        ChangeNotifierProvider(create: (_) => ServicosProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -76,7 +77,6 @@ class MyApp extends StatelessWidget {
           AppRoutes.contaConfigs: (ctx) => const ContaConfigs(),
           AppRoutes.infoPessoais: (ctx) => const InfoPessoais(),
           AppRoutes.tema: (ctx) => const ThemeScreen(),
-          AppRoutes.chat: (ctx) => MessageScreen(),
         },
       ),
     );

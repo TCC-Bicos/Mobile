@@ -43,13 +43,14 @@ class _NavigationBarScreenState extends State<NavigationBarScreen> {
   @override
   void initState() {
     super.initState();
-
+    status = StatusFreeUser.getStatus();
     pageController = PageController(initialPage: index);
   }
 
   PageController? pageController;
 
   late int theme;
+  late int status;
 
   readTheme() {
     theme = context.watch<TemaApp>().temaClaroEscuro;
@@ -59,7 +60,6 @@ class _NavigationBarScreenState extends State<NavigationBarScreen> {
   Widget build(BuildContext context) {
     readTheme();
 
-    int status = context.watch<StatusFreeUser>().getStatus;
     Color primaryColor = status == 0
         ? context.watch<TemaApp>().getPrimaryColorUser
         : context.watch<TemaApp>().getPrimaryColorFree;

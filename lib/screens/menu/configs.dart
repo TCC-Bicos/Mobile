@@ -18,16 +18,22 @@ class ConfigsScreen extends StatefulWidget {
 
 class _ConfigsScreenState extends State<ConfigsScreen> {
   late int theme;
+  late int status;
 
   readTheme() {
     theme = context.watch<TemaApp>().temaClaroEscuro;
   }
 
   @override
+  void initState() {
+    super.initState();
+    status = StatusFreeUser.getStatus();
+  }
+
+  @override
   Widget build(BuildContext context) {
     readTheme();
 
-    int status = context.watch<StatusFreeUser>().getStatus;
     Color primaryColor = status == 0
         ? context.watch<TemaApp>().getPrimaryColorUser
         : context.watch<TemaApp>().getPrimaryColorFree;

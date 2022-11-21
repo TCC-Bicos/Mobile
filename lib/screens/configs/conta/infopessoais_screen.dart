@@ -1,3 +1,4 @@
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -19,27 +20,28 @@ class InfoPessoais extends StatefulWidget {
 
 class _InfoPessoaisState extends State<InfoPessoais> {
   late int theme;
+  late int status;
+  late User user;
 
   readTheme() {
     theme = context.watch<TemaApp>().temaClaroEscuro;
   }
 
-  late User user;
-
   @override
   void initState() {
     super.initState();
     user = UserPreferences.getUser();
+    status = StatusFreeUser.getStatus();
   }
 
   @override
   Widget build(BuildContext context) {
     readTheme();
 
-    TextEditingController emailController = TextEditingController();
+    TextEditingController emailController =
+        TextEditingController(text: user.EmailUser);
     TextEditingController telefoneController = TextEditingController();
 
-    int status = context.watch<StatusFreeUser>().getStatus;
     Color primaryColor = status == 0
         ? context.watch<TemaApp>().getPrimaryColorUser
         : context.watch<TemaApp>().getPrimaryColorFree;
@@ -90,7 +92,6 @@ class _InfoPessoaisState extends State<InfoPessoais> {
               height: 5,
             ),
             TextFormField(
-              controller: emailController,
               onTap: () async {
                 bool? exitApp = await showDialog(
                   context: context,
@@ -105,7 +106,7 @@ class _InfoPessoaisState extends State<InfoPessoais> {
                             style: TextStyle(color: textColor),
                           ),
                           content: TextFormField(
-                            initialValue: user.EmailUser,
+                            controller: emailController,
                             style: TextStyle(color: textColor),
                             decoration: InputDecoration(
                               enabledBorder: UnderlineInputBorder(
@@ -118,10 +119,8 @@ class _InfoPessoaisState extends State<InfoPessoais> {
                             validator: (value) {
                               if (value!.isEmpty) {
                                 return 'Por favor insira um E-mail';
-                              }
-                              if (!RegExp(
-                                      '^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]')
-                                  .hasMatch(value)) {
+                              } else if (!EmailValidator.validate(
+                                  emailController.text, true)) {
                                 return 'Por favor insira um E-mail válido';
                               }
                               return null;

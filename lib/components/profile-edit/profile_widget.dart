@@ -21,9 +21,10 @@ class ProfileWidget extends StatelessWidget {
     required this.onClicked,
   }) : super(key: key);
 
+  late int status = StatusFreeUser.getStatus();
+
   @override
   Widget build(BuildContext context) {
-    int status = context.watch<StatusFreeUser>().getStatus;
     Color color = status == 0
         ? context.watch<TemaApp>().getPrimaryColorUser
         : context.watch<TemaApp>().getPrimaryColorFree;
