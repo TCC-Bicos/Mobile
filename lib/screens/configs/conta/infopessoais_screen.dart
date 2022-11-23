@@ -1,4 +1,6 @@
-import 'package:email_validator/email_validator.dart';
+import 'package:bicos_app/model/freelancer.dart';
+import 'package:bicos_app/providers/freelancerProvider.dart';
+import 'package:bicos_app/utils/freelancer_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -22,6 +24,8 @@ class _InfoPessoaisState extends State<InfoPessoais> {
   late int theme;
   late int status;
   late User user;
+  late Freelancer freelancer;
+  late TextEditingController emailController;
 
   readTheme() {
     theme = context.watch<TemaApp>().temaClaroEscuro;
@@ -31,16 +35,18 @@ class _InfoPessoaisState extends State<InfoPessoais> {
   void initState() {
     super.initState();
     user = UserPreferences.getUser();
+    freelancer = FreelancerPreferences.getFreelancer();
     status = StatusFreeUser.getStatus();
+    emailController = TextEditingController(
+        text: status == 0 ? user.EmailUser : freelancer.EmailFr);
   }
+
+  final _formkey = GlobalKey<FormState>();
+  TextEditingController telefoneController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     readTheme();
-
-    TextEditingController emailController =
-        TextEditingController(text: user.EmailUser);
-    TextEditingController telefoneController = TextEditingController();
 
     Color primaryColor = status == 0
         ? context.watch<TemaApp>().getPrimaryColorUser
@@ -54,8 +60,6 @@ class _InfoPessoaisState extends State<InfoPessoais> {
     Color textColor = status == 0
         ? context.watch<TemaApp>().getTextColorUser
         : context.watch<TemaApp>().getTextColorFree;
-
-    final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
 
     return Scaffold(
       backgroundColor: backColor,
@@ -78,27 +82,27 @@ class _InfoPessoaisState extends State<InfoPessoais> {
       ),
       body: Padding(
         padding: const EdgeInsets.only(left: 20, right: 20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(
-              height: 50,
-            ),
-            Text(
-              'Email',
-              style: TextStyle(fontSize: 16, color: textColor),
-            ),
-            const SizedBox(
-              height: 5,
-            ),
-            TextFormField(
-              onTap: () async {
-                bool? exitApp = await showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return Form(
-                      key: _formkey,
-                      child: Theme(
+        child: Form(
+          key: _formkey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(
+                height: 50,
+              ),
+              Text(
+                'Email',
+                style: TextStyle(fontSize: 16, color: textColor),
+              ),
+              const SizedBox(
+                height: 5,
+              ),
+              TextFormField(
+                onTap: () async {
+                  bool? showEmailEditor = await showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return Theme(
                         data: ThemeData(dialogBackgroundColor: backColor),
                         child: AlertDialog(
                           title: Text(
@@ -119,8 +123,9 @@ class _InfoPessoaisState extends State<InfoPessoais> {
                             validator: (value) {
                               if (value!.isEmpty) {
                                 return 'Por favor insira um E-mail';
-                              } else if (!EmailValidator.validate(
-                                  emailController.text, true)) {
+                              } else if (!RegExp(
+                                      r'^(([^<>()[]\.,;:\s@"]+(.[^<>()[]\.,;:\s@"]+)*)|(".+"))@(([[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}])|(([a-zA-Z-0-9]+.)+[a-zA-Z]{2,}))$')
+                                  .hasMatch(value)) {
                                 return 'Por favor insira um E-mail válido';
                               }
                               return null;
@@ -134,128 +139,135 @@ class _InfoPessoaisState extends State<InfoPessoais> {
                               child: const Text('Cancelar'),
                             ),
                             TextButton(
-                              onPressed: () async {
-                                if (_formkey.currentState!.validate()) {
-                                  context
-                                      .read<ClienteProvider>()
-                                      .updateEmailUser(emailController.text,
-                                          user.idUser, context);
-                                }
+                              onPressed: () {
+                                if (!_formkey.currentState!.validate()) return;
+
+                                status == 0
+                                    ? context
+                                        .read<ClienteProvider>()
+                                        .updateEmailUser(emailController.text,
+                                            user.idUser, context)
+                                    : context
+                                        .read<FreelancerProvider>()
+                                        .updateEmailFreelancer(
+                                            emailController.text,
+                                            freelancer.idFr,
+                                            context);
                               },
                               child: const Text('Salvar'),
                             )
                           ],
                         ),
-                      ),
-                    );
-                  },
-                );
-              },
-              readOnly: true,
-              cursorColor: primaryColor,
-              decoration: InputDecoration(
-                counterStyle: TextStyle(color: textColor),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(width: 1, color: textColor),
-                  borderRadius: BorderRadius.circular(5),
+                      );
+                    },
+                  );
+                },
+                readOnly: true,
+                cursorColor: primaryColor,
+                decoration: InputDecoration(
+                  counterStyle: TextStyle(color: textColor),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(width: 1, color: textColor),
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(width: 1, color: textColor),
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  hintText: status == 0 ? user.EmailUser : freelancer.EmailFr,
+                  hintStyle: TextStyle(fontSize: 16, color: textColor),
+                  contentPadding: const EdgeInsets.only(
+                    top: 2,
+                    bottom: 2,
+                    left: 15,
+                    right: 15,
+                  ),
                 ),
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(width: 1, color: textColor),
-                  borderRadius: BorderRadius.circular(5),
-                ),
-                hintText: user.EmailUser,
-                hintStyle: TextStyle(fontSize: 16, color: textColor),
-                contentPadding: const EdgeInsets.only(
-                  top: 2,
-                  bottom: 2,
-                  left: 15,
-                  right: 15,
-                ),
+                style: TextStyle(fontSize: 16, color: textColor),
               ),
-              style: TextStyle(fontSize: 16, color: textColor),
-            ),
-            const SizedBox(
-              height: 30,
-            ),
-            Text(
-              'Telefone',
-              style: TextStyle(fontSize: 16, color: textColor),
-            ),
-            const SizedBox(
-              height: 5,
-            ),
-            TextFormField(
-              controller: telefoneController,
-              onTap: () async {
-                bool? exitApp = await showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return Theme(
-                      data: ThemeData(dialogBackgroundColor: backColor),
-                      child: AlertDialog(
-                        title: Text(
-                          'Telefone',
-                          style: TextStyle(color: textColor),
-                        ),
-                        content: TextFormField(
-                          initialValue: user.TelUser,
-                          style: TextStyle(color: textColor),
-                          decoration: InputDecoration(
-                            enabledBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: textColor),
-                            ),
-                            focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: textColor),
+              const SizedBox(
+                height: 30,
+              ),
+              Text(
+                'Telefone',
+                style: TextStyle(fontSize: 16, color: textColor),
+              ),
+              const SizedBox(
+                height: 5,
+              ),
+              TextFormField(
+                controller: telefoneController,
+                onTap: () async {
+                  bool? showTelEditor = await showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return Theme(
+                        data: ThemeData(dialogBackgroundColor: backColor),
+                        child: AlertDialog(
+                          title: Text(
+                            'Telefone',
+                            style: TextStyle(color: textColor),
+                          ),
+                          content: TextFormField(
+                            initialValue: user.TelUser,
+                            style: TextStyle(color: textColor),
+                            decoration: InputDecoration(
+                              enabledBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: textColor),
+                              ),
+                              focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: textColor),
+                              ),
                             ),
                           ),
+                          actions: <Widget>[
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: const Text('Cancelar'),
+                            ),
+                            TextButton(
+                              onPressed: () async {
+                                context.read<ClienteProvider>().updateTelUser(
+                                    telefoneController.text,
+                                    user.idUser,
+                                    context);
+                                Navigator.of(context).pop();
+                              },
+                              child: const Text('Salvar'),
+                            )
+                          ],
                         ),
-                        actions: <Widget>[
-                          TextButton(
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                            child: const Text('Cancelar'),
-                          ),
-                          TextButton(
-                            onPressed: () async {
-                              context.read<ClienteProvider>().updateTelUser(
-                                  telefoneController.text,
-                                  user.idUser,
-                                  context);
-                              Navigator.of(context).pop();
-                            },
-                            child: const Text('Salvar'),
-                          )
-                        ],
-                      ),
-                    );
-                  },
-                );
-              },
-              readOnly: true,
-              cursorColor: primaryColor,
-              decoration: InputDecoration(
-                counterStyle: TextStyle(color: textColor),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(width: 1, color: textColor),
-                  borderRadius: BorderRadius.circular(5),
+                      );
+                    },
+                  );
+                },
+                readOnly: true,
+                cursorColor: primaryColor,
+                decoration: InputDecoration(
+                  counterStyle: TextStyle(color: textColor),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(width: 1, color: textColor),
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(width: 1, color: textColor),
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  hintText: status == 0 ? user.TelUser : freelancer.TelFr,
+                  hintStyle: TextStyle(fontSize: 16, color: textColor),
+                  contentPadding: const EdgeInsets.only(
+                    top: 2,
+                    bottom: 2,
+                    left: 15,
+                    right: 15,
+                  ),
                 ),
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(width: 1, color: textColor),
-                  borderRadius: BorderRadius.circular(5),
-                ),
-                hintText: user.TelUser,
-                hintStyle: TextStyle(fontSize: 16, color: textColor),
-                contentPadding: const EdgeInsets.only(
-                  top: 2,
-                  bottom: 2,
-                  left: 15,
-                  right: 15,
-                ),
+                style: TextStyle(fontSize: 16, color: textColor),
               ),
-              style: TextStyle(fontSize: 16, color: textColor),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

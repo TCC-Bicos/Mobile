@@ -1,3 +1,5 @@
+import 'package:bicos_app/model/freelancer.dart';
+import 'package:bicos_app/utils/freelancer_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -11,6 +13,8 @@ import '../model/cliente.dart';
 import '../components/profile-edit/textfield_widget.dart';
 import 'package:path/path.dart';
 
+import '../utils/statusFree_User.dart';
+
 class EditProfilePage extends StatefulWidget {
   @override
   State<EditProfilePage> createState() => _EditProfilePageState();
@@ -18,11 +22,15 @@ class EditProfilePage extends StatefulWidget {
 
 class _EditProfilePageState extends State<EditProfilePage> {
   late User user;
+  late Freelancer freelancer;
+  late int status;
 
   @override
   void initState() {
     super.initState();
     user = UserPreferences.getUser();
+    freelancer = FreelancerPreferences.getFreelancer();
+    status = StatusFreeUser.getStatus();
   }
 
   @override
@@ -48,7 +56,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
             Container(
               margin: const EdgeInsets.only(top: 20),
               child: EditProfileWidget(
-                imagePath: user.ImgUser,
+                imagePath: status == 0 ? user.ImgUser : freelancer.ImgFr,
                 isEdit: true,
                 onClicked: () async {
                   final image = await ImagePicker()

@@ -27,21 +27,23 @@ class AnunUserProvider with ChangeNotifier {
     try {
       final SharedPreferences sharedPreferences =
           await SharedPreferences.getInstance();
-      var response = await Dio().post(
-        'http://10.0.2.2:8000/api/addAnunUsuario',
-        data: {
-          'TituloAnunUser': titulo,
-          'DescAnunUser': desc,
-          'PrecoAnunUser':
-              preco.replaceAll('.', '').replaceAll(',', '.').substring(3),
-          'RequisitosAnunUser': requisitos,
-          'ImgAnunUser': 'assets/images/testeImagemAnun.png',
-          'StatusAnunUser': '1',
-          'DataAnunUser': DateFormat('YYYY/MM/DD').format(DateTime.now()),
-          'idUserAnunUser': UserPreferences.getUser().idUser,
-          'NomeServAnunUser': 'Design de Logos',
-        },
-      );
+      var response = await Dio().post('http://10.0.2.2:8000/api/addAnunUsuario',
+          data: {
+            'TituloAnunUser': titulo,
+            'DescAnunUser': desc,
+            'PrecoAnunUser':
+                preco.replaceAll('.', '').replaceAll(',', '.').substring(3),
+            'RequisitosAnunUser': requisitos,
+            'ImgAnunUser': 'assets/images/testeImagemAnun.png',
+            'StatusAnunUser': '1',
+            'DataAnunUser': DateFormat('yyyy-MM-dd').format(DateTime.now()),
+            'idUserAnunUser': UserPreferences.getUser().idUser,
+            'idTipoServAnunUser': 1,
+          },
+          options: Options(headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          }));
       if (response.data['status'] == '200') {
         Fluttertoast.showToast(
           msg: response.data['message'],

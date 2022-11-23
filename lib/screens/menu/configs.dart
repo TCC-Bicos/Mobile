@@ -1,4 +1,5 @@
 import 'package:bicos_app/providers/clientProvider.dart';
+import 'package:bicos_app/utils/freelancer_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
@@ -255,7 +256,9 @@ class _ConfigsScreenState extends State<ConfigsScreen> {
                         ),
                         TextButton(
                             onPressed: () async {
-                              UserPreferences.deslogar();
+                              status == 0
+                                  ? UserPreferences.deslogar()
+                                  : FreelancerPreferences.deslogar();
                               Navigator.of(context).pushNamedAndRemoveUntil(
                                   AppRoutes.opening, (route) => false);
                             },
