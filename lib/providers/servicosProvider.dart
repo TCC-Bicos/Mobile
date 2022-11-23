@@ -6,33 +6,35 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-import '../model/cliente.dart';
-import '../utils/app_routes.dart';
-import '../utils/user_preferences.dart';
-
 class ServicosProvider with ChangeNotifier {
-  late User user;
-
   List<TipoServico> _servicos = [];
-  List<TipoServico> get getServicos => [..._servicos];
+  List<TipoServico> getServicos() => _servicos;
 
-  Future<dynamic> getAllServicos() async {
+  Future<void> loadServicos() async {
     try {
+      _servicos.clear();
       var response = await Dio().get('http://10.0.2.2:8000/api/getAllServicos');
       if (response.data['status'] == '200') {
-        response.data['enderecos'].forEach(
+        response.data['servicos'].forEach(
           (k, e) {
             TipoServico servico = TipoServico(
+              idTipoServ: e['idTipoServ'],
               NomeServ: e['NomeServ'],
               CategoriaServ: e['CategoriaServ'],
             );
-            _servicos.add(servico);
+            if (_servicos
+                .any((element) => element.idTipoServ == servico.idTipoServ)) {
+              print('_');
+            } else {
+              _servicos.add(servico);
+            }
           },
         );
-        notifyListeners();
       } else {
         print(response.data['message'].toString());
       }
+      notifyListeners();
+      print(_servicos.map((e) => print(e.idTipoServ)));
     } catch (e) {
       print(e);
     }

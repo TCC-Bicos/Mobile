@@ -45,12 +45,8 @@ class _SignupStepperState extends State<SignupStepper> {
 
   final String _fotoPadrao = 'assets/images/standardProfilePic.png';
   String _armazenaFoto = '';
-  String? _nome,
-      _email,
-      _cpf,
-      _dropdownvalue,
-      _dropdownCargovalue,
-      _armazenaGenero;
+  String? _nome, _email, _cpf, _dropdownvalue, _armazenaGenero;
+  int? _dropdownCargovalue;
   Object? _usuariovalue = 'cliente';
   final TextEditingController _senha = TextEditingController();
   final TextEditingController _confirmsenha = TextEditingController();
@@ -61,160 +57,149 @@ class _SignupStepperState extends State<SignupStepper> {
 
   bool _isLoading = true;
 
-  late List<TipoServico> servicos;
+  late List<TipoServico> _servicos;
 
   @override
   void initState() {
     super.initState();
     Future.delayed(Duration.zero, () {
-      Provider.of<ServicosProvider>(context).getAllServicos().then((value) {
+      Provider.of<ServicosProvider>(context, listen: false)
+          .loadServicos()
+          .then((value) {
         setState(() {
           _isLoading = false;
-          servicos = Provider.of<ServicosProvider>(context).getServicos;
         });
       });
     });
   }
 
-// List<DropdownMenuItem<String>> get dropdownItems{
-//   List<DropdownMenuItem<String>> menuItems = [
-//     for(int i = 0; i < servicos.length; i ++){{DropdownMenuItem<String>(
-//                                 value: servicos[0].NomeServ,
-//                                 child: Text(
-//                                   servicos[0].NomeServ,
-//                                   style: const TextStyle(
-//                                     fontSize: 16,
-//                                   ),
-//                                 ),
-//                               );}}
-//     // servicos.forEach((e) {DropdownMenuItem<String>(
-//     //                             value: servicos[e].NomeServ,
-//     //                             child: Text(
-//     //                               servicos[e].NomeServ,
-//     //                               style: const TextStyle(
-//     //                                 fontSize: 16,
-//     //                               ),
-//     //                             ),
-//     //                           );})
-//   ];
-//   return menuItems;
-// }
-
   @override
   Widget build(BuildContext context) {
-    return Stepper(
-      physics: const ClampingScrollPhysics(),
-      currentStep: currentStep,
-      steps: getSteps(),
-      onStepContinue: () {
-        final isLastStep = currentStep == getSteps().length - 1;
-        setState(
-          () {
-            String getDate = widget.dropdownDatePicker.getDate('/');
-            if (currentStep == 2) {
-              if (_formkey3.currentState!.validate()) {
-                currentStep += 1;
-              } else {
-                return;
-              }
-            } else if (currentStep == 0) {
-              if (_formkey.currentState!.validate() &&
-                  !RegExp('null').hasMatch(getDate)) {
-                currentStep += 1;
-                if (verificaData >= 1) {
-                  verificaData = 0;
-                }
-              } else {
-                if (RegExp('null').hasMatch(getDate)) {
-                  verificaData = 1;
-                }
-                return;
-              }
-            } else if (currentStep == 1) {
-              if (_formkey2.currentState!.validate()) {
-                currentStep += 1;
-              } else {
-                return;
-              }
-            } else if (isLastStep) {
-              Navigator.of(context).pushNamed(AppRoutes.opening);
-            }
-          },
-        );
-      },
-      onStepTapped: (step) => setState(() {
-        String getDate = widget.dropdownDatePicker.getDate('/');
-        if (currentStep == 2) {
-          if (step == 0 || step == 1) {
-            _formkey3.currentState!.validate();
-            currentStep = step;
-          } else if (step == 3) {
-            if (_formkey3.currentState!.validate()) {
-              currentStep = step;
-            }
-          } else if (step == 2) {
-            _formkey3.currentState!.validate();
-          } else {
-            return;
-          }
-        } else if (currentStep == 0) {
-          if (_formkey.currentState!.validate()) {
-            if (step == 1) {
-              currentStep = step;
-            } else if (step == 2) {
-              if (_formkey2.currentState!.validate()) {
-                currentStep = step;
-              } else {
-                return;
-              }
-            } else if (step == 3) {
-              if (_formkey2.currentState!.validate() &&
-                  _formkey3.currentState!.validate()) {
-                currentStep = step;
-              } else {
-                return;
-              }
-            }
-          } else {
-            if (RegExp('null').hasMatch(getDate)) {
-              verificaData = 1;
-            }
-            return;
-          }
-        } else if (currentStep == 1) {
-          if (step == 0) {
-            _formkey2.currentState!.validate();
-            currentStep = step;
-          } else if (step == 1) {
-            _formkey2.currentState!.validate();
-          } else if (step == 2) {
-            if (_formkey2.currentState!.validate()) {
-              currentStep = step;
-            } else {
-              return;
-            }
-          } else if (step == 3) {
-            if (_formkey2.currentState!.validate() &&
-                _formkey3.currentState!.validate()) {
-              currentStep = step;
-            } else {
-              return;
-            }
-          } else {
-            return;
-          }
-        } else if (currentStep == 3) {
-          currentStep = step;
-        }
-      }),
-      onStepCancel: currentStep == 0
-          ? null
-          : () => setState(
-                () {
-                  currentStep -= 1;
-                },
+    _servicos = Provider.of<ServicosProvider>(context).getServicos();
+
+    return _isLoading
+        ? Center(
+            child: Column(
+            children: const [
+              SizedBox(
+                height: 30,
               ),
-    );
+              CircularProgressIndicator(),
+            ],
+          ))
+        : Stepper(
+            physics: const ClampingScrollPhysics(),
+            currentStep: currentStep,
+            steps: getSteps(),
+            onStepContinue: () {
+              final isLastStep = currentStep == getSteps().length - 1;
+              setState(
+                () {
+                  String getDate = widget.dropdownDatePicker.getDate('/');
+                  if (currentStep == 2) {
+                    if (_formkey3.currentState!.validate()) {
+                      currentStep += 1;
+                    } else {
+                      return;
+                    }
+                  } else if (currentStep == 0) {
+                    if (_formkey.currentState!.validate() &&
+                        !RegExp('null').hasMatch(getDate)) {
+                      currentStep += 1;
+                      if (verificaData >= 1) {
+                        verificaData = 0;
+                      }
+                    } else {
+                      if (RegExp('null').hasMatch(getDate)) {
+                        verificaData = 1;
+                      }
+                      return;
+                    }
+                  } else if (currentStep == 1) {
+                    if (_formkey2.currentState!.validate()) {
+                      currentStep += 1;
+                    } else {
+                      return;
+                    }
+                  } else if (isLastStep) {
+                    Navigator.of(context).pushNamed(AppRoutes.opening);
+                  }
+                },
+              );
+            },
+            onStepTapped: (step) => setState(() {
+              String getDate = widget.dropdownDatePicker.getDate('/');
+              if (currentStep == 2) {
+                if (step == 0 || step == 1) {
+                  _formkey3.currentState!.validate();
+                  currentStep = step;
+                } else if (step == 3) {
+                  if (_formkey3.currentState!.validate()) {
+                    currentStep = step;
+                  }
+                } else if (step == 2) {
+                  _formkey3.currentState!.validate();
+                } else {
+                  return;
+                }
+              } else if (currentStep == 0) {
+                if (_formkey.currentState!.validate()) {
+                  if (step == 1) {
+                    currentStep = step;
+                  } else if (step == 2) {
+                    if (_formkey2.currentState!.validate()) {
+                      currentStep = step;
+                    } else {
+                      return;
+                    }
+                  } else if (step == 3) {
+                    if (_formkey2.currentState!.validate() &&
+                        _formkey3.currentState!.validate()) {
+                      currentStep = step;
+                    } else {
+                      return;
+                    }
+                  }
+                } else {
+                  if (RegExp('null').hasMatch(getDate)) {
+                    verificaData = 1;
+                  }
+                  return;
+                }
+              } else if (currentStep == 1) {
+                if (step == 0) {
+                  _formkey2.currentState!.validate();
+                  currentStep = step;
+                } else if (step == 1) {
+                  _formkey2.currentState!.validate();
+                } else if (step == 2) {
+                  if (_formkey2.currentState!.validate()) {
+                    currentStep = step;
+                  } else {
+                    return;
+                  }
+                } else if (step == 3) {
+                  if (_formkey2.currentState!.validate() &&
+                      _formkey3.currentState!.validate()) {
+                    currentStep = step;
+                  } else {
+                    return;
+                  }
+                } else {
+                  return;
+                }
+              } else if (currentStep == 3) {
+                currentStep = step;
+              }
+            }),
+            onStepCancel: currentStep == 0
+                ? null
+                : () => setState(
+                      () {
+                        currentStep -= 1;
+                      },
+                    ),
+          );
   }
 
   List<Step> getSteps() => [
@@ -248,7 +233,7 @@ class _SignupStepperState extends State<SignupStepper> {
                   ),
                 ),
                 SizedBox(
-                  height: MediaQuery.of(this.context).size.height * 0.02,
+                  height: MediaQuery.of(context).size.height * 0.02,
                 ),
                 SizedBox(
                   child: TextFormField(
@@ -277,7 +262,7 @@ class _SignupStepperState extends State<SignupStepper> {
                   ),
                 ),
                 SizedBox(
-                  height: MediaQuery.of(this.context).size.height * 0.02,
+                  height: MediaQuery.of(context).size.height * 0.02,
                 ),
                 DropdownButtonFormField<String>(
                   value: _dropdownvalue,
@@ -308,7 +293,7 @@ class _SignupStepperState extends State<SignupStepper> {
                   }).toList(),
                 ),
                 SizedBox(
-                  height: MediaQuery.of(this.context).size.height * 0.02,
+                  height: MediaQuery.of(context).size.height * 0.02,
                 ),
                 verificaData == 0
                     ? Column(
@@ -377,7 +362,7 @@ class _SignupStepperState extends State<SignupStepper> {
                       }),
                     ),
                     SizedBox(
-                      width: MediaQuery.of(this.context).size.height * 0.01,
+                      width: MediaQuery.of(context).size.height * 0.01,
                     ),
                     const Text(
                       'Cliente',
@@ -400,7 +385,7 @@ class _SignupStepperState extends State<SignupStepper> {
                       }),
                     ),
                     SizedBox(
-                      width: MediaQuery.of(this.context).size.height * 0.01,
+                      width: MediaQuery.of(context).size.height * 0.01,
                     ),
                     const Text(
                       'Freelancer',
@@ -415,36 +400,70 @@ class _SignupStepperState extends State<SignupStepper> {
                     ? const SizedBox()
                     : Column(
                         children: [
-                          const SizedBox(
-                            child: TextField(
-                              decoration: InputDecoration(
-                                hintText: 'Profissão',
-                                hintStyle: TextStyle(fontSize: 16),
+                          DropdownButtonFormField(
+                            value: _dropdownCargovalue,
+                            hint: const Text(
+                              'Cargos',
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: Color.fromARGB(255, 104, 111, 118),
                               ),
-                              style: TextStyle(fontSize: 16),
                             ),
+                            items: _servicos
+                                .map(
+                                  (e) => DropdownMenuItem(
+                                    value: e.idTipoServ,
+                                    child: Text(
+                                      e.NomeServ,
+                                      style: const TextStyle(
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                  ),
+                                )
+                                .toList(),
+                            onChanged: (value) {
+                              setState(() {
+                                _dropdownCargovalue = value as int;
+                              });
+                            },
                           ),
-                          // DropdownButtonFormField<String>(
-                          //   value: _dropdownCargovalue,
-                          //   hint: const Text(
-                          //     'Cargo',
-                          //     style: TextStyle(
-                          //       fontSize: 16,
-                          //       color: Color.fromARGB(255, 104, 111, 118),
-                          //     ),
-                          //   ),
-                          //   onChanged: (dropdownCargovalue) => setState(() => {
-                          //         _dropdownCargovalue = dropdownCargovalue,
-                          //       }),
-                          //   validator: (value) => value == null
-                          //       ? 'Por favor selecione um cargo'
-                          //       : null,
-                          //   items:
-                          // ),
-
+                          DropdownButtonFormField<String>(
+                            value: _dropdownvalue,
+                            hint: const Text(
+                              'Gênero',
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: Color.fromARGB(255, 104, 111, 118),
+                              ),
+                            ),
+                            onChanged: (dropdownvalue) => setState(() => {
+                                  _dropdownvalue = dropdownvalue,
+                                  _armazenaGenero =
+                                      dropdownvalue?.substring(0, 1),
+                                }),
+                            validator: (value) => value == null
+                                ? 'Por favor selecione um gênero'
+                                : null,
+                            items: [
+                              'Masculino',
+                              'Feminino',
+                              'Outro',
+                              'Prefiro não dizer'
+                            ].map<DropdownMenuItem<String>>((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(
+                                  value,
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                  ),
+                                ),
+                              );
+                            }).toList(),
+                          ),
                           SizedBox(
-                            height:
-                                MediaQuery.of(this.context).size.height * 0.02,
+                            height: MediaQuery.of(context).size.height * 0.02,
                           ),
                           const SizedBox(
                             child: TextField(
@@ -482,7 +501,8 @@ class _SignupStepperState extends State<SignupStepper> {
                       if (value!.isEmpty) {
                         return 'Por favor insira um E-mail';
                       }
-                      if (!RegExp('^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]')
+                      if (!RegExp(
+                              r'^(([^<>()[]\.,;:\s@"]+(.[^<>()[]\.,;:\s@"]+)*)|(".+"))@(([[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}])|(([a-zA-Z-0-9]+.)+[a-zA-Z]{2,}))$')
                           .hasMatch(value)) {
                         return 'Por favor insira um E-mail válido';
                       }
@@ -522,7 +542,7 @@ class _SignupStepperState extends State<SignupStepper> {
                   ),
                 ),
                 SizedBox(
-                  height: MediaQuery.of(this.context).size.height * 0.02,
+                  height: MediaQuery.of(context).size.height * 0.02,
                 ),
                 SizedBox(
                   child: TextFormField(
@@ -563,7 +583,7 @@ class _SignupStepperState extends State<SignupStepper> {
                     style: TextStyle(fontSize: 16),
                   ),
                   SizedBox(
-                    height: MediaQuery.of(this.context).size.height * 0.1,
+                    height: MediaQuery.of(context).size.height * 0.1,
                   ),
                   const Text(
                     '(opcional)',
@@ -580,8 +600,8 @@ class _SignupStepperState extends State<SignupStepper> {
                   Positioned(
                       bottom: 0,
                       right: 4,
-                      child: buildEditIcon(
-                          Theme.of(this.context).colorScheme.primary)),
+                      child:
+                          buildEditIcon(Theme.of(context).colorScheme.primary)),
                 ],
               ),
             ],

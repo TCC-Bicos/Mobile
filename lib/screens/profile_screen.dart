@@ -1,3 +1,5 @@
+import 'package:bicos_app/model/freelancer.dart';
+import 'package:bicos_app/utils/freelancer_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -35,6 +37,8 @@ class _ProfilePageState extends State<ProfilePage>
         : context.watch<TemaApp>().getPrimaryColorFree;
 
     final user = UserPreferences.getUser();
+    final freelancer = FreelancerPreferences.getFreelancer();
+
     final List<String> imgList = [
       'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80',
       'https://images.unsplash.com/photo-1522205408450-add114ad53fe?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=368f45b0888aeb0b7b08e3a1084d3ede&auto=format&fit=crop&w=1950&q=80',
@@ -95,7 +99,7 @@ class _ProfilePageState extends State<ProfilePage>
           Container(
             margin: const EdgeInsets.only(top: 20),
             child: ProfileWidget(
-              imagePath: user.ImgUser,
+              imagePath: status == 0 ? user.ImgUser : freelancer.ImgFr,
               onClicked: () async {
                 await Navigator.of(context).pushNamed(AppRoutes.editProfile);
                 setState(() {});
@@ -103,11 +107,13 @@ class _ProfilePageState extends State<ProfilePage>
             ),
           ),
           const SizedBox(height: 24),
-          buildName(user, primaryColor),
+          status == 0
+              ? buildNameUser(user, primaryColor)
+              : buildNameFr(freelancer, primaryColor),
           const SizedBox(height: 24),
           Center(child: buildMessageButton()),
           const SizedBox(height: 48),
-          buildAbout(user),
+          status == 0 ? buildAboutUser(user) : buildAboutFr(freelancer),
           const SizedBox(height: 48),
           Container(
             margin: const EdgeInsets.only(bottom: 20),
@@ -127,7 +133,17 @@ class _ProfilePageState extends State<ProfilePage>
     );
   }
 
-  Widget buildName(User user, color) => Column(
+  Widget buildNameFr(Freelancer freelancer, color) => Column(
+        children: [
+          Text(
+            freelancer.NomeFr,
+            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
+          ),
+          const SizedBox(height: 4),
+        ],
+      );
+
+  Widget buildNameUser(User user, color) => Column(
         children: [
           Text(
             user.NomeUser,
@@ -140,10 +156,32 @@ class _ProfilePageState extends State<ProfilePage>
   Widget buildMessageButton() =>
       ButtonWidget(text: 'Enviar Mensagem', onClicked: () {});
 
-  Widget buildAbout(User user) {
-    Color textColor = status == 0
-        ? context.watch<TemaApp>().getTextColorUser
-        : context.watch<TemaApp>().getTextColorFree;
+  Widget buildAboutFr(Freelancer freelancer) {
+    Color textColor = context.watch<TemaApp>().getTextColorFree;
+
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 48),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Sobre:',
+            style: TextStyle(
+                fontSize: 24, fontWeight: FontWeight.bold, color: textColor),
+          ),
+          const SizedBox(height: 16),
+          Text(
+            maxLines: 7,
+            freelancer.DescFr,
+            style: TextStyle(fontSize: 16, height: 1.4, color: textColor),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget buildAboutUser(User user) {
+    Color textColor = context.watch<TemaApp>().getTextColorUser;
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 48),

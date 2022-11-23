@@ -2,6 +2,7 @@
 
 import 'package:bicos_app/providers/anunUserProvider.dart';
 import 'package:bicos_app/providers/clientProvider.dart';
+import 'package:bicos_app/providers/freelancerProvider.dart';
 import 'package:bicos_app/providers/servicosProvider.dart';
 import 'package:bicos_app/screens/configs/conta/conta_configs_screen.dart';
 import 'package:bicos_app/screens/configs/conta/infopessoais_screen.dart';
@@ -17,6 +18,7 @@ import 'package:bicos_app/screens/novoAnuncio_Freelancer_screen.dart';
 import 'package:bicos_app/screens/signup_screen.dart';
 import 'package:bicos_app/screens/splash_screen.dart';
 import 'package:bicos_app/screens/welcome_screen.dart';
+import 'package:bicos_app/utils/freelancer_preferences.dart';
 import 'package:bicos_app/utils/statusFree_User.dart';
 import 'package:bicos_app/utils/tema.dart';
 import 'package:bicos_app/utils/user_preferences.dart';
@@ -29,6 +31,7 @@ Future main() async {
 
   await UserPreferences.init();
   await StatusFreeUser.init();
+  await FreelancerPreferences.init();
 
   runApp(MyApp());
 }
@@ -39,6 +42,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => ClienteProvider()),
+        ChangeNotifierProvider(create: (_) => FreelancerProvider()),
         ChangeNotifierProvider(create: (_) => AnunUserProvider()),
         ChangeNotifierProvider(create: (_) => TemaApp()),
         ChangeNotifierProvider(create: (_) => ServicosProvider()),

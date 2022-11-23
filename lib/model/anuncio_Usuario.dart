@@ -7,7 +7,7 @@ class AnuncioUsuario {
   final String StatusAnunUser;
   final String DataAnunUser;
   final int idUserAnunUser;
-  final String NomeServAnunUser;
+  final String idTipoServAnunUser;
 
   const AnuncioUsuario({
     required this.TituloAnunUser,
@@ -18,6 +18,6 @@ class AnuncioUsuario {
     required this.StatusAnunUser,
     required this.DataAnunUser,
     required this.idUserAnunUser,
-    required this.NomeServAnunUser,
+    required this.idTipoServAnunUser,
   });
 }
