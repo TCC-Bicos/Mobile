@@ -124,7 +124,7 @@ class _InfoPessoaisState extends State<InfoPessoais> {
                               if (value!.isEmpty) {
                                 return 'Por favor insira um E-mail';
                               } else if (!RegExp(
-                                      r'^(([^<>()[]\.,;:\s@"]+(.[^<>()[]\.,;:\s@"]+)*)|(".+"))@(([[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}])|(([a-zA-Z-0-9]+.)+[a-zA-Z]{2,}))$')
+                                      r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
                                   .hasMatch(value)) {
                                 return 'Por favor insira um E-mail válido';
                               }
@@ -140,19 +140,19 @@ class _InfoPessoaisState extends State<InfoPessoais> {
                             ),
                             TextButton(
                               onPressed: () {
-                                if (!_formkey.currentState!.validate()) return;
-
-                                status == 0
-                                    ? context
-                                        .read<ClienteProvider>()
-                                        .updateEmailUser(emailController.text,
-                                            user.idUser, context)
-                                    : context
-                                        .read<FreelancerProvider>()
-                                        .updateEmailFreelancer(
-                                            emailController.text,
-                                            freelancer.idFr,
-                                            context);
+                                if (_formkey.currentState!.validate()) {
+                                  status == 0
+                                      ? context
+                                          .read<ClienteProvider>()
+                                          .updateEmailUser(emailController.text,
+                                              user.idUser, context)
+                                      : context
+                                          .read<FreelancerProvider>()
+                                          .updateEmailFreelancer(
+                                              emailController.text,
+                                              freelancer.idFr,
+                                              context);
+                                }
                               },
                               child: const Text('Salvar'),
                             )
