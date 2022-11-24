@@ -28,7 +28,9 @@ class _SplashScreenState extends State<SplashScreen> {
     freelancer = FreelancerPreferences.getFreelancer();
     Timer(
         const Duration(seconds: 2),
-        () => user.idUser == 0 && freelancer.idFr == 0
+        () => user.idUser == 0 ||
+                user.idUser == null && freelancer.idFr == 0 ||
+                freelancer.idFr == null
             ? Navigator.of(context)
                 .pushNamedAndRemoveUntil(AppRoutes.opening, (route) => false)
             : Navigator.of(context).pushNamedAndRemoveUntil(

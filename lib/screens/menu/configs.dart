@@ -256,9 +256,8 @@ class _ConfigsScreenState extends State<ConfigsScreen> {
                         ),
                         TextButton(
                             onPressed: () async {
-                              status == 0
-                                  ? UserPreferences.deslogar()
-                                  : FreelancerPreferences.deslogar();
+                              UserPreferences.deslogar();
+                              FreelancerPreferences.deslogar();
                               Navigator.of(context).pushNamedAndRemoveUntil(
                                   AppRoutes.opening, (route) => false);
                             },

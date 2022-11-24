@@ -46,6 +46,9 @@ dependencies:
   dio: ^4.0.6
   provider: ^6.0.4
   fluttertoast: ^8.0.8
+  mask_text_input_formatter: ^2.4.0
+  number_text_input_formatter: ^1.0.0+1
+  fl_country_code_picker: ^0.0.4
 
 dev_dependencies:
   flutter_test:

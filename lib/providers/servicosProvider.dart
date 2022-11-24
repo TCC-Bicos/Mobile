@@ -34,7 +34,6 @@ class ServicosProvider with ChangeNotifier {
         print(response.data['message'].toString());
       }
       notifyListeners();
-      print(_servicos.map((e) => print(e.idTipoServ)));
     } catch (e) {
       print(e);
     }
