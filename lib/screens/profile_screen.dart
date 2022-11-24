@@ -23,11 +23,15 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage>
     with AutomaticKeepAliveClientMixin {
   late int status;
+  late User user;
+  late Freelancer freelancer;
 
   @override
   void initState() {
     super.initState();
     status = StatusFreeUser.getStatus();
+    user = UserPreferences.getUser();
+    freelancer = FreelancerPreferences.getFreelancer();
   }
 
   @override
@@ -35,9 +39,6 @@ class _ProfilePageState extends State<ProfilePage>
     Color primaryColor = status == 0
         ? context.watch<TemaApp>().getPrimaryColorUser
         : context.watch<TemaApp>().getPrimaryColorFree;
-
-    final user = UserPreferences.getUser();
-    final freelancer = FreelancerPreferences.getFreelancer();
 
     final List<String> imgList = [
       'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80',

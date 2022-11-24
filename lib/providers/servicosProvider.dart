@@ -16,7 +16,7 @@ class ServicosProvider with ChangeNotifier {
       var response = await Dio().get('http://10.0.2.2:8000/api/getAllServicos');
       if (response.data['status'] == '200') {
         response.data['servicos'].forEach(
-          (k, e) {
+          (e) {
             TipoServico servico = TipoServico(
               idTipoServ: e['idTipoServ'],
               NomeServ: e['NomeServ'],
