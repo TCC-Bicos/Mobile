@@ -3,12 +3,15 @@ import 'dart:io';
 import 'package:bicos_app/model/servico.dart';
 import 'package:bicos_app/providers/servicosProvider.dart';
 import 'package:brasil_fields/brasil_fields.dart' as brasil_fields;
+import 'package:fl_country_code_picker/fl_country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:dropdown_date_picker/dropdown_date_picker.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
+import 'package:number_text_input_formatter/number_text_input_formatter.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
 import 'package:cpf_cnpj_validator/cpf_validator.dart';
@@ -45,11 +48,15 @@ class _SignupStepperState extends State<SignupStepper> {
 
   final String _fotoPadrao = 'assets/images/standardProfilePic.png';
   String _armazenaFoto = '';
-  String? _nome, _email, _cpf, _dropdownvalue, _armazenaGenero;
+  String? _nome, _email, _cpf, _dropdownvalue, _armazenaGenero, _telefone;
   int? _dropdownCargovalue;
   Object? _usuariovalue = 'cliente';
+
+  CountryCode? countryCode;
+
   final TextEditingController _senha = TextEditingController();
   final TextEditingController _confirmsenha = TextEditingController();
+  final TextEditingController _telController = TextEditingController();
 
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
   final GlobalKey<FormState> _formkey2 = GlobalKey<FormState>();
@@ -58,6 +65,9 @@ class _SignupStepperState extends State<SignupStepper> {
   bool _isLoading = true;
 
   late List<TipoServico> _servicos;
+  late FlCountryCodePicker countryPicker;
+
+  final maskFormatter = MaskTextInputFormatter(mask: "+## (##) #########");
 
   @override
   void initState() {
@@ -71,6 +81,13 @@ class _SignupStepperState extends State<SignupStepper> {
         });
       });
     });
+    final favoriteCountries = ['BR'];
+    countryPicker = FlCountryCodePicker(
+        favorites: favoriteCountries,
+        favoritesIcon: const Icon(
+          Icons.star,
+          color: Colors.amber,
+        ));
   }
 
   @override
@@ -220,10 +237,10 @@ class _SignupStepperState extends State<SignupStepper> {
                     style: const TextStyle(fontSize: 16),
                     validator: (value) {
                       if (value!.isEmpty) {
-                        return "Por favor insira um nome";
+                        return "Insira um nome";
                       }
                       if (!RegExp('[a-zA-Z]').hasMatch(value)) {
-                        return 'Por favor insira um nome válido';
+                        return 'Insira um nome válido';
                       }
                       return null;
                     },
@@ -249,10 +266,10 @@ class _SignupStepperState extends State<SignupStepper> {
                     style: const TextStyle(fontSize: 16),
                     validator: (value) {
                       if (value!.isEmpty) {
-                        return "Por favor insira um CPF";
+                        return "Insira um CPF";
                       }
                       if (!CPFValidator.isValid(value)) {
-                        return "Por favor insira um CPF válido";
+                        return "Insira um CPF válido";
                       }
                       return null;
                     },
@@ -278,7 +295,7 @@ class _SignupStepperState extends State<SignupStepper> {
                         _armazenaGenero = dropdownvalue?.substring(0, 1),
                       }),
                   validator: (value) =>
-                      value == null ? 'Por favor selecione um gênero' : null,
+                      value == null ? 'Selecione um gênero' : null,
                   items: ['Masculino', 'Feminino', 'Outro', 'Prefiro não dizer']
                       .map<DropdownMenuItem<String>>((String value) {
                     return DropdownMenuItem<String>(
@@ -327,7 +344,7 @@ class _SignupStepperState extends State<SignupStepper> {
                           Column(
                             children: const [
                               Text(
-                                'Por favor insira uma data',
+                                'Insira uma data',
                                 style: TextStyle(
                                   fontSize: 12,
                                   color: Color.fromARGB(255, 211, 48, 48),
@@ -337,7 +354,34 @@ class _SignupStepperState extends State<SignupStepper> {
                             ],
                           )
                         ],
-                      )
+                      ),
+                TextFormField(
+                  inputFormatters: [
+                    maskFormatter,
+                  ],
+                  controller: _telController,
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return "Insira um número de telefone";
+                    } else if (!RegExp(r'(^(\d{2})\D*(\d{5}|\d{4})\D*(\d{4})$)')
+                        .hasMatch(_telController.text
+                            .replaceAll(' ', '')
+                            .replaceAll('-', '')
+                            .replaceAll('(', '')
+                            .replaceAll(')', '')
+                            .substring(3))) {
+                      return "Insira um número de telefone válido";
+                    }
+                  },
+                  style: const TextStyle(fontSize: 16),
+                  keyboardType: TextInputType.number,
+                  textInputAction: TextInputAction.done,
+                  maxLines: 1,
+                  decoration: const InputDecoration(
+                    hintText: 'Telefone',
+                    hintStyle: TextStyle(fontSize: 16),
+                  ),
+                ),
               ],
             ),
           ),
@@ -427,53 +471,29 @@ class _SignupStepperState extends State<SignupStepper> {
                                 _dropdownCargovalue = value as int;
                               });
                             },
-                          ),
-                          DropdownButtonFormField<String>(
-                            value: _dropdownvalue,
-                            hint: const Text(
-                              'Gênero',
-                              style: TextStyle(
-                                fontSize: 16,
-                                color: Color.fromARGB(255, 104, 111, 118),
-                              ),
-                            ),
-                            onChanged: (dropdownvalue) => setState(() => {
-                                  _dropdownvalue = dropdownvalue,
-                                  _armazenaGenero =
-                                      dropdownvalue?.substring(0, 1),
-                                }),
-                            validator: (value) => value == null
-                                ? 'Por favor selecione um gênero'
-                                : null,
-                            items: [
-                              'Masculino',
-                              'Feminino',
-                              'Outro',
-                              'Prefiro não dizer'
-                            ].map<DropdownMenuItem<String>>((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(
-                                  value,
-                                  style: const TextStyle(
-                                    fontSize: 16,
-                                  ),
-                                ),
-                              );
-                            }).toList(),
+                            validator: ((value) {
+                              if (value == null) {
+                                return "Escolha um serviço";
+                              }
+                            }),
                           ),
                           SizedBox(
                             height: MediaQuery.of(context).size.height * 0.02,
                           ),
-                          const SizedBox(
-                            child: TextField(
-                              decoration: InputDecoration(
+                          SizedBox(
+                            child: TextFormField(
+                              decoration: const InputDecoration(
                                 hintText: 'Competências',
                                 hintStyle: TextStyle(fontSize: 16),
                               ),
                               keyboardType: TextInputType.multiline,
                               maxLines: null,
-                              style: TextStyle(fontSize: 16),
+                              style: const TextStyle(fontSize: 16),
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  return "Insira suas competências";
+                                }
+                              },
                             ),
                           ),
                         ],
