@@ -44,6 +44,56 @@ class ClienteProvider with ChangeNotifier {
     }
   }
 
+  Future<dynamic> addUser(
+      String NomeUser,
+      String CPFUser,
+      String EmailUser,
+      String TelUser,
+      String DataNascUser,
+      String GeneroUser,
+      String SenhaUser,
+      String DescUser,
+      String ImgUser,
+      context) async {
+    try {
+      var response = await Dio().post('http://10.0.2.2:8000/api/addUsuario/',
+          data: {
+            'NomeUser': NomeUser,
+            'CPFUser': CPFUser,
+            'EmailUser': EmailUser,
+            'TelUser': TelUser,
+            'DataNascUser': DataNascUser,
+            'GeneroUser': GeneroUser,
+            'SenhaUser': SenhaUser,
+            'DescUser': DescUser,
+            'ImgUser': ImgUser,
+            'StatusUser': 'a',
+          },
+          options: Options(headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          }));
+      if (response.data['status'] == '200') {
+        Navigator.of(context).pushNamed(AppRoutes.opening);
+        showDialog(
+          context: context,
+          builder: (_) => AlertDialog(
+            title: Text(response.data['message']),
+          ),
+        );
+      } else {
+        showDialog(
+          context: context,
+          builder: (_) => AlertDialog(
+            title: Text(response.data['message']),
+          ),
+        );
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
   Future<dynamic> updateUser(
       int idUser,
       String NomeUser,
@@ -55,7 +105,7 @@ class ClienteProvider with ChangeNotifier {
       String SenhaUser,
       String DescUser,
       String ImgUser,
-      int StatusUser,
+      String StatusUser,
       context) async {
     try {
       var response = await Dio()

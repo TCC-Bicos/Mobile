@@ -11,13 +11,12 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:dropdown_date_picker/dropdown_date_picker.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
-import 'package:number_text_input_formatter/number_text_input_formatter.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
 import 'package:cpf_cnpj_validator/cpf_validator.dart';
 import 'package:provider/provider.dart';
 
-import '../../utils/app_routes.dart';
+import '../../providers/clientProvider.dart';
 
 class SignupStepper extends StatefulWidget {
   SignupStepper({Key? key}) : super(key: key);
@@ -48,15 +47,19 @@ class _SignupStepperState extends State<SignupStepper> {
 
   final String _fotoPadrao = 'assets/images/standardProfilePic.png';
   String _armazenaFoto = '';
-  String? _nome, _email, _cpf, _dropdownvalue, _armazenaGenero, _telefone;
+  String? _dropdownvalue, _armazenaGenero;
   int? _dropdownCargovalue;
   Object? _usuariovalue = 'cliente';
 
   CountryCode? countryCode;
 
-  final TextEditingController _senha = TextEditingController();
-  final TextEditingController _confirmsenha = TextEditingController();
+  final TextEditingController _nomeController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _cpfController = TextEditingController();
   final TextEditingController _telController = TextEditingController();
+  final TextEditingController _senhaController = TextEditingController();
+  final TextEditingController _confirmsenhaController = TextEditingController();
+  final TextEditingController _descController = TextEditingController();
 
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
   final GlobalKey<FormState> _formkey2 = GlobalKey<FormState>();
@@ -139,7 +142,17 @@ class _SignupStepperState extends State<SignupStepper> {
                       return;
                     }
                   } else if (isLastStep) {
-                    Navigator.of(context).pushNamed(AppRoutes.opening);
+                    context.read<ClienteProvider>().addUser(
+                        _nomeController.text,
+                        _cpfController.text,
+                        _emailController.text,
+                        _telController.text,
+                        widget.dropdownDatePicker.getDate('-')!,
+                        _armazenaGenero!,
+                        _senhaController.text,
+                        _descController.text,
+                        _armazenaFoto,
+                        context);
                   }
                 },
               );
@@ -230,6 +243,7 @@ class _SignupStepperState extends State<SignupStepper> {
               children: [
                 SizedBox(
                   child: TextFormField(
+                    controller: _nomeController,
                     decoration: const InputDecoration(
                       hintText: 'Nome completo',
                       hintStyle: TextStyle(fontSize: 16),
@@ -244,9 +258,6 @@ class _SignupStepperState extends State<SignupStepper> {
                       }
                       return null;
                     },
-                    onSaved: (nome) {
-                      _nome = nome!;
-                    },
                   ),
                 ),
                 SizedBox(
@@ -254,6 +265,7 @@ class _SignupStepperState extends State<SignupStepper> {
                 ),
                 SizedBox(
                   child: TextFormField(
+                    controller: _cpfController,
                     keyboardType: TextInputType.number,
                     inputFormatters: [
                       FilteringTextInputFormatter.digitsOnly,
@@ -273,9 +285,36 @@ class _SignupStepperState extends State<SignupStepper> {
                       }
                       return null;
                     },
-                    onSaved: (cpf) {
-                      _cpf = cpf!;
-                    },
+                  ),
+                ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.02,
+                ),
+                TextFormField(
+                  inputFormatters: [
+                    maskFormatter,
+                  ],
+                  controller: _telController,
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return "Insira um número de telefone";
+                    } else if (!RegExp(r'(^(\d{2})\D*(\d{5}|\d{4})\D*(\d{4})$)')
+                        .hasMatch(_telController.text
+                            .replaceAll(' ', '')
+                            .replaceAll('-', '')
+                            .replaceAll('(', '')
+                            .replaceAll(')', '')
+                            .substring(3))) {
+                      return "Insira um número de telefone válido";
+                    }
+                  },
+                  style: const TextStyle(fontSize: 16),
+                  keyboardType: TextInputType.number,
+                  textInputAction: TextInputAction.done,
+                  maxLines: 1,
+                  decoration: const InputDecoration(
+                    hintText: 'Telefone',
+                    hintStyle: TextStyle(fontSize: 16),
                   ),
                 ),
                 SizedBox(
@@ -355,33 +394,6 @@ class _SignupStepperState extends State<SignupStepper> {
                           )
                         ],
                       ),
-                TextFormField(
-                  inputFormatters: [
-                    maskFormatter,
-                  ],
-                  controller: _telController,
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return "Insira um número de telefone";
-                    } else if (!RegExp(r'(^(\d{2})\D*(\d{5}|\d{4})\D*(\d{4})$)')
-                        .hasMatch(_telController.text
-                            .replaceAll(' ', '')
-                            .replaceAll('-', '')
-                            .replaceAll('(', '')
-                            .replaceAll(')', '')
-                            .substring(3))) {
-                      return "Insira um número de telefone válido";
-                    }
-                  },
-                  style: const TextStyle(fontSize: 16),
-                  keyboardType: TextInputType.number,
-                  textInputAction: TextInputAction.done,
-                  maxLines: 1,
-                  decoration: const InputDecoration(
-                    hintText: 'Telefone',
-                    hintStyle: TextStyle(fontSize: 16),
-                  ),
-                ),
               ],
             ),
           ),
@@ -444,42 +456,42 @@ class _SignupStepperState extends State<SignupStepper> {
                     ? const SizedBox()
                     : Column(
                         children: [
-                          DropdownButtonFormField(
-                            value: _dropdownCargovalue,
-                            hint: const Text(
-                              'Cargos',
-                              style: TextStyle(
-                                fontSize: 16,
-                                color: Color.fromARGB(255, 104, 111, 118),
-                              ),
-                            ),
-                            items: _servicos
-                                .map(
-                                  (e) => DropdownMenuItem(
-                                    value: e.idTipoServ,
-                                    child: Text(
-                                      e.NomeServ,
-                                      style: const TextStyle(
-                                        fontSize: 16,
-                                      ),
-                                    ),
-                                  ),
-                                )
-                                .toList(),
-                            onChanged: (value) {
-                              setState(() {
-                                _dropdownCargovalue = value as int;
-                              });
-                            },
-                            validator: ((value) {
-                              if (value == null) {
-                                return "Escolha um serviço";
-                              }
-                            }),
-                          ),
-                          SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.02,
-                          ),
+                          // DropdownButtonFormField(
+                          //   value: _dropdownCargovalue,
+                          //   hint: const Text(
+                          //     'Cargos',
+                          //     style: TextStyle(
+                          //       fontSize: 16,
+                          //       color: Color.fromARGB(255, 104, 111, 118),
+                          //     ),
+                          //   ),
+                          //   items: _servicos
+                          //       .map(
+                          //         (e) => DropdownMenuItem(
+                          //           value: e.idTipoServ,
+                          //           child: Text(
+                          //             e.NomeServ,
+                          //             style: const TextStyle(
+                          //               fontSize: 16,
+                          //             ),
+                          //           ),
+                          //         ),
+                          //       )
+                          //       .toList(),
+                          //   onChanged: (value) {
+                          //     setState(() {
+                          //       _dropdownCargovalue = value as int;
+                          //     });
+                          //   },
+                          //   validator: ((value) {
+                          //     if (value == null) {
+                          //       return "Escolha um serviço";
+                          //     }
+                          //   }),
+                          // ),
+                          // SizedBox(
+                          //   height: MediaQuery.of(context).size.height * 0.02,
+                          // ),
                           SizedBox(
                             child: TextFormField(
                               decoration: const InputDecoration(
@@ -512,6 +524,7 @@ class _SignupStepperState extends State<SignupStepper> {
               children: [
                 SizedBox(
                   child: TextFormField(
+                    controller: _emailController,
                     decoration: const InputDecoration(
                       hintText: 'E-mail',
                       hintStyle: TextStyle(fontSize: 16),
@@ -522,14 +535,11 @@ class _SignupStepperState extends State<SignupStepper> {
                         return 'Por favor insira um E-mail';
                       }
                       if (!RegExp(
-                              r'^(([^<>()[]\.,;:\s@"]+(.[^<>()[]\.,;:\s@"]+)*)|(".+"))@(([[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}])|(([a-zA-Z-0-9]+.)+[a-zA-Z]{2,}))$')
+                              r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
                           .hasMatch(value)) {
                         return 'Por favor insira um E-mail válido';
                       }
                       return null;
-                    },
-                    onSaved: (email) {
-                      _email = email;
                     },
                   ),
                 ),
@@ -538,7 +548,7 @@ class _SignupStepperState extends State<SignupStepper> {
                 ),
                 SizedBox(
                   child: TextFormField(
-                    controller: _senha,
+                    controller: _senhaController,
                     decoration: const InputDecoration(
                       hintText: 'Senha',
                       hintStyle: TextStyle(fontSize: 16),
@@ -566,7 +576,7 @@ class _SignupStepperState extends State<SignupStepper> {
                 ),
                 SizedBox(
                   child: TextFormField(
-                    controller: _confirmsenha,
+                    controller: _confirmsenhaController,
                     decoration: const InputDecoration(
                       hintText: 'Confirmar senha',
                       hintStyle: TextStyle(fontSize: 16),
@@ -579,7 +589,8 @@ class _SignupStepperState extends State<SignupStepper> {
                       if (value!.isEmpty) {
                         return 'Por favor confirme a senha';
                       }
-                      if (_senha.text != _confirmsenha.text) {
+                      if (_senhaController.text !=
+                          _confirmsenhaController.text) {
                         return 'As senhas devem ser iguais';
                       }
                       return null;
@@ -623,6 +634,24 @@ class _SignupStepperState extends State<SignupStepper> {
                       child:
                           buildEditIcon(Theme.of(context).colorScheme.primary)),
                 ],
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.02,
+              ),
+              SizedBox(
+                child: TextFormField(
+                  controller: _descController,
+                  decoration: const InputDecoration(
+                    hintText: 'Descrição de perfil (opcional)',
+                    hintStyle: TextStyle(fontSize: 16),
+                  ),
+                  keyboardType: TextInputType.multiline,
+                  maxLines: null,
+                  style: const TextStyle(fontSize: 16),
+                ),
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.02,
               ),
             ],
           ),
