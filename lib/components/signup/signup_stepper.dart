@@ -48,6 +48,7 @@ class _SignupStepperState extends State<SignupStepper> {
   final String _fotoPadrao = 'assets/images/standardProfilePic.png';
   String _armazenaFoto = '';
   String? _dropdownvalue, _armazenaGenero;
+  late String _date;
   int? _dropdownCargovalue;
   Object? _usuariovalue = 'cliente';
 
@@ -84,13 +85,6 @@ class _SignupStepperState extends State<SignupStepper> {
         });
       });
     });
-    final favoriteCountries = ['BR'];
-    countryPicker = FlCountryCodePicker(
-        favorites: favoriteCountries,
-        favoritesIcon: const Icon(
-          Icons.star,
-          color: Colors.amber,
-        ));
   }
 
   @override
@@ -115,7 +109,6 @@ class _SignupStepperState extends State<SignupStepper> {
               final isLastStep = currentStep == getSteps().length - 1;
               setState(
                 () {
-                  String getDate = widget.dropdownDatePicker.getDate('/');
                   if (currentStep == 2) {
                     if (_formkey3.currentState!.validate()) {
                       currentStep += 1;
@@ -123,14 +116,15 @@ class _SignupStepperState extends State<SignupStepper> {
                       return;
                     }
                   } else if (currentStep == 0) {
+                    _date = widget.dropdownDatePicker.getDate('-');
                     if (_formkey.currentState!.validate() &&
-                        !RegExp('null').hasMatch(getDate)) {
+                        !RegExp('null').hasMatch(_date)) {
                       currentStep += 1;
                       if (verificaData >= 1) {
                         verificaData = 0;
                       }
                     } else {
-                      if (RegExp('null').hasMatch(getDate)) {
+                      if (RegExp('null').hasMatch(_date)) {
                         verificaData = 1;
                       }
                       return;
@@ -142,12 +136,17 @@ class _SignupStepperState extends State<SignupStepper> {
                       return;
                     }
                   } else if (isLastStep) {
+                    String year = _date.substring(6);
+                    String day = _date.substring(0, 2);
+                    String month = _date.substring(3, 5);
+                    String date = '$year-$month-$day';
+
                     context.read<ClienteProvider>().addUser(
                         _nomeController.text,
                         _cpfController.text,
                         _emailController.text,
                         _telController.text,
-                        widget.dropdownDatePicker.getDate('-')!,
+                        date,
                         _armazenaGenero!,
                         _senhaController.text,
                         _descController.text,
@@ -158,7 +157,6 @@ class _SignupStepperState extends State<SignupStepper> {
               );
             },
             onStepTapped: (step) => setState(() {
-              String getDate = widget.dropdownDatePicker.getDate('/');
               if (currentStep == 2) {
                 if (step == 0 || step == 1) {
                   _formkey3.currentState!.validate();
@@ -173,6 +171,7 @@ class _SignupStepperState extends State<SignupStepper> {
                   return;
                 }
               } else if (currentStep == 0) {
+                _date = widget.dropdownDatePicker.getDate('-');
                 if (_formkey.currentState!.validate()) {
                   if (step == 1) {
                     currentStep = step;
@@ -191,7 +190,7 @@ class _SignupStepperState extends State<SignupStepper> {
                     }
                   }
                 } else {
-                  if (RegExp('null').hasMatch(getDate)) {
+                  if (RegExp('null').hasMatch(_date)) {
                     verificaData = 1;
                   }
                   return;

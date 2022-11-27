@@ -67,7 +67,7 @@ class ClienteProvider with ChangeNotifier {
             'SenhaUser': SenhaUser,
             'DescUser': DescUser,
             'ImgUser': ImgUser,
-            'StatusUser': 'a',
+            'StatusUser': '0',
           },
           options: Options(headers: {
             'Accept': 'application/json',
@@ -75,18 +75,22 @@ class ClienteProvider with ChangeNotifier {
           }));
       if (response.data['status'] == '200') {
         Navigator.of(context).pushNamed(AppRoutes.opening);
-        showDialog(
-          context: context,
-          builder: (_) => AlertDialog(
-            title: Text(response.data['message']),
-          ),
+        Fluttertoast.showToast(
+          msg: 'Conta criada com sucesso',
+          toastLength: Toast.LENGTH_SHORT,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.black,
+          textColor: Colors.white,
+          fontSize: 16.0,
         );
       } else {
-        showDialog(
-          context: context,
-          builder: (_) => AlertDialog(
-            title: Text(response.data['message']),
-          ),
+        Fluttertoast.showToast(
+          msg: response.data['message'],
+          toastLength: Toast.LENGTH_SHORT,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.black,
+          textColor: Colors.white,
+          fontSize: 16.0,
         );
       }
     } catch (e) {
