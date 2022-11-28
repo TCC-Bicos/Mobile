@@ -93,7 +93,7 @@ class _LoginUserScreenState extends State<LoginUserScreen> {
                           if (!RegExp(
                                   r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$')
                               .hasMatch(value)) {
-                            return 'A senha deve conter 8 carateres, letra maiúscula e minúscula, caractere especial e número';
+                            return 'A senha deve contêm pelo menos 8 carateres, letra maiúscula e minúscula, caractere especial e número';
                           }
                           return null;
                         },

@@ -37,7 +37,14 @@ class ClienteProvider with ChangeNotifier {
           notifyListeners();
         }
       } else {
-        print(response.data['loginResult'].toString());
+        Fluttertoast.showToast(
+          msg: 'Email ou senha incorretos',
+          toastLength: Toast.LENGTH_SHORT,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.black,
+          textColor: Colors.white,
+          fontSize: 16.0,
+        );
       }
     } catch (e) {
       print(e);
@@ -56,7 +63,7 @@ class ClienteProvider with ChangeNotifier {
       String ImgUser,
       context) async {
     try {
-      var response = await Dio().post('http://10.0.2.2:8000/api/addUsuario/',
+      var response = await Dio().post('http://10.0.2.2:8000/api/addUsuario',
           data: {
             'NomeUser': NomeUser,
             'CPFUser': CPFUser,
@@ -67,7 +74,7 @@ class ClienteProvider with ChangeNotifier {
             'SenhaUser': SenhaUser,
             'DescUser': DescUser,
             'ImgUser': ImgUser,
-            'StatusUser': '0',
+            'StatusUser': '1',
           },
           options: Options(headers: {
             'Accept': 'application/json',
@@ -135,6 +142,86 @@ class ClienteProvider with ChangeNotifier {
           textColor: Colors.white,
           fontSize: 16.0,
         );
+      } else {
+        Fluttertoast.showToast(
+          msg: response.data['message'],
+          toastLength: Toast.LENGTH_SHORT,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.black,
+          textColor: Colors.white,
+          fontSize: 16.0,
+        );
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<dynamic> checkPass(
+      String email, String senha, String novaSenha, int id, context) async {
+    try {
+      var response = await Dio()
+          .get('http://10.0.2.2:8000/api/loginUsuario/$email/$senha');
+      if (response.data['status'] == '200') {
+        if (response.data['loginResult'] == '1') {
+          updateSenhaUser(novaSenha, id, context);
+        }
+      } else {
+        Fluttertoast.showToast(
+          msg: 'Senha incorreta',
+          toastLength: Toast.LENGTH_SHORT,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.black,
+          textColor: Colors.white,
+          fontSize: 16.0,
+        );
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<dynamic> updateSenhaUser(String novaSenha, int id, context) async {
+    try {
+      user = UserPreferences.getUser();
+      var response =
+          await Dio().put('http://10.0.2.2:8000/api/updateUsuario/$id', data: {
+        'idUser': user.idUser,
+        'NomeUser': user.NomeUser,
+        'CPFUser': user.CPFUser,
+        'EmailUser': user.EmailUser,
+        'TelUser': user.TelUser,
+        'DataNascUser': user.DataNascUser,
+        'GeneroUser': user.GeneroUser,
+        'SenhaUser': novaSenha,
+        'DescUser': user.DescUser,
+        'ImgUser': user.ImgUser,
+        'StatusUser': user.StatusUser,
+      });
+      if (response.data['status'] == '200') {
+        user = User(
+          idUser: user.idUser,
+          NomeUser: user.NomeUser,
+          CPFUser: user.CPFUser,
+          EmailUser: user.EmailUser,
+          TelUser: user.TelUser,
+          DataNascUser: user.DataNascUser,
+          GeneroUser: user.GeneroUser,
+          SenhaUser: novaSenha,
+          DescUser: user.DescUser,
+          ImgUser: user.ImgUser,
+          StatusUser: user.StatusUser,
+        );
+        UserPreferences.setUser(user);
+        Fluttertoast.showToast(
+          msg: response.data['message'],
+          toastLength: Toast.LENGTH_SHORT,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.black,
+          textColor: Colors.white,
+          fontSize: 16.0,
+        );
+        Navigator.of(context).pop();
       } else {
         Fluttertoast.showToast(
           msg: response.data['message'],

@@ -268,23 +268,19 @@ class _SearchPageState extends State<SearchPage>
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
+                                  Icon(
+                                    Icons.search_rounded,
+                                    color: primaryColor,
+                                    size: MediaQuery.of(context).size.width *
+                                        0.17,
+                                  ),
                                   Text(
                                     'Comece a pesquisar',
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
-                                      fontSize: 18,
-                                      color: textColor,
-                                    ),
+                                        fontSize: 14, color: secTextColor),
                                   ),
-                                  const SizedBox(
-                                    height: 20,
-                                  ),
-                                  Icon(
-                                    Icons.search_rounded,
-                                    color: textColor,
-                                    size: 50,
-                                  )
                                 ],
                               ),
                             );

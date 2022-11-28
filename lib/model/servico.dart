@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 class TipoServico {
   final int idTipoServ;
   final String NomeServ;

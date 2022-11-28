@@ -41,7 +41,7 @@ dependencies:
   carousel_slider: ^4.1.1
   shared_preferences: ^2.0.5
   cpf_cnpj_validator: ^2.0.0
-  brasil_fields: ^1.4.5
+  brasil_fields: ^1.7.0
   intl: ^0.17.0
   dio: ^4.0.6
   provider: ^6.0.4

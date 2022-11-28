@@ -1,11 +1,14 @@
 // @dart=2.9
 
+import 'package:bicos_app/providers/anunFreelancerProvider.dart';
 import 'package:bicos_app/providers/anunUserProvider.dart';
 import 'package:bicos_app/providers/clientProvider.dart';
 import 'package:bicos_app/providers/freelancerProvider.dart';
 import 'package:bicos_app/providers/servicosProvider.dart';
 import 'package:bicos_app/screens/configs/conta/conta_configs_screen.dart';
 import 'package:bicos_app/screens/configs/conta/infopessoais_screen.dart';
+import 'package:bicos_app/screens/configs/seguranca/senhaConfigs_screen.dart';
+import 'package:bicos_app/screens/configs/seguranca/seguranca_configs_screen.dart';
 import 'package:bicos_app/screens/configs/theme_screen.dart';
 import 'package:bicos_app/screens/edit_profile_screen.dart';
 import 'package:bicos_app/screens/loginFreelancer_screen.dart';
@@ -17,6 +20,7 @@ import 'package:bicos_app/screens/novoAnuncio_Usuario_screen.dart';
 import 'package:bicos_app/screens/novoAnuncio_Freelancer_screen.dart';
 import 'package:bicos_app/screens/signup_screen.dart';
 import 'package:bicos_app/screens/splash_screen.dart';
+import 'package:bicos_app/screens/todos_meus_anuncios_screen.dart';
 import 'package:bicos_app/screens/welcome_screen.dart';
 import 'package:bicos_app/utils/freelancer_preferences.dart';
 import 'package:bicos_app/utils/statusFree_User.dart';
@@ -44,6 +48,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => ClienteProvider()),
         ChangeNotifierProvider(create: (_) => FreelancerProvider()),
         ChangeNotifierProvider(create: (_) => AnunUserProvider()),
+        ChangeNotifierProvider(create: (_) => AnunFreelancerProvider()),
         ChangeNotifierProvider(create: (_) => TemaApp()),
         ChangeNotifierProvider(create: (_) => ServicosProvider()),
       ],
@@ -76,8 +81,11 @@ class MyApp extends StatelessWidget {
           AppRoutes.editProfile: (ctx) => EditProfilePage(),
           AppRoutes.novoAnuncioFreelancer: (ctx) =>
               const NovoAnuncioFreelancer(),
+          AppRoutes.todosMeusAnuncios: (ctx) => const TodosMeusAnunciosScreen(),
           AppRoutes.novoAnuncioUsuario: (ctx) => const NovoAnuncioUsuario(),
           AppRoutes.configs: (ctx) => const ConfigsScreen(),
+          AppRoutes.segurancaConfigs: (ctx) => const SegurancaConfigs(),
+          AppRoutes.senhaConfigs: (ctx) => const SenhaConfigs(),
           AppRoutes.contaConfigs: (ctx) => const ContaConfigs(),
           AppRoutes.infoPessoais: (ctx) => const InfoPessoais(),
           AppRoutes.tema: (ctx) => const ThemeScreen(),
