@@ -16,12 +16,16 @@ import '../utils/user_preferences.dart';
 class AnunUserProvider with ChangeNotifier {
   late User user;
 
+  List<AnuncioUsuario> _anunciosMyUser = [];
+  List<AnuncioUsuario> getAnunciosMyUser() => _anunciosMyUser;
+
   Future<dynamic> addAnunUsuario(
     String titulo,
     String desc,
     String preco,
     String requisitos,
     String imgAnunUser,
+    int idTipoServ,
     context,
   ) async {
     try {
@@ -34,11 +38,11 @@ class AnunUserProvider with ChangeNotifier {
             'PrecoAnunUser':
                 preco.replaceAll('.', '').replaceAll(',', '.').substring(3),
             'RequisitosAnunUser': requisitos,
-            'ImgAnunUser': 'assets/images/testeImagemAnun.png',
+            'ImgAnunUser': imgAnunUser,
             'StatusAnunUser': '1',
             'DataAnunUser': DateFormat('yyyy-MM-dd').format(DateTime.now()),
             'idUserAnunUser': UserPreferences.getUser().idUser,
-            'idTipoServAnunUser': 1,
+            'idTipoServAnunUser': idTipoServ,
           },
           options: Options(headers: {
             'Accept': 'application/json',
@@ -53,6 +57,7 @@ class AnunUserProvider with ChangeNotifier {
           textColor: Colors.white,
           fontSize: 16.0,
         );
+        Navigator.of(context).pop();
       } else {
         Fluttertoast.showToast(
           msg: response.data['message'],
@@ -63,6 +68,46 @@ class AnunUserProvider with ChangeNotifier {
           fontSize: 16.0,
         );
       }
+      notifyListeners();
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<dynamic> loadAnunMyUser(int id) async {
+    try {
+      _anunciosMyUser.clear();
+      var response = await Dio()
+          .get('http://10.0.2.2:8000/api/getAnunUsuarioByUsuario/$id');
+      if (response.data['status'] == '200') {
+        response.data['anuncios'].forEach(
+          (k, e) {
+            AnuncioUsuario anuncio = AnuncioUsuario(
+              idAnunUser: e['idAnunUser'],
+              TituloAnunUser: e['TituloAnunUser'],
+              DescAnunUser: e['DescAnunUser'],
+              PrecoAnunUser: e['PrecoAnunUser'],
+              RequisitosAnunUser: e['RequisitosAnunUser'],
+              ImgAnunUser: e['ImgAnunUser'],
+              StatusAnunUser: e['StatusAnunUser'],
+              DataAnunUser: e['DataAnunUser'],
+              idUserAnunUser: e['idUserAnunUser'],
+              idTipoServAnunUser: e['idTipoServAnunUser'],
+            );
+            if (anuncio.StatusAnunUser == '1') {
+              if (_anunciosMyUser
+                  .any((element) => element.idAnunUser == anuncio.idAnunUser)) {
+                print('_');
+              } else {
+                _anunciosMyUser.add(anuncio);
+              }
+            }
+          },
+        );
+      } else {
+        print(response.data['message'].toString());
+      }
+      notifyListeners();
     } catch (e) {
       print(e);
     }

@@ -11,13 +11,13 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:dropdown_date_picker/dropdown_date_picker.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
-import 'package:number_text_input_formatter/number_text_input_formatter.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
 import 'package:cpf_cnpj_validator/cpf_validator.dart';
 import 'package:provider/provider.dart';
 
-import '../../utils/app_routes.dart';
+import '../../providers/clientProvider.dart';
+import '../../providers/freelancerProvider.dart';
 
 class SignupStepper extends StatefulWidget {
   SignupStepper({Key? key}) : super(key: key);
@@ -48,15 +48,21 @@ class _SignupStepperState extends State<SignupStepper> {
 
   final String _fotoPadrao = 'assets/images/standardProfilePic.png';
   String _armazenaFoto = '';
-  String? _nome, _email, _cpf, _dropdownvalue, _armazenaGenero, _telefone;
+  String? _dropdownvalue, _armazenaGenero;
+  late String _date;
   int? _dropdownCargovalue;
   Object? _usuariovalue = 'cliente';
 
   CountryCode? countryCode;
 
-  final TextEditingController _senha = TextEditingController();
-  final TextEditingController _confirmsenha = TextEditingController();
+  final TextEditingController _compController = TextEditingController();
+  final TextEditingController _nomeController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _cpfController = TextEditingController();
   final TextEditingController _telController = TextEditingController();
+  final TextEditingController _senhaController = TextEditingController();
+  final TextEditingController _confirmsenhaController = TextEditingController();
+  final TextEditingController _descController = TextEditingController();
 
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
   final GlobalKey<FormState> _formkey2 = GlobalKey<FormState>();
@@ -64,159 +70,152 @@ class _SignupStepperState extends State<SignupStepper> {
 
   bool _isLoading = true;
 
-  late List<TipoServico> _servicos;
   late FlCountryCodePicker countryPicker;
 
-  final maskFormatter = MaskTextInputFormatter(mask: "+## (##) #########");
-
-  @override
-  void initState() {
-    super.initState();
-    Future.delayed(Duration.zero, () {
-      Provider.of<ServicosProvider>(context, listen: false)
-          .loadServicos()
-          .then((value) {
-        setState(() {
-          _isLoading = false;
-        });
-      });
-    });
-    final favoriteCountries = ['BR'];
-    countryPicker = FlCountryCodePicker(
-        favorites: favoriteCountries,
-        favoritesIcon: const Icon(
-          Icons.star,
-          color: Colors.amber,
-        ));
-  }
+  final maskFormatter = MaskTextInputFormatter(mask: "+55 (##) #########");
 
   @override
   Widget build(BuildContext context) {
-    _servicos = Provider.of<ServicosProvider>(context).getServicos();
-
-    return _isLoading
-        ? Center(
-            child: Column(
-            children: const [
-              SizedBox(
-                height: 30,
-              ),
-              CircularProgressIndicator(),
-            ],
-          ))
-        : Stepper(
-            physics: const ClampingScrollPhysics(),
-            currentStep: currentStep,
-            steps: getSteps(),
-            onStepContinue: () {
-              final isLastStep = currentStep == getSteps().length - 1;
-              setState(
-                () {
-                  String getDate = widget.dropdownDatePicker.getDate('/');
-                  if (currentStep == 2) {
-                    if (_formkey3.currentState!.validate()) {
-                      currentStep += 1;
-                    } else {
-                      return;
-                    }
-                  } else if (currentStep == 0) {
-                    if (_formkey.currentState!.validate() &&
-                        !RegExp('null').hasMatch(getDate)) {
-                      currentStep += 1;
-                      if (verificaData >= 1) {
-                        verificaData = 0;
-                      }
-                    } else {
-                      if (RegExp('null').hasMatch(getDate)) {
-                        verificaData = 1;
-                      }
-                      return;
-                    }
-                  } else if (currentStep == 1) {
-                    if (_formkey2.currentState!.validate()) {
-                      currentStep += 1;
-                    } else {
-                      return;
-                    }
-                  } else if (isLastStep) {
-                    Navigator.of(context).pushNamed(AppRoutes.opening);
-                  }
-                },
-              );
-            },
-            onStepTapped: (step) => setState(() {
-              String getDate = widget.dropdownDatePicker.getDate('/');
-              if (currentStep == 2) {
-                if (step == 0 || step == 1) {
-                  _formkey3.currentState!.validate();
-                  currentStep = step;
-                } else if (step == 3) {
-                  if (_formkey3.currentState!.validate()) {
-                    currentStep = step;
-                  }
-                } else if (step == 2) {
-                  _formkey3.currentState!.validate();
-                } else {
-                  return;
-                }
-              } else if (currentStep == 0) {
-                if (_formkey.currentState!.validate()) {
-                  if (step == 1) {
-                    currentStep = step;
-                  } else if (step == 2) {
-                    if (_formkey2.currentState!.validate()) {
-                      currentStep = step;
-                    } else {
-                      return;
-                    }
-                  } else if (step == 3) {
-                    if (_formkey2.currentState!.validate() &&
-                        _formkey3.currentState!.validate()) {
-                      currentStep = step;
-                    } else {
-                      return;
-                    }
-                  }
-                } else {
-                  if (RegExp('null').hasMatch(getDate)) {
-                    verificaData = 1;
-                  }
-                  return;
-                }
-              } else if (currentStep == 1) {
-                if (step == 0) {
-                  _formkey2.currentState!.validate();
-                  currentStep = step;
-                } else if (step == 1) {
-                  _formkey2.currentState!.validate();
-                } else if (step == 2) {
-                  if (_formkey2.currentState!.validate()) {
-                    currentStep = step;
-                  } else {
-                    return;
-                  }
-                } else if (step == 3) {
-                  if (_formkey2.currentState!.validate() &&
-                      _formkey3.currentState!.validate()) {
-                    currentStep = step;
-                  } else {
-                    return;
-                  }
-                } else {
-                  return;
-                }
-              } else if (currentStep == 3) {
-                currentStep = step;
+    return Stepper(
+      physics: const ClampingScrollPhysics(),
+      currentStep: currentStep,
+      steps: getSteps(),
+      onStepContinue: () {
+        final isLastStep = currentStep == getSteps().length - 1;
+        setState(
+          () {
+            if (currentStep == 2) {
+              if (_formkey3.currentState!.validate()) {
+                currentStep += 1;
+              } else {
+                return;
               }
-            }),
-            onStepCancel: currentStep == 0
-                ? null
-                : () => setState(
-                      () {
-                        currentStep -= 1;
-                      },
-                    ),
-          );
+            } else if (currentStep == 0) {
+              _date = widget.dropdownDatePicker.getDate('-');
+              if (_formkey.currentState!.validate() &&
+                  !RegExp('null').hasMatch(_date)) {
+                currentStep += 1;
+                if (verificaData >= 1) {
+                  verificaData = 0;
+                }
+              } else {
+                if (RegExp('null').hasMatch(_date)) {
+                  verificaData = 1;
+                }
+                return;
+              }
+            } else if (currentStep == 1) {
+              if (_formkey2.currentState!.validate()) {
+                currentStep += 1;
+              } else {
+                return;
+              }
+            } else if (isLastStep) {
+              String year = _date.substring(6);
+              String day = _date.substring(0, 2);
+              String month = _date.substring(3, 5);
+              String date = '$year-$month-$day';
+              _usuariovalue == 'cliente'
+                  ? context.read<ClienteProvider>().addUser(
+                      _nomeController.text,
+                      _cpfController.text,
+                      _emailController.text,
+                      _telController.text,
+                      date,
+                      _armazenaGenero!,
+                      _senhaController.text,
+                      _descController.text,
+                      hasImage == 0 ? _fotoPadrao : _armazenaFoto,
+                      context)
+                  : context.read<FreelancerProvider>().addFreelancer(
+                      _compController.text,
+                      _nomeController.text,
+                      _cpfController.text,
+                      _emailController.text,
+                      _telController.text,
+                      date,
+                      _armazenaGenero!,
+                      _senhaController.text,
+                      _descController.text,
+                      hasImage == 0 ? _fotoPadrao : _armazenaFoto,
+                      context);
+            }
+          },
+        );
+      },
+      onStepTapped: (step) => setState(() {
+        if (currentStep == 2) {
+          if (step == 0 || step == 1) {
+            _formkey3.currentState!.validate();
+            currentStep = step;
+          } else if (step == 3) {
+            if (_formkey3.currentState!.validate()) {
+              currentStep = step;
+            }
+          } else if (step == 2) {
+            _formkey3.currentState!.validate();
+          } else {
+            return;
+          }
+        } else if (currentStep == 0) {
+          _date = widget.dropdownDatePicker.getDate('-');
+          if (_formkey.currentState!.validate()) {
+            if (step == 1) {
+              currentStep = step;
+            } else if (step == 2) {
+              if (_formkey2.currentState!.validate()) {
+                currentStep = step;
+              } else {
+                return;
+              }
+            } else if (step == 3) {
+              if (_formkey2.currentState!.validate() &&
+                  _formkey3.currentState!.validate()) {
+                currentStep = step;
+              } else {
+                return;
+              }
+            }
+          } else {
+            if (RegExp('null').hasMatch(_date)) {
+              verificaData = 1;
+            }
+            return;
+          }
+        } else if (currentStep == 1) {
+          if (step == 0) {
+            _formkey2.currentState!.validate();
+            currentStep = step;
+          } else if (step == 1) {
+            _formkey2.currentState!.validate();
+          } else if (step == 2) {
+            if (_formkey2.currentState!.validate()) {
+              currentStep = step;
+            } else {
+              return;
+            }
+          } else if (step == 3) {
+            if (_formkey2.currentState!.validate() &&
+                _formkey3.currentState!.validate()) {
+              currentStep = step;
+            } else {
+              return;
+            }
+          } else {
+            return;
+          }
+        } else if (currentStep == 3) {
+          currentStep = step;
+        }
+      }),
+      onStepCancel: currentStep == 0
+          ? null
+          : () => setState(
+                () {
+                  currentStep -= 1;
+                },
+              ),
+    );
   }
 
   List<Step> getSteps() => [
@@ -230,6 +229,7 @@ class _SignupStepperState extends State<SignupStepper> {
               children: [
                 SizedBox(
                   child: TextFormField(
+                    controller: _nomeController,
                     decoration: const InputDecoration(
                       hintText: 'Nome completo',
                       hintStyle: TextStyle(fontSize: 16),
@@ -244,9 +244,6 @@ class _SignupStepperState extends State<SignupStepper> {
                       }
                       return null;
                     },
-                    onSaved: (nome) {
-                      _nome = nome!;
-                    },
                   ),
                 ),
                 SizedBox(
@@ -254,6 +251,7 @@ class _SignupStepperState extends State<SignupStepper> {
                 ),
                 SizedBox(
                   child: TextFormField(
+                    controller: _cpfController,
                     keyboardType: TextInputType.number,
                     inputFormatters: [
                       FilteringTextInputFormatter.digitsOnly,
@@ -273,9 +271,36 @@ class _SignupStepperState extends State<SignupStepper> {
                       }
                       return null;
                     },
-                    onSaved: (cpf) {
-                      _cpf = cpf!;
-                    },
+                  ),
+                ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.02,
+                ),
+                TextFormField(
+                  inputFormatters: [
+                    maskFormatter,
+                  ],
+                  controller: _telController,
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return "Insira um número de telefone";
+                    } else if (!RegExp(r'(^(\d{2})\D*(\d{5}|\d{4})\D*(\d{4})$)')
+                        .hasMatch(_telController.text
+                            .replaceAll(' ', '')
+                            .replaceAll('-', '')
+                            .replaceAll('(', '')
+                            .replaceAll(')', '')
+                            .substring(3))) {
+                      return "Insira um número de telefone válido";
+                    }
+                  },
+                  style: const TextStyle(fontSize: 16),
+                  keyboardType: TextInputType.number,
+                  textInputAction: TextInputAction.done,
+                  maxLines: 1,
+                  decoration: const InputDecoration(
+                    hintText: 'Telefone',
+                    hintStyle: TextStyle(fontSize: 16),
                   ),
                 ),
                 SizedBox(
@@ -355,33 +380,6 @@ class _SignupStepperState extends State<SignupStepper> {
                           )
                         ],
                       ),
-                TextFormField(
-                  inputFormatters: [
-                    maskFormatter,
-                  ],
-                  controller: _telController,
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return "Insira um número de telefone";
-                    } else if (!RegExp(r'(^(\d{2})\D*(\d{5}|\d{4})\D*(\d{4})$)')
-                        .hasMatch(_telController.text
-                            .replaceAll(' ', '')
-                            .replaceAll('-', '')
-                            .replaceAll('(', '')
-                            .replaceAll(')', '')
-                            .substring(3))) {
-                      return "Insira um número de telefone válido";
-                    }
-                  },
-                  style: const TextStyle(fontSize: 16),
-                  keyboardType: TextInputType.number,
-                  textInputAction: TextInputAction.done,
-                  maxLines: 1,
-                  decoration: const InputDecoration(
-                    hintText: 'Telefone',
-                    hintStyle: TextStyle(fontSize: 16),
-                  ),
-                ),
               ],
             ),
           ),
@@ -444,44 +442,9 @@ class _SignupStepperState extends State<SignupStepper> {
                     ? const SizedBox()
                     : Column(
                         children: [
-                          DropdownButtonFormField(
-                            value: _dropdownCargovalue,
-                            hint: const Text(
-                              'Cargos',
-                              style: TextStyle(
-                                fontSize: 16,
-                                color: Color.fromARGB(255, 104, 111, 118),
-                              ),
-                            ),
-                            items: _servicos
-                                .map(
-                                  (e) => DropdownMenuItem(
-                                    value: e.idTipoServ,
-                                    child: Text(
-                                      e.NomeServ,
-                                      style: const TextStyle(
-                                        fontSize: 16,
-                                      ),
-                                    ),
-                                  ),
-                                )
-                                .toList(),
-                            onChanged: (value) {
-                              setState(() {
-                                _dropdownCargovalue = value as int;
-                              });
-                            },
-                            validator: ((value) {
-                              if (value == null) {
-                                return "Escolha um serviço";
-                              }
-                            }),
-                          ),
-                          SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.02,
-                          ),
                           SizedBox(
                             child: TextFormField(
+                              controller: _compController,
                               decoration: const InputDecoration(
                                 hintText: 'Competências',
                                 hintStyle: TextStyle(fontSize: 16),
@@ -512,6 +475,8 @@ class _SignupStepperState extends State<SignupStepper> {
               children: [
                 SizedBox(
                   child: TextFormField(
+                    keyboardType: TextInputType.emailAddress,
+                    controller: _emailController,
                     decoration: const InputDecoration(
                       hintText: 'E-mail',
                       hintStyle: TextStyle(fontSize: 16),
@@ -522,14 +487,11 @@ class _SignupStepperState extends State<SignupStepper> {
                         return 'Por favor insira um E-mail';
                       }
                       if (!RegExp(
-                              r'^(([^<>()[]\.,;:\s@"]+(.[^<>()[]\.,;:\s@"]+)*)|(".+"))@(([[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}])|(([a-zA-Z-0-9]+.)+[a-zA-Z]{2,}))$')
+                              r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
                           .hasMatch(value)) {
                         return 'Por favor insira um E-mail válido';
                       }
                       return null;
-                    },
-                    onSaved: (email) {
-                      _email = email;
                     },
                   ),
                 ),
@@ -538,7 +500,7 @@ class _SignupStepperState extends State<SignupStepper> {
                 ),
                 SizedBox(
                   child: TextFormField(
-                    controller: _senha,
+                    controller: _senhaController,
                     decoration: const InputDecoration(
                       hintText: 'Senha',
                       hintStyle: TextStyle(fontSize: 16),
@@ -555,7 +517,7 @@ class _SignupStepperState extends State<SignupStepper> {
                       if (!RegExp(
                               r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$')
                           .hasMatch(value)) {
-                        return 'A senha deve conter 8 carateres, letra maiúscula e minúscula, caractere especial e número';
+                        return 'A senha deve conter pelo menos 8 carateres, letra maiúscula e minúscula, caractere especial e número';
                       }
                       return null;
                     },
@@ -566,7 +528,7 @@ class _SignupStepperState extends State<SignupStepper> {
                 ),
                 SizedBox(
                   child: TextFormField(
-                    controller: _confirmsenha,
+                    controller: _confirmsenhaController,
                     decoration: const InputDecoration(
                       hintText: 'Confirmar senha',
                       hintStyle: TextStyle(fontSize: 16),
@@ -579,7 +541,8 @@ class _SignupStepperState extends State<SignupStepper> {
                       if (value!.isEmpty) {
                         return 'Por favor confirme a senha';
                       }
-                      if (_senha.text != _confirmsenha.text) {
+                      if (_senhaController.text !=
+                          _confirmsenhaController.text) {
                         return 'As senhas devem ser iguais';
                       }
                       return null;
@@ -623,6 +586,24 @@ class _SignupStepperState extends State<SignupStepper> {
                       child:
                           buildEditIcon(Theme.of(context).colorScheme.primary)),
                 ],
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.02,
+              ),
+              SizedBox(
+                child: TextFormField(
+                  controller: _descController,
+                  decoration: const InputDecoration(
+                    hintText: 'Descrição de perfil (opcional)',
+                    hintStyle: TextStyle(fontSize: 16),
+                  ),
+                  keyboardType: TextInputType.multiline,
+                  maxLines: null,
+                  style: const TextStyle(fontSize: 16),
+                ),
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.02,
               ),
             ],
           ),

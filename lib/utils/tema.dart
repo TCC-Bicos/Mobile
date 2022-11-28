@@ -26,6 +26,10 @@ class TemaApp with ChangeNotifier {
       ? const Color.fromARGB(255, 250, 253, 255)
       : const Color.fromARGB(255, 30, 30, 30);
 
+  Color get getDarkBackgroundColor => temaClaroEscuro == 0
+      ? const Color.fromARGB(100, 203, 205, 207)
+      : const Color.fromARGB(150, 24, 25, 28);
+
   Color get getTextColorUser => temaClaroEscuro == 0
       ? const Color.fromARGB(255, 0, 38, 92)
       : (Colors.blueGrey[100])!;

@@ -73,67 +73,67 @@ class _ConfigsScreenState extends State<ConfigsScreen> {
           const SizedBox(
             height: 10,
           ),
-          ListTile(
-            contentPadding: const EdgeInsets.only(left: 20, right: 20),
-            leading: Icon(
-              Icons.notifications,
-              size: 25,
-              color: textColor,
-            ),
-            title: Text(
-              'Notificações',
-              style: TextStyle(fontSize: 16, color: textColor),
-            ),
-            onTap: () {},
-          ),
-          ListTile(
-            contentPadding: const EdgeInsets.only(left: 20, right: 20),
-            leading: Icon(
-              Icons.archive,
-              size: 25,
-              color: textColor,
-            ),
-            title: Text(
-              'Projetos',
-              style: TextStyle(
-                fontSize: 16,
-                color: textColor,
-              ),
-            ),
-            onTap: () {},
-          ),
-          ListTile(
-            contentPadding: const EdgeInsets.only(left: 20, right: 20),
-            leading: Icon(
-              Icons.work,
-              size: 25,
-              color: textColor,
-            ),
-            title: Text(
-              'Anúncios',
-              style: TextStyle(
-                fontSize: 16,
-                color: textColor,
-              ),
-            ),
-            onTap: () {},
-          ),
-          ListTile(
-            contentPadding: const EdgeInsets.only(left: 20, right: 20),
-            leading: Icon(
-              Icons.lock,
-              size: 25,
-              color: textColor,
-            ),
-            title: Text(
-              'Privacidade',
-              style: TextStyle(
-                fontSize: 16,
-                color: textColor,
-              ),
-            ),
-            onTap: () {},
-          ),
+          // ListTile(
+          //   contentPadding: const EdgeInsets.only(left: 20, right: 20),
+          //   leading: Icon(
+          //     Icons.notifications,
+          //     size: 25,
+          //     color: textColor,
+          //   ),
+          //   title: Text(
+          //     'Notificações',
+          //     style: TextStyle(fontSize: 16, color: textColor),
+          //   ),
+          //   onTap: () {},
+          // ),
+          // ListTile(
+          //   contentPadding: const EdgeInsets.only(left: 20, right: 20),
+          //   leading: Icon(
+          //     Icons.archive,
+          //     size: 25,
+          //     color: textColor,
+          //   ),
+          //   title: Text(
+          //     'Projetos',
+          //     style: TextStyle(
+          //       fontSize: 16,
+          //       color: textColor,
+          //     ),
+          //   ),
+          //   onTap: () {},
+          // ),
+          // ListTile(
+          //   contentPadding: const EdgeInsets.only(left: 20, right: 20),
+          //   leading: Icon(
+          //     Icons.work,
+          //     size: 25,
+          //     color: textColor,
+          //   ),
+          //   title: Text(
+          //     'Anúncios',
+          //     style: TextStyle(
+          //       fontSize: 16,
+          //       color: textColor,
+          //     ),
+          //   ),
+          //   onTap: () {},
+          // ),
+          // ListTile(
+          //   contentPadding: const EdgeInsets.only(left: 20, right: 20),
+          //   leading: Icon(
+          //     Icons.lock,
+          //     size: 25,
+          //     color: textColor,
+          //   ),
+          //   title: Text(
+          //     'Privacidade',
+          //     style: TextStyle(
+          //       fontSize: 16,
+          //       color: textColor,
+          //     ),
+          //   ),
+          //   onTap: () {},
+          // ),
           ListTile(
             contentPadding: const EdgeInsets.only(left: 20, right: 20),
             leading: Icon(
@@ -148,7 +148,9 @@ class _ConfigsScreenState extends State<ConfigsScreen> {
                 color: textColor,
               ),
             ),
-            onTap: () {},
+            onTap: () {
+              Navigator.of(context).pushNamed(AppRoutes.segurancaConfigs);
+            },
           ),
           ListTile(
             contentPadding: const EdgeInsets.only(left: 20, right: 20),
@@ -168,38 +170,38 @@ class _ConfigsScreenState extends State<ConfigsScreen> {
               Navigator.of(context).pushNamed(AppRoutes.contaConfigs);
             },
           ),
-          ListTile(
-            contentPadding: const EdgeInsets.only(left: 20, right: 20),
-            leading: Icon(
-              Icons.help,
-              size: 25,
-              color: textColor,
-            ),
-            title: Text(
-              'Ajuda',
-              style: TextStyle(
-                fontSize: 16,
-                color: textColor,
-              ),
-            ),
-            onTap: () {},
-          ),
-          ListTile(
-            contentPadding: const EdgeInsets.only(left: 20, right: 20),
-            leading: Icon(
-              Icons.info,
-              size: 25,
-              color: textColor,
-            ),
-            title: Text(
-              'Sobre',
-              style: TextStyle(
-                fontSize: 16,
-                color: textColor,
-              ),
-            ),
-            onTap: () {},
-          ),
+          // ListTile(
+          //   contentPadding: const EdgeInsets.only(left: 20, right: 20),
+          //   leading: Icon(
+          //     Icons.help,
+          //     size: 25,
+          //     color: textColor,
+          //   ),
+          //   title: Text(
+          //     'Ajuda',
+          //     style: TextStyle(
+          //       fontSize: 16,
+          //       color: textColor,
+          //     ),
+          //   ),
+          //   onTap: () {},
+          // ),
+          // ListTile(
+          //   contentPadding: const EdgeInsets.only(left: 20, right: 20),
+          //   leading: Icon(
+          //     Icons.info,
+          //     size: 25,
+          //     color: textColor,
+          //   ),
+          //   title: Text(
+          //     'Sobre',
+          //     style: TextStyle(
+          //       fontSize: 16,
+          //       color: textColor,
+          //     ),
+          //   ),
+          //   onTap: () {},
+          // ),
           ListTile(
             contentPadding: const EdgeInsets.only(left: 20, right: 20),
             leading: Icon(
