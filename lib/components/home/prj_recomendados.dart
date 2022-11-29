@@ -1,9 +1,14 @@
 import 'package:bicos_app/components/home/constants.dart';
 import 'package:flutter/material.dart';
 
+import '../../utils/app_routes.dart';
+
 class PrjRecomendados extends StatelessWidget {
+  final int index;
+
   const PrjRecomendados({
     Key? key,
+    required this.index,
   }) : super(key: key);
 
   @override
@@ -13,10 +18,11 @@ class PrjRecomendados extends StatelessWidget {
       child: Row(
         children: <Widget>[
           RecomendPlantCard(
-            image: "assets/images/web.jpg",
-            title: "Roberto",
+            image:
+                index == 1 ? "assets/images/web.jpg" : "assets/images/web2.png",
+            title: index == 1 ? "Roberto" : 'Ricardo',
             country: "Web",
-            price: 110,
+            price: index == 1 ? 110 : 150,
             press: () {
               //Navigator.push(
               //context,
@@ -27,10 +33,12 @@ class PrjRecomendados extends StatelessWidget {
             },
           ),
           RecomendPlantCard(
-            image: "assets/images/celulinhos.jpg",
-            title: "Carlos",
+            image: index == 1
+                ? "assets/images/celulinhos.jpg"
+                : "assets/images/celulinhos2.png",
+            title: index == 1 ? "Carlos" : 'Richarlison',
             country: "Mobile",
-            price: 220,
+            price: index == 1 ? 220 : 170,
             press: () {
               // Navigator.push(
               //context,
@@ -41,10 +49,12 @@ class PrjRecomendados extends StatelessWidget {
             },
           ),
           RecomendPlantCard(
-            image: "assets/images/design.jpg",
-            title: "Ogaua",
+            image: index == 1
+                ? "assets/images/design.jpg"
+                : "assets/images/design2.png",
+            title: index == 1 ? "Ogaua" : 'Jefferson',
             country: "Design",
-            price: 50,
+            price: index == 1 ? 50 : 70,
             press: () {},
           ),
         ],
@@ -71,7 +81,7 @@ class RecomendPlantCard extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Container(
-      margin: EdgeInsets.only(
+      margin: const EdgeInsets.only(
         left: kDefaultPadding,
         top: kDefaultPadding / 2,
         bottom: kDefaultPadding * 2.5,
@@ -79,20 +89,26 @@ class RecomendPlantCard extends StatelessWidget {
       width: size.width * 0.4,
       child: Column(
         children: <Widget>[
-          Image.asset(image),
+          Container(
+            height: 150,
+            child: Image.asset(
+              image,
+              fit: BoxFit.fill,
+            ),
+          ),
           GestureDetector(
             onTap: press(),
             child: Container(
-              padding: EdgeInsets.all(kDefaultPadding / 2),
+              padding: const EdgeInsets.all(kDefaultPadding / 2),
               decoration: BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.only(
+                borderRadius: const BorderRadius.only(
                   bottomLeft: Radius.circular(10),
                   bottomRight: Radius.circular(10),
                 ),
                 boxShadow: [
                   BoxShadow(
-                    offset: Offset(0, 10),
+                    offset: const Offset(0, 10),
                     blurRadius: 50,
                     color: kPrimaryColor.withOpacity(0.23),
                   ),

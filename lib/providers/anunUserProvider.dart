@@ -81,12 +81,12 @@ class AnunUserProvider with ChangeNotifier {
           .get('http://10.0.2.2:8000/api/getAnunUsuarioByUsuario/$id');
       if (response.data['status'] == '200') {
         response.data['anuncios'].forEach(
-          (k, e) {
+          (e) {
             AnuncioUsuario anuncio = AnuncioUsuario(
               idAnunUser: e['idAnunUser'],
               TituloAnunUser: e['TituloAnunUser'],
               DescAnunUser: e['DescAnunUser'],
-              PrecoAnunUser: e['PrecoAnunUser'],
+              PrecoAnunUser: double.parse(e['PrecoAnunUser'].toString()),
               RequisitosAnunUser: e['RequisitosAnunUser'],
               ImgAnunUser: e['ImgAnunUser'],
               StatusAnunUser: e['StatusAnunUser'],

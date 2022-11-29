@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:bicos_app/components/trabalhos/anuncio_Freelancer/botao_criarNovoAnuncio_Freelancer.dart';
 import 'package:bicos_app/utils/tema.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -388,9 +387,9 @@ class _NovoAnuncioFreelancerState extends State<NovoAnuncioFreelancer> {
                                                 descController.text,
                                                 precoController.text,
                                                 imagemAnuncioFreelancer == null
-                                                    ? imagemAnuncioFreelancer!
-                                                        .path
-                                                    : 'assets/images/testeImagemAnun.png',
+                                                    ? 'assets/images/testeImagemAnun.png'
+                                                    : imagemAnuncioFreelancer!
+                                                        .path,
                                                 _dropdownCargovalue!,
                                                 context);
                                       }

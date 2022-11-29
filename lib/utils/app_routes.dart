@@ -8,6 +8,7 @@ class AppRoutes {
   static const navigationbar = '/navigation';
   static const novoAnuncioFreelancer = '/novoAnuncioFreelancer';
   static const novoAnuncioUsuario = '/novaAnuncioUsuario';
+  static const anuncioUsuario = '/AnuncioUsuario';
   static const todosMeusAnuncios = '/todosMeusAnuncios';
   static const editProfile = '/editProfile';
   static const configs = '/configs';

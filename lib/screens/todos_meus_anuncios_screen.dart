@@ -100,9 +100,13 @@ class _TodosMeusAnunciosScreenState extends State<TodosMeusAnunciosScreen> {
         centerTitle: true,
         backgroundColor: theme == 0 ? Colors.white : secundaryColor,
         title: Image.asset(
-          theme == 0
-              ? 'assets/images/bicoslogo_azul.png'
-              : 'assets/images/bicoslogo.png',
+          status == 0
+              ? theme == 0
+                  ? 'assets/images/bicoslogo_azul.png'
+                  : 'assets/images/bicoslogo.png'
+              : theme == 0
+                  ? 'assets/images/bicoslogo_verde.png'
+                  : 'assets/images/bicoslogo.png',
           fit: BoxFit.contain,
           height: 22,
         ),
@@ -169,9 +173,42 @@ class _TodosMeusAnunciosScreenState extends State<TodosMeusAnunciosScreen> {
                                       children: _anunciosUser
                                           .map((e) => Column(
                                                 children: [
-                                                  Image.file(
-                                                    File(e.ImgAnunUser),
-                                                    fit: BoxFit.fill,
+                                                  SizedBox(
+                                                    height:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .height *
+                                                            0.30,
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width *
+                                                            0.90,
+                                                    child: e.ImgAnunUser ==
+                                                            'assets/images/testeImagemAnun.png'
+                                                        ? Image.asset(
+                                                            e.ImgAnunUser,
+                                                            fit: BoxFit.fill,
+                                                          )
+                                                        : Image.file(
+                                                            File(e.ImgAnunUser),
+                                                            fit: BoxFit.fill,
+                                                          ),
+                                                  ),
+                                                  const SizedBox(
+                                                    height: 10,
+                                                  ),
+                                                  Text(
+                                                    e.TituloAnunUser,
+                                                    style: TextStyle(
+                                                      color: textColor,
+                                                      fontSize: 20,
+                                                      fontWeight:
+                                                          FontWeight.w700,
+                                                    ),
+                                                  ),
+                                                  const SizedBox(
+                                                    height: 40,
                                                   ),
                                                 ],
                                               ))
@@ -211,9 +248,42 @@ class _TodosMeusAnunciosScreenState extends State<TodosMeusAnunciosScreen> {
                                       children: _anunciosFreelancer
                                           .map((e) => Column(
                                                 children: [
-                                                  Image.file(
-                                                    File(e.ImgAnunFr),
-                                                    fit: BoxFit.fill,
+                                                  SizedBox(
+                                                    height:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .height *
+                                                            0.30,
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width *
+                                                            0.90,
+                                                    child: e.ImgAnunFr ==
+                                                            'assets/images/testeImagemAnun.png'
+                                                        ? Image.asset(
+                                                            e.ImgAnunFr,
+                                                            fit: BoxFit.fill,
+                                                          )
+                                                        : Image.file(
+                                                            File(e.ImgAnunFr),
+                                                            fit: BoxFit.fill,
+                                                          ),
+                                                  ),
+                                                  const SizedBox(
+                                                    height: 10,
+                                                  ),
+                                                  Text(
+                                                    e.TituloAnunFr,
+                                                    style: TextStyle(
+                                                      color: textColor,
+                                                      fontSize: 20,
+                                                      fontWeight:
+                                                          FontWeight.w700,
+                                                    ),
+                                                  ),
+                                                  const SizedBox(
+                                                    height: 40,
                                                   ),
                                                 ],
                                               ))

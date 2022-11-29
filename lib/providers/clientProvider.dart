@@ -164,7 +164,30 @@ class ClienteProvider with ChangeNotifier {
           .get('http://10.0.2.2:8000/api/loginUsuario/$email/$senha');
       if (response.data['status'] == '200') {
         if (response.data['loginResult'] == '1') {
-          updateSenhaUser(novaSenha, id, context);
+          // updateSenhaUser(novaSenha, id, context);
+          user = User(
+            idUser: user.idUser,
+            NomeUser: user.NomeUser,
+            CPFUser: user.CPFUser,
+            EmailUser: user.EmailUser,
+            TelUser: user.TelUser,
+            DataNascUser: user.DataNascUser,
+            GeneroUser: user.GeneroUser,
+            SenhaUser: novaSenha,
+            DescUser: user.DescUser,
+            ImgUser: user.ImgUser,
+            StatusUser: user.StatusUser,
+          );
+          UserPreferences.setUser(user);
+          Fluttertoast.showToast(
+            msg: 'Senha atualizada',
+            toastLength: Toast.LENGTH_SHORT,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.black,
+            textColor: Colors.white,
+            fontSize: 16.0,
+          );
+          Navigator.of(context).pop();
         }
       } else {
         Fluttertoast.showToast(

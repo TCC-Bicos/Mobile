@@ -2,7 +2,7 @@ class AnuncioUsuario {
   final int idAnunUser;
   final String TituloAnunUser;
   final String DescAnunUser;
-  final String PrecoAnunUser;
+  final double PrecoAnunUser;
   final String RequisitosAnunUser;
   final String ImgAnunUser;
   final String StatusAnunUser;

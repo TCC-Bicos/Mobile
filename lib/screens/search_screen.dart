@@ -203,6 +203,7 @@ class _SearchPageState extends State<SearchPage>
                 ? Column(
                     children: [
                       TextFormField(
+                        cursorColor: primaryColor,
                         onChanged: (query) {
                           setState(() {
                             filteredSearchHistory =

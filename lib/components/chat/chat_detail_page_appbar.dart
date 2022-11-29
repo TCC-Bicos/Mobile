@@ -27,7 +27,7 @@ class ChatDetailPageAppBar extends StatelessWidget
                 width: 2,
               ),
               CircleAvatar(
-                backgroundImage: AssetImage("assets/images/ogaua.png"),
+                backgroundImage: AssetImage("assets/images/richarlison.png"),
                 maxRadius: 20,
               ),
               SizedBox(
@@ -39,7 +39,7 @@ class ChatDetailPageAppBar extends StatelessWidget
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Text(
-                      "Ogaua",
+                      "Richarlison",
                       style: TextStyle(fontWeight: FontWeight.w600),
                     ),
                     SizedBox(

@@ -15,46 +15,46 @@ class ChatScreen extends StatefulWidget {
 class _ChatScreenState extends State<ChatScreen> {
   List<ChatUsers> chatUsers = [
     ChatUsers(
-        text: "Ogaua",
-        secondaryText: "Trabaia",
-        image: "assets/images/ogaua.png",
-        time: "Agora"),
+        text: "Richarlison",
+        secondaryText: "Você: Tudo bem",
+        image: "assets/images/richarlison.png",
+        time: "Hoje"),
     ChatUsers(
         text: "Shalgun",
-        secondaryText: "Aram?",
+        secondaryText: "Muito obrigado",
         image: "assets/images/shalgun.png",
         time: "Ontem"),
     ChatUsers(
         text: "Eruliko",
-        secondaryText: "Bora lol?",
+        secondaryText: "A logo pode ser um pouco maior?",
         image: "assets/images/eruliko.png",
-        time: "18 Dez"),
+        time: "25 Nov"),
     ChatUsers(
         text: "Quesheg",
-        secondaryText: "Olha esse vídeo aqui",
+        secondaryText: "Não aguento mais esse tcc",
         image: "assets/images/quesheg.png",
-        time: "17 Dez"),
+        time: "22 Nov"),
     ChatUsers(
         text: "Choi",
-        secondaryText: "Bora sair esse fds?",
+        secondaryText: "Bolsonaro",
         image: "assets/images/choi.png",
-        time: "Ontem"),
+        time: "20 Nov"),
     ChatUsers(
         text: "Mousedesvio",
         secondaryText: "amogus sus sus amogus",
         image: "assets/images/mousedesvio.png",
-        time: "1 Nov"),
+        time: "20 Nov"),
     ChatUsers(
       text: "Amariano",
       secondaryText: ":)",
       image: "assets/images/amariano.png",
-      time: "Ontem",
+      time: "19 Nov",
     ),
     ChatUsers(
         text: "Roodorooraada",
-        secondaryText: "Kof",
+        secondaryText: "Kauã Gabriel 15 anos",
         image: "assets/images/roodorooraada.png",
-        time: "18 Dez"),
+        time: "1 Nov"),
   ];
 
   late int theme;
@@ -109,34 +109,6 @@ class _ChatScreenState extends State<ChatScreen> {
                             fontWeight: FontWeight.bold,
                             color: textColor),
                       ),
-                      Container(
-                        padding: const EdgeInsets.only(
-                            left: 8, right: 8, top: 2, bottom: 2),
-                        height: 30,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(30),
-                          color: secundaryColor,
-                        ),
-                        child: Row(
-                          children: <Widget>[
-                            Icon(
-                              Icons.add,
-                              color: primaryColor,
-                              size: 20,
-                            ),
-                            const SizedBox(
-                              width: 2,
-                            ),
-                            Text(
-                              "Novo",
-                              style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.bold,
-                                  color: textColor),
-                            ),
-                          ],
-                        ),
-                      )
                     ],
                   ),
                 ),

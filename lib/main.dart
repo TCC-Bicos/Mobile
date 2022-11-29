@@ -5,6 +5,7 @@ import 'package:bicos_app/providers/anunUserProvider.dart';
 import 'package:bicos_app/providers/clientProvider.dart';
 import 'package:bicos_app/providers/freelancerProvider.dart';
 import 'package:bicos_app/providers/servicosProvider.dart';
+import 'package:bicos_app/screens/anuncio_screen.dart';
 import 'package:bicos_app/screens/configs/conta/conta_configs_screen.dart';
 import 'package:bicos_app/screens/configs/conta/infopessoais_screen.dart';
 import 'package:bicos_app/screens/configs/seguranca/senhaConfigs_screen.dart';
@@ -28,10 +29,14 @@ import 'package:bicos_app/utils/tema.dart';
 import 'package:bicos_app/utils/user_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:bicos_app/utils/app_routes.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:provider/provider.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  Stripe.publishableKey =
+      "pk_test_51M9JIPJ8UlqzgnEhdvBylaWwJe3sl7ydS9GGQHFJrWuxJBrUjM5Z3y8yfcwPeiguVgHUktbAhW1lM94APejqic7v00J7XnG2XD";
 
   await UserPreferences.init();
   await StatusFreeUser.init();
@@ -83,6 +88,7 @@ class MyApp extends StatelessWidget {
               const NovoAnuncioFreelancer(),
           AppRoutes.todosMeusAnuncios: (ctx) => const TodosMeusAnunciosScreen(),
           AppRoutes.novoAnuncioUsuario: (ctx) => const NovoAnuncioUsuario(),
+          AppRoutes.anuncioUsuario: (ctx) => const AnuncioScreen(),
           AppRoutes.configs: (ctx) => const ConfigsScreen(),
           AppRoutes.segurancaConfigs: (ctx) => const SegurancaConfigs(),
           AppRoutes.senhaConfigs: (ctx) => const SenhaConfigs(),

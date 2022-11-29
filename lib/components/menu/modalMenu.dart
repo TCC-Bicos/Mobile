@@ -38,7 +38,8 @@ class _ModalMenuState extends State<ModalMenu> {
       clipBehavior: Clip.none,
       children: [
         Container(
-          height: 360,
+          height: 260,
+          // height: 360,
           decoration: BoxDecoration(
               color: status == 0
                   ? theme == 0
@@ -73,36 +74,36 @@ class _ModalMenuState extends State<ModalMenu> {
                     Navigator.of(context).pushNamed(AppRoutes.configs);
                   },
                 ),
-                ListTile(
-                  contentPadding: EdgeInsets.zero,
-                  leading: Icon(Icons.history, size: 25, color: textColor),
-                  title: Text(
-                    'Histórico de transações',
-                    style: TextStyle(fontSize: 16, color: textColor),
-                  ),
-                  trailing: Icon(
-                    Icons.arrow_forward_ios,
-                    color: textColor,
-                  ),
-                  onTap: () {
-                    Navigator.of(context).pushNamed(AppRoutes.configs);
-                  },
-                ),
-                ListTile(
-                  contentPadding: EdgeInsets.zero,
-                  leading: Icon(Icons.archive, size: 25, color: textColor),
-                  title: Text(
-                    'Projetos',
-                    style: TextStyle(fontSize: 16, color: textColor),
-                  ),
-                  trailing: Icon(
-                    Icons.arrow_forward_ios,
-                    color: textColor,
-                  ),
-                  onTap: () {
-                    Navigator.of(context).pushNamed(AppRoutes.configs);
-                  },
-                ),
+                // ListTile(
+                //   contentPadding: EdgeInsets.zero,
+                //   leading: Icon(Icons.history, size: 25, color: textColor),
+                //   title: Text(
+                //     'Histórico de transações',
+                //     style: TextStyle(fontSize: 16, color: textColor),
+                //   ),
+                //   trailing: Icon(
+                //     Icons.arrow_forward_ios,
+                //     color: textColor,
+                //   ),
+                //   onTap: () {
+                //     Navigator.of(context).pushNamed(AppRoutes.configs);
+                //   },
+                // ),
+                // ListTile(
+                //   contentPadding: EdgeInsets.zero,
+                //   leading: Icon(Icons.archive, size: 25, color: textColor),
+                //   title: Text(
+                //     'Projetos',
+                //     style: TextStyle(fontSize: 16, color: textColor),
+                //   ),
+                //   trailing: Icon(
+                //     Icons.arrow_forward_ios,
+                //     color: textColor,
+                //   ),
+                //   onTap: () {
+                //     Navigator.of(context).pushNamed(AppRoutes.configs);
+                //   },
+                // ),
                 ListTile(
                   contentPadding: EdgeInsets.zero,
                   leading: Icon(Icons.work, size: 25, color: textColor),
@@ -115,7 +116,8 @@ class _ModalMenuState extends State<ModalMenu> {
                     color: textColor,
                   ),
                   onTap: () {
-                    Navigator.of(context).pushNamed(AppRoutes.configs);
+                    Navigator.of(context)
+                        .pushNamed(AppRoutes.todosMeusAnuncios);
                   },
                 ),
                 const SizedBox(

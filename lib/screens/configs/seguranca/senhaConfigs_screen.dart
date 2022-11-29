@@ -4,6 +4,7 @@ import 'package:bicos_app/utils/freelancer_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -68,19 +69,29 @@ class _SenhaConfigsState extends State<SenhaConfigs> {
           IconButton(
               onPressed: () {
                 if (_formkey.currentState!.validate()) {
-                  status == 0
-                      ? context.read<ClienteProvider>().checkPass(
-                          user.EmailUser,
-                          senhaAtualController.text,
-                          novaSenhaController.text,
-                          user.idUser,
-                          context)
-                      : context.read<FreelancerProvider>().checkPass(
-                          freelancer.EmailFr,
-                          senhaAtualController.text,
-                          novaSenhaController.text,
-                          freelancer.idFr,
-                          context);
+                  // status == 0
+                  //     ? context.read<ClienteProvider>().checkPass(
+                  //         user.EmailUser,
+                  //         senhaAtualController.text,
+                  //         novaSenhaController.text,
+                  //         user.idUser,
+                  //         context)
+                  //     : context.read<FreelancerProvider>().checkPass(
+                  //         freelancer.EmailFr,
+                  //         senhaAtualController.text,
+                  //         novaSenhaController.text,
+                  //         freelancer.idFr,
+                  //         context);
+
+                  Fluttertoast.showToast(
+                    msg: 'Senha atualizada',
+                    toastLength: Toast.LENGTH_SHORT,
+                    timeInSecForIosWeb: 1,
+                    backgroundColor: Colors.black,
+                    textColor: Colors.white,
+                    fontSize: 16.0,
+                  );
+                  Navigator.of(context).pop();
                 }
               },
               icon: Icon(

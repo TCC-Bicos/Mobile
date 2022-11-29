@@ -2,7 +2,7 @@ class AnuncioFreelancer {
   final int idAnunFr;
   final String TituloAnunFr;
   final String DescAnunFr;
-  final String PrecoAnunFr;
+  final double PrecoAnunFr;
   final String ImgAnunFr;
   final String StatusAnunFr;
   final String DataAnunFr;

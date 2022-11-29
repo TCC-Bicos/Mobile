@@ -76,12 +76,12 @@ class AnunFreelancerProvider with ChangeNotifier {
           .get('http://10.0.2.2:8000/api/getAnunFreelancerByFreelancer/$id');
       if (response.data['status'] == '200') {
         response.data['anuncios'].forEach(
-          (k, e) {
+          (e) {
             AnuncioFreelancer anuncio = AnuncioFreelancer(
               idAnunFr: e['idAnunFr'],
               TituloAnunFr: e['TituloAnunFr'],
               DescAnunFr: e['DescAnunFr'],
-              PrecoAnunFr: e['PrecoAnunFr'],
+              PrecoAnunFr: double.parse(e['PrecoAnunFr'].toString()),
               ImgAnunFr: e['ImgAnunFr'],
               StatusAnunFr: e['StatusAnunFr'],
               DataAnunFr: e['DataAnunFr'],

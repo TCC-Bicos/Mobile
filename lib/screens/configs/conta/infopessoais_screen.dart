@@ -4,6 +4,7 @@ import 'package:bicos_app/utils/freelancer_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -147,17 +148,55 @@ class _InfoPessoaisState extends State<InfoPessoais> {
                             onPressed: () {
                               setState(() {
                                 if (_formkey.currentState!.validate()) {
+                                  User usuario = User(
+                                    idUser: user.idUser,
+                                    NomeUser: user.NomeUser,
+                                    CPFUser: user.CPFUser,
+                                    EmailUser: emailController.text,
+                                    TelUser: user.TelUser,
+                                    DataNascUser: user.DataNascUser,
+                                    GeneroUser: user.GeneroUser,
+                                    SenhaUser: user.SenhaUser,
+                                    DescUser: user.DescUser,
+                                    ImgUser: user.ImgUser,
+                                    StatusUser: user.StatusUser,
+                                  );
+                                  Freelancer fr = Freelancer(
+                                    idFr: freelancer.idFr,
+                                    CompetenciasFr: freelancer.CompetenciasFr,
+                                    NomeFr: freelancer.NomeFr,
+                                    CPFFr: freelancer.CPFFr,
+                                    EmailFr: emailController.text,
+                                    TelFr: freelancer.TelFr,
+                                    DataNascFr: freelancer.DataNascFr,
+                                    GeneroFr: freelancer.GeneroFr,
+                                    SenhaFr: freelancer.SenhaFr,
+                                    DescFr: freelancer.DescFr,
+                                    ImgFr: freelancer.ImgFr,
+                                    StatusFr: freelancer.StatusFr,
+                                  );
                                   status == 0
-                                      ? context
-                                          .read<ClienteProvider>()
-                                          .updateEmailUser(emailController.text,
-                                              user.idUser, context)
-                                      : context
-                                          .read<FreelancerProvider>()
-                                          .updateEmailFreelancer(
-                                              emailController.text,
-                                              freelancer.idFr,
-                                              context);
+                                      ? UserPreferences.setUser(usuario)
+                                      : FreelancerPreferences.setFreelancer(fr);
+                                  Fluttertoast.showToast(
+                                    msg: 'E-mail atualizado',
+                                    toastLength: Toast.LENGTH_SHORT,
+                                    timeInSecForIosWeb: 1,
+                                    backgroundColor: Colors.black,
+                                    textColor: Colors.white,
+                                    fontSize: 16.0,
+                                  );
+                                  Navigator.of(context).pop();
+                                  // ? context
+                                  //     .read<ClienteProvider>()
+                                  //     .updateEmailUser(emailController.text,
+                                  //         user.idUser, context)
+                                  // : context
+                                  //     .read<FreelancerProvider>()
+                                  //     .updateEmailFreelancer(
+                                  //         emailController.text,
+                                  //         freelancer.idFr,
+                                  //         context);
                                 }
                               });
                             },
@@ -236,11 +275,50 @@ class _InfoPessoaisState extends State<InfoPessoais> {
                           ),
                           TextButton(
                             onPressed: () async {
-                              context.read<ClienteProvider>().updateTelUser(
-                                  telefoneController.text,
-                                  user.idUser,
-                                  context);
+                              User usuario = User(
+                                idUser: user.idUser,
+                                NomeUser: user.NomeUser,
+                                CPFUser: user.CPFUser,
+                                EmailUser: user.EmailUser,
+                                TelUser: telefoneController.text,
+                                DataNascUser: user.DataNascUser,
+                                GeneroUser: user.GeneroUser,
+                                SenhaUser: user.SenhaUser,
+                                DescUser: user.DescUser,
+                                ImgUser: user.ImgUser,
+                                StatusUser: user.StatusUser,
+                              );
+                              Freelancer fr = Freelancer(
+                                idFr: freelancer.idFr,
+                                CompetenciasFr: freelancer.CompetenciasFr,
+                                NomeFr: freelancer.NomeFr,
+                                CPFFr: freelancer.CPFFr,
+                                EmailFr: freelancer.EmailFr,
+                                TelFr: telefoneController.text,
+                                DataNascFr: freelancer.DataNascFr,
+                                GeneroFr: freelancer.GeneroFr,
+                                SenhaFr: freelancer.SenhaFr,
+                                DescFr: freelancer.DescFr,
+                                ImgFr: freelancer.ImgFr,
+                                StatusFr: freelancer.StatusFr,
+                              );
+                              status == 0
+                                  ? UserPreferences.setUser(usuario)
+                                  : FreelancerPreferences.setFreelancer(fr);
+                              Fluttertoast.showToast(
+                                msg: 'Telefone atualizado',
+                                toastLength: Toast.LENGTH_SHORT,
+                                timeInSecForIosWeb: 1,
+                                backgroundColor: Colors.black,
+                                textColor: Colors.white,
+                                fontSize: 16.0,
+                              );
                               Navigator.of(context).pop();
+                              // context.read<ClienteProvider>().updateTelUser(
+                              //     telefoneController.text,
+                              //     user.idUser,
+                              //     context);
+                              // Navigator.of(context).pop();
                             },
                             child: const Text('Salvar'),
                           )

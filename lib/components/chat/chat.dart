@@ -1,5 +1,9 @@
 import 'package:bicos_app/screens/chat_detail_page.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../../utils/statusFree_User.dart';
+import '../../utils/tema.dart';
 
 class ChatUsersList extends StatefulWidget {
   String text;
@@ -18,8 +22,35 @@ class ChatUsersList extends StatefulWidget {
 }
 
 class _ChatUsersListState extends State<ChatUsersList> {
+  late int theme;
+  late int status;
+
+  readTheme() {
+    theme = context.watch<TemaApp>().temaClaroEscuro;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    status = StatusFreeUser.getStatus();
+  }
+
   @override
   Widget build(BuildContext context) {
+    readTheme();
+
+    Color primaryColor = status == 0
+        ? context.watch<TemaApp>().getPrimaryColorUser
+        : context.watch<TemaApp>().getPrimaryColorFree;
+    Color textColor = status == 0
+        ? context.watch<TemaApp>().getTextColorUser
+        : context.watch<TemaApp>().getTextColorFree;
+    Color backColor = status == 0
+        ? context.watch<TemaApp>().getBackgroundColorUser
+        : context.watch<TemaApp>().getBackgroundColorFree;
+    Color darkBackColor = context.watch<TemaApp>().getDarkBackgroundColor;
+    Color secTextColor = context.watch<TemaApp>().getSecundaryTextColor;
+
     return GestureDetector(
       onTap: () {
         Navigator.push(context, MaterialPageRoute(builder: (context) {
@@ -27,7 +58,8 @@ class _ChatUsersListState extends State<ChatUsersList> {
         }));
       },
       child: Container(
-        padding: EdgeInsets.only(left: 16, right: 16, top: 10, bottom: 10),
+        padding:
+            const EdgeInsets.only(left: 16, right: 16, top: 10, bottom: 10),
         child: Row(
           children: <Widget>[
             Expanded(
@@ -37,7 +69,7 @@ class _ChatUsersListState extends State<ChatUsersList> {
                     backgroundImage: AssetImage(widget.image),
                     maxRadius: 30,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 16,
                   ),
                   Expanded(
@@ -46,14 +78,16 @@ class _ChatUsersListState extends State<ChatUsersList> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Text(widget.text),
-                          SizedBox(
+                          Text(
+                            widget.text,
+                            style: TextStyle(color: textColor),
+                          ),
+                          const SizedBox(
                             height: 6,
                           ),
                           Text(
                             widget.secondaryText,
-                            style: TextStyle(
-                                fontSize: 14, color: Colors.grey.shade500),
+                            style: TextStyle(fontSize: 14, color: secTextColor),
                           ),
                         ],
                       ),
@@ -67,8 +101,8 @@ class _ChatUsersListState extends State<ChatUsersList> {
               style: TextStyle(
                   fontSize: 12,
                   color: widget.isMessageRead
-                      ? Color.fromARGB(255, 255, 4, 0)
-                      : Colors.grey.shade500),
+                      ? const Color.fromARGB(255, 255, 4, 0)
+                      : secTextColor),
             ),
           ],
         ),

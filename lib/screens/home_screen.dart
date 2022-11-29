@@ -47,10 +47,12 @@ class _HomePageState extends State<HomePage>
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               TitleWithMoreBtn(title: "Recomendado", press: () {}),
-              PrjRecomendados(),
+              PrjRecomendados(
+                index: status == 0 ? 1 : 2,
+              ),
               TitleWithMoreBtn(title: "Projetos Populares", press: () {}),
-              PrjPopulares(),
-              SizedBox(height: kDefaultPadding),
+              const PrjPopulares(),
+              const SizedBox(height: kDefaultPadding),
             ],
           ),
         ],

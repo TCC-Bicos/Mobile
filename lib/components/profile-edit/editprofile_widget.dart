@@ -8,6 +8,7 @@ class EditProfileWidget extends StatelessWidget {
   final VoidCallback onClicked;
   final VoidCallback onDeleted;
   final bool isEdit;
+  final Color color;
 
   int hasImage = 0;
 
@@ -17,12 +18,11 @@ class EditProfileWidget extends StatelessWidget {
     this.isEdit = false,
     required this.onClicked,
     required this.onDeleted,
+    required this.color,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final color = Theme.of(context).colorScheme.primary;
-
     return Center(
       child: Stack(
         children: [
@@ -49,44 +49,31 @@ class EditProfileWidget extends StatelessWidget {
         : FileImage(File(imagePath));
     final img = Image.asset('assets/images/standardProfilePic.png');
 
-    return ClipOval(
-      child: Material(
-        color: Colors.transparent,
-        child: Ink.image(
-          image: img.image,
-          fit: BoxFit.cover,
-          width: 128,
-          height: 128,
-          child: InkWell(onTap: onClicked),
-        ),
-      ),
-    );
-
-    // return hasImage == 0
-    //     ? ClipOval(
-    //         child: Material(
-    //           color: Colors.transparent,
-    //           child: Ink.image(
-    //             image: img.image,
-    //             fit: BoxFit.cover,
-    //             width: 128,
-    //             height: 128,
-    //             child: InkWell(onTap: onClicked),
-    //           ),
-    //         ),
-    //       )
-    //     : ClipOval(
-    //         child: Material(
-    //           color: Colors.transparent,
-    //           child: Ink.image(
-    //             image: image as ImageProvider,
-    //             fit: BoxFit.cover,
-    //             width: 128,
-    //             height: 128,
-    //             child: InkWell(onTap: onClicked),
-    //           ),
-    //         ),
-    //       );
+    return hasImage == 0
+        ? ClipOval(
+            child: Material(
+              color: Colors.transparent,
+              child: Ink.image(
+                image: img.image,
+                fit: BoxFit.cover,
+                width: 128,
+                height: 128,
+                child: InkWell(onTap: onClicked),
+              ),
+            ),
+          )
+        : ClipOval(
+            child: Material(
+              color: Colors.transparent,
+              child: Ink.image(
+                image: image as ImageProvider,
+                fit: BoxFit.cover,
+                width: 128,
+                height: 128,
+                child: InkWell(onTap: onClicked),
+              ),
+            ),
+          );
   }
 
   buildEditIcon(Color color) => buildCircle(

@@ -426,8 +426,9 @@ class _NovoAnuncioUsuarioState extends State<NovoAnuncioUsuario> {
                                                 precoController.text,
                                                 requisitosController.text,
                                                 imagemAnuncioUsuario == null
-                                                    ? imagemAnuncioUsuario!.path
-                                                    : 'assets/images/testeImagemAnun.png',
+                                                    ? 'assets/images/testeImagemAnun.png'
+                                                    : imagemAnuncioUsuario!
+                                                        .path,
                                                 _dropdownCargovalue!,
                                                 context);
                                       }
